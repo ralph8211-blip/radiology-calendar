@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="UTF-8"/>
@@ -8,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="영상의학과"/>
 <meta name="theme-color" content="#1a237e"/>
-<title>영상의학과 캘린더</title>
+<title>영상의학과 캘린더 (시니어 모드)</title>
 
 <script>
 const manifestData = {
@@ -71,7 +70,7 @@ document.head.appendChild(link);
     position: sticky;
     top: 0;
     z-index: 100;
-    height: 56px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -79,12 +78,12 @@ document.head.appendChild(link);
     box-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
   nav .logo { display: flex; align-items: center; gap: 8px; }
-  nav h1 { font-size: 17px; font-weight: 900; letter-spacing: -0.5px; }
-  nav .nav-right { display: flex; gap: 8px; align-items: center; }
-  nav button { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  nav h1 { font-size: 19px; font-weight: 900; letter-spacing: -0.5px; }
+  nav .nav-right { display: flex; gap: 12px; align-items: center; }
+  nav button { background: rgba(255,255,255,0.1); border: none; color: white; padding: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
   nav button:hover { background: rgba(255,255,255,0.2); }
   nav button.active { background: var(--amber-500); }
-  #sync-indicator { font-size: 10px; color: rgba(255,255,255,0.5); }
+  #sync-indicator { font-size: 12px; color: rgba(255,255,255,0.5); }
   #sync-indicator.saving { color: #fbbf24; }
   #sync-indicator.saved { color: #34d399; }
 
@@ -93,30 +92,30 @@ document.head.appendChild(link);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 12px 20px;
     background: white;
     border-bottom: 1px solid var(--slate-200);
     position: sticky;
-    top: 56px;
+    top: 60px;
     z-index: 90;
     box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
-  #month-header button { background: var(--slate-50); border: none; padding: 8px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  #month-header button { background: var(--slate-50); border: none; padding: 12px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   #month-title { text-align: center; }
-  #month-title .label { font-size: 9px; font-weight: 900; color: var(--indigo-600); letter-spacing: 0.3em; text-transform: uppercase; }
-  #month-title h2 { font-size: 20px; font-weight: 900; }
+  #month-title .label { font-size: 11px; font-weight: 900; color: var(--indigo-600); letter-spacing: 0.3em; text-transform: uppercase; }
+  #month-title h2 { font-size: 24px; font-weight: 900; }
 
   /* ── CALENDAR ── */
-  #calendar-wrap { max-width: 480px; margin: 0 auto; background: white; }
+  #calendar-wrap { max-width: 480px; margin: 0 auto; background: white; padding-bottom: 80px; }
   .dow-header { display: grid; grid-template-columns: repeat(7,1fr); background: var(--slate-50); border-bottom: 1px solid var(--slate-200); }
-  .dow-header div { text-align: center; padding: 8px 0; font-size: 10px; font-weight: 900; color: var(--slate-400); }
+  .dow-header div { text-align: center; padding: 12px 0; font-size: 13px; font-weight: 900; color: var(--slate-400); }
   .dow-header div:first-child { color: #f43f5e; }
   .dow-header div:last-child { color: #2563eb; }
 
   .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); }
-  .cal-cell-empty { min-height: 155px; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; background: var(--slate-50); opacity: 0.4; }
+  .cal-cell-empty { min-height: 200px; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; background: var(--slate-50); opacity: 0.4; }
   .cal-cell {
-    min-height: 155px;
+    min-height: 200px;
     padding: 6px 4px;
     border-right: 1px solid #f1f5f9;
     border-bottom: 1px solid #f1f5f9;
@@ -133,132 +132,138 @@ document.head.appendChild(link);
   .cal-cell .hl-overlay { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
   .cal-cell .cell-inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
 
-  /* ✅ 개선3: 날짜 헤더 행 (숫자 + 말풍선) */
-  .day-header-row { display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
-  .day-num { font-size: 13px; font-weight: 900; line-height: 1; }
+  .day-header-row { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+  .day-num { font-size: 17px; font-weight: 900; line-height: 1; } 
   .day-num.sun { color: #f43f5e; }
   .day-num.sat { color: #2563eb; }
   .memo-icon { display: flex; align-items: center; color: var(--amber-500); flex-shrink: 0; }
-  .memo-icon svg { width: 9px; height: 9px; }
+  .memo-icon svg { width: 14px; height: 14px; }
 
-  .dots { display: flex; gap: 2px; height: 6px; margin-bottom: 4px; }
-  .dot { width: 6px; height: 6px; background: var(--indigo-400); border-radius: 50%; }
+  .dots { display: flex; gap: 3px; height: 8px; margin-bottom: 6px; }
+  .dot { width: 8px; height: 8px; background: var(--indigo-400); border-radius: 50%; }
 
-  .badge-slots { display: flex; flex-direction: column; gap: 1px; }
-  .badge-row { min-height: 15px; display: flex; flex-wrap: wrap; gap: 1px; }
-  .badge { font-size: 8px; font-weight: 900; color: white; padding: 1px 3px; border-radius: 3px; line-height: 1.3; white-space: nowrap; }
+  .badge-slots { display: flex; flex-direction: column; gap: 2px; }
+  .badge-row { min-height: 18px; display: flex; flex-wrap: wrap; gap: 2px; }
+  .badge { font-size: 11px; font-weight: 900; color: white; padding: 2px 4px; border-radius: 4px; line-height: 1.3; white-space: nowrap; letter-spacing: -0.5px; }
   .badge.half-am { background: var(--orange-500); }
   .badge.half-pm { background: var(--blue-600); }
   .badge.off40-weekday { background: var(--rose-700); }
   .badge.off40-sat { background: #3730a3; }
   .badge.vacation { background: var(--purple-600); }
-  .badge.alt-leave { background: white; color: var(--emerald-600); border: 1px solid var(--emerald-600); font-size: 7px; }
+  .badge.alt-leave { background: white; color: var(--emerald-600); border: 1px solid var(--emerald-600); }
 
-  .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 1px; padding-top: 2px; }
-  .evening-tag { font-size: 7px; font-weight: 900; color: var(--amber-600); padding-left: 4px; border-left: 2px solid #fde68a; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .night-tag { font-size: 7px; font-weight: 900; color: #4338ca; padding-left: 4px; border-left: 2px solid var(--indigo-400); line-height: 1.4; text-decoration: underline; text-decoration-color: #c7d2fe; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
+  .evening-tag { font-size: 11px; font-weight: 900; color: var(--amber-600); padding-left: 6px; border-left: 3px solid #fde68a; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.5px; }
+  .night-tag { font-size: 11px; font-weight: 900; color: #4338ca; padding-left: 6px; border-left: 3px solid var(--indigo-400); line-height: 1.4; text-decoration: underline; text-decoration-color: #c7d2fe; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.5px; }
 
   /* ── BOTTOM BANNER ── */
   #bottom-banner { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; width: 95%; max-width: 440px; }
   .banner-inner { background: var(--slate-900); border: 1px solid rgba(255,255,255,0.1); border-radius: 2rem; padding: 10px 12px; position: relative; }
   .banner-scroll-wrap { position: relative; display: flex; align-items: center; }
-  .banner-scroll { display: flex; gap: 6px; overflow-x: auto; padding: 4px 28px; scrollbar-width: none; scroll-behavior: smooth; }
+  .banner-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 4px 34px; scrollbar-width: none; scroll-behavior: smooth; }
   .banner-scroll::-webkit-scrollbar { display: none; }
-  .banner-arr { position: absolute; z-index: 10; background: #334155; border: none; color: white; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .banner-arr { position: absolute; z-index: 10; background: #334155; border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
   .banner-arr.left { left: 0; }
   .banner-arr.right { right: 0; }
-  .doc-btn { width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%; border: 2px solid transparent; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.2s; position: relative; }
-  .doc-btn .t { font-size: 7px; font-weight: 700; opacity: 0.7; line-height: 1; margin-bottom: 1px; }
-  .doc-btn .n { font-size: 12px; font-weight: 900; line-height: 1; }
+  .doc-btn { width: 56px; height: 56px; flex-shrink: 0; border-radius: 50%; border: 2px solid transparent; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.2s; position: relative; }
+  .doc-btn .t { font-size: 10px; font-weight: 700; opacity: 0.7; line-height: 1; margin-bottom: 2px; }
+  .doc-btn .n { font-size: 16px; font-weight: 900; line-height: 1; }
   .doc-btn.active { background: white; color: var(--slate-900); border-color: var(--amber-500); transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
-  .doc-btn.active::after { content: ''; position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: var(--amber-500); border-radius: 50%; border: 2px solid var(--slate-900); }
+  .doc-btn.active::after { content: ''; position: absolute; top: -4px; right: -4px; width: 14px; height: 14px; background: var(--amber-500); border-radius: 50%; border: 2px solid var(--slate-900); }
 
   /* ── POPUP ── */
   #popup-overlay { position: fixed; inset: 0; z-index: 210; background: rgba(2,6,23,0.8); backdrop-filter: blur(12px); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   #popup-overlay.open { opacity: 1; pointer-events: all; }
-  #popup-sheet { background: white; width: 100%; max-width: 480px; border-radius: 3rem 3rem 0 0; padding: 28px 24px 48px; max-height: 92dvh; overflow-y: auto; transform: translateY(40px); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  #popup-sheet { background: white; width: 100%; max-width: 480px; border-radius: 2rem 2rem 0 0; padding: 24px 20px 40px; max-height: 92dvh; overflow-y: auto; transform: translateY(40px); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
   #popup-overlay.open #popup-sheet { transform: translateY(0); }
-  .sheet-handle { width: 48px; height: 5px; background: var(--slate-200); border-radius: 99px; margin: 0 auto 24px; }
-  .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .sheet-title-wrap .label { font-size: 9px; font-weight: 900; color: var(--indigo-600); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2px; }
-  .sheet-title-wrap h3 { font-size: 28px; font-weight: 900; }
-  .close-btn { background: var(--slate-100); border: none; padding: 14px; border-radius: 1.5rem; cursor: pointer; color: var(--slate-300); transition: all 0.2s; }
+  .sheet-handle { width: 60px; height: 6px; background: var(--slate-200); border-radius: 99px; margin: 0 auto 24px; }
+  .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .sheet-title-wrap .label { font-size: 11px; font-weight: 900; color: var(--indigo-600); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 4px; }
+  .sheet-title-wrap h3 { font-size: 32px; font-weight: 900; }
+  .close-btn { background: var(--slate-100); border: none; padding: 16px; border-radius: 1.5rem; cursor: pointer; color: var(--slate-500); transition: all 0.2s; }
   .close-btn:hover { background: #fee2e2; color: var(--rose-500); }
-  .close-btn svg { width: 28px; height: 28px; }
+  .close-btn svg { width: 32px; height: 32px; }
 
-  .popup-doc-wrap { background: var(--slate-50); padding: 12px; border-radius: 1.5rem; border: 1px solid var(--slate-100); position: relative; margin-bottom: 20px; display: flex; align-items: center; }
-  .popup-doc-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 4px 28px; scrollbar-width: none; scroll-behavior: smooth; }
+  .popup-doc-wrap { background: var(--slate-50); padding: 16px 12px; border-radius: 1.5rem; border: 1px solid var(--slate-100); position: relative; margin-bottom: 24px; display: flex; align-items: center; }
+  .popup-doc-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 4px 36px; scrollbar-width: none; scroll-behavior: smooth; }
   .popup-doc-scroll::-webkit-scrollbar { display: none; }
-  .popup-arr { position: absolute; z-index: 10; background: white; border: 1px solid var(--slate-200); color: var(--slate-500); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .popup-arr { position: absolute; z-index: 10; background: white; border: 1px solid var(--slate-200); color: var(--slate-500); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
   .popup-arr.left { left: 4px; }
   .popup-arr.right { right: 4px; }
-  .pdoc-btn { width: 52px; height: 52px; flex-shrink: 0; border-radius: 1rem; border: 2px solid var(--slate-200); background: white; color: var(--slate-500); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.15s; }
-  .pdoc-btn .t { font-size: 8px; font-weight: 700; opacity: 0.7; line-height: 1; margin-bottom: 1px; }
-  .pdoc-btn .n { font-size: 13px; font-weight: 900; }
-  .pdoc-btn.active { background: var(--indigo-600); color: white; border-color: var(--indigo-600); box-shadow: 0 2px 8px rgba(79,70,229,0.4); transform: scale(1.05); }
+  
+  .pdoc-btn { width: 64px; height: 64px; flex-shrink: 0; border-radius: 1rem; border: 2px solid var(--slate-200); background: white; color: var(--slate-500); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.15s; }
+  .pdoc-btn .t { font-size: 10px; font-weight: 700; opacity: 0.7; line-height: 1; margin-bottom: 2px; }
+  .pdoc-btn .n { font-size: 18px; font-weight: 900; }
+  .pdoc-btn.active { background: var(--indigo-600); color: white; border-color: var(--indigo-600); box-shadow: 0 4px 12px rgba(79,70,229,0.4); transform: scale(1.05); }
 
-  /* ✅ 개선1: duty-row 전체 클릭 가능 스타일 */
-  .duty-rows { display: flex; flex-direction: column; gap: 10px; }
-  .duty-row { border-radius: 2rem; border: 1px solid var(--slate-100); background: var(--slate-50); padding: 14px 16px; transition: all 0.2s; cursor: pointer; }
+  .duty-rows { display: flex; flex-direction: column; gap: 12px; }
+  .duty-row { border-radius: 1.5rem; border: 2px solid var(--slate-100); background: var(--slate-50); padding: 18px 20px; transition: all 0.2s; cursor: pointer; }
   .duty-row:hover { border-color: var(--slate-300); background: white; }
   .duty-row.active-row { background: var(--indigo-50); border-color: var(--indigo-200); box-shadow: 0 0 0 2px #eef2ff; }
   .duty-row.active-row:hover { background: #e0e7ff; }
   .duty-row.no-doc { cursor: default; }
   .duty-row.no-doc:hover { border-color: var(--slate-100); background: var(--slate-50); }
-  .duty-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .duty-row-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; }
-  .assign-btn { padding: 7px 18px; border-radius: 99px; border: none; font-size: 10px; font-weight: 900; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
+  .duty-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .duty-row-label { font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
+  
+  .assign-btn { padding: 10px 24px; border-radius: 99px; border: none; font-size: 14px; font-weight: 900; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
   .assign-btn.add { background: var(--slate-900); color: white; }
   .assign-btn.remove { background: var(--rose-500); color: white; }
-  .assigned-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 32px; align-items: center; }
-  .assigned-chip { background: white; border: 1px solid currentColor; border-radius: 1.5rem; padding: 5px 12px; font-size: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
+  
+  .assigned-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; align-items: center; }
+  .assigned-chip { background: white; border: 2px solid currentColor; border-radius: 1.5rem; padding: 8px 16px; font-size: 14px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.15s; }
   .assigned-chip:hover { background: #fee2e2; border-color: var(--rose-500); color: var(--rose-500); }
-  .assigned-chip .del-icon { opacity: 0.3; font-size: 11px; }
+  .assigned-chip .del-icon { opacity: 0.5; font-size: 14px; }
   .assigned-chip:hover .del-icon { opacity: 1; }
-  .no-assign { font-size: 10px; color: var(--slate-300); font-style: italic; font-weight: 700; text-transform: uppercase; }
-  .no-doc-hint { font-size: 9px; color: var(--slate-300); font-weight: 700; background: white; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--slate-200); white-space: nowrap; }
+  .no-assign { font-size: 13px; color: var(--slate-400); font-style: italic; font-weight: 700; }
+  .no-doc-hint { font-size: 12px; color: var(--slate-400); font-weight: 700; background: white; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--slate-200); white-space: nowrap; }
 
-  /* ✅ 개선3: 메모 섹션 */
-  .memo-section { margin-top: 24px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 2rem; padding: 16px 18px; }
-  .memo-section-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-  .memo-section-label { font-size: 10px; font-weight: 900; color: var(--amber-600); text-transform: uppercase; letter-spacing: 0.08em; }
-  .memo-textarea { width: 100%; min-height: 80px; background: white; border: 1px solid #fde68a; border-radius: 1.2rem; padding: 12px 14px; font-size: 13px; font-family: inherit; color: var(--slate-800); resize: none; outline: none; transition: border-color 0.2s; line-height: 1.5; }
-  .memo-textarea::placeholder { color: var(--slate-300); }
-  .memo-textarea:focus { border-color: var(--amber-500); box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
-  .memo-save-btn { margin-top: 8px; background: var(--amber-500); color: white; border: none; padding: 9px 20px; border-radius: 99px; font-size: 11px; font-weight: 900; cursor: pointer; transition: all 0.15s; float: right; }
+  .memo-section { margin-top: 30px; background: #fffbeb; border: 2px solid #fde68a; border-radius: 1.5rem; padding: 20px; }
+  .memo-section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .memo-section-label { font-size: 14px; font-weight: 900; color: var(--amber-600); text-transform: uppercase; letter-spacing: 0.05em; }
+  .memo-textarea { width: 100%; min-height: 100px; background: white; border: 2px solid #fde68a; border-radius: 1rem; padding: 16px; font-size: 16px; font-family: inherit; color: var(--slate-800); font-weight: 700; resize: none; outline: none; transition: border-color 0.2s; line-height: 1.6; }
+  .memo-textarea::placeholder { color: var(--slate-300); font-weight: 400; }
+  .memo-textarea:focus { border-color: var(--amber-500); box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+  .memo-save-btn { margin-top: 12px; background: var(--amber-500); color: white; border: none; padding: 12px 28px; border-radius: 99px; font-size: 15px; font-weight: 900; cursor: pointer; transition: all 0.15s; float: right; }
   .memo-save-btn:hover { background: var(--amber-600); }
   .memo-clear { clear: both; }
 
-  .done-btn { width: 100%; margin-top: 32px; background: var(--slate-900); color: white; border: none; padding: 18px; border-radius: 2rem; font-size: 15px; font-weight: 900; cursor: pointer; transition: all 0.15s; display: block; }
+  .done-btn { width: 100%; margin-top: 40px; background: var(--slate-900); color: white; border: none; padding: 22px; border-radius: 2rem; font-size: 18px; font-weight: 900; cursor: pointer; transition: all 0.15s; display: block; }
   .done-btn:hover { background: var(--slate-800); }
   .done-btn:active { transform: scale(0.98); }
 
   /* ── SCREENING ── */
-  #screening { display: none; padding: 16px; max-width: 480px; margin: 0 auto; }
+  #screening { display: none; padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
   #screening.visible { display: block; }
-  .screening-card { background: white; border-radius: 2rem; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--slate-100); }
-  .tab-bar { display: flex; background: var(--slate-100); padding: 4px; border-radius: 1.2rem; margin-bottom: 20px; }
-  .tab-btn { flex: 1; padding: 11px; border: none; background: none; border-radius: 1rem; font-size: 13px; font-weight: 900; cursor: pointer; color: var(--slate-400); transition: all 0.2s; }
+  .screening-card { background: white; border-radius: 2rem; padding: 24px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--slate-100); }
+  .tab-bar { display: flex; background: var(--slate-100); padding: 6px; border-radius: 1.2rem; margin-bottom: 24px; }
+  .tab-btn { flex: 1; padding: 14px; border: none; background: none; border-radius: 1rem; font-size: 15px; font-weight: 900; cursor: pointer; color: var(--slate-400); transition: all 0.2s; }
   .tab-btn.active-tab { background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
   .tab-btn.active-tab.duty-tab { color: var(--indigo-600); }
   .tab-btn.active-tab.leave-tab { color: var(--rose-500); }
-  .report-table { width: 100%; border-collapse: collapse; font-size: 11px; border-radius: 1rem; overflow: hidden; border: 1px solid var(--slate-200); }
-  .report-table th { background: var(--slate-50); padding: 10px 8px; font-weight: 900; border-bottom: 1px solid var(--slate-200); }
-  .report-table td { padding: 10px 8px; border-bottom: 1px solid #f8fafc; text-align: center; }
+  .report-table { width: 100%; border-collapse: collapse; font-size: 14px; border-radius: 1rem; overflow: hidden; border: 1px solid var(--slate-200); }
+  .report-table th { background: var(--slate-50); padding: 14px 8px; font-weight: 900; border-bottom: 2px solid var(--slate-200); }
+  .report-table td { padding: 14px 8px; border-bottom: 1px solid #f8fafc; text-align: center; }
   .report-table tr:last-child td { border-bottom: none; }
-  .title-badge { font-size: 8px; background: var(--slate-100); color: var(--slate-400); padding: 1px 4px; border-radius: 3px; margin-left: 3px; font-weight: 400; }
-  .hours-cell { font-weight: 900; color: var(--indigo-600); background: rgba(238,242,255,0.4); }
-  .remain-cell { font-weight: 900; color: var(--emerald-600); background: rgba(236,253,245,0.4); }
-  .used-cell { font-weight: 900; color: var(--rose-500); }
-  .payout-note { display: block; font-size: 8px; color: var(--slate-400); font-weight: 400; margin-top: 1px; }
-  .back-btn { width: 100%; margin-top: 24px; background: var(--slate-900); color: white; border: none; padding: 16px; border-radius: 2rem; font-size: 14px; font-weight: 900; cursor: pointer; }
+  .title-badge { font-size: 11px; background: var(--slate-100); color: var(--slate-500); padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: 700; }
+  .hours-cell { font-weight: 900; color: var(--indigo-600); background: rgba(238,242,255,0.4); font-size: 16px; }
+  .remain-cell { font-weight: 900; color: var(--emerald-600); background: rgba(236,253,245,0.4); font-size: 16px; }
+  .used-cell { font-weight: 900; color: var(--rose-500); font-size: 16px; }
+  .payout-note { display: block; font-size: 11px; color: var(--slate-500); font-weight: 700; margin-top: 4px; }
+  .back-btn { width: 100%; margin-top: 32px; background: var(--slate-900); color: white; border: none; padding: 20px; border-radius: 2rem; font-size: 16px; font-weight: 900; cursor: pointer; }
 
   /* ── TOAST ── */
-  #toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 10px 20px; border-radius: 99px; font-size: 12px; font-weight: 700; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+  #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 14px 28px; border-radius: 99px; font-size: 15px; font-weight: 900; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   #toast.show { opacity: 1; }
 
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   .fade-in-up { animation: fadeInUp 0.3s ease-out; }
+
+  /* ── 로그인 창 ── */
+  .login-card h2 { font-size: 24px; }
+  .login-card p { font-size: 15px; }
+  .pin-input { font-size: 36px; padding: 20px; }
+  .login-btn { font-size: 18px; padding: 20px; }
 
   .c-orange { color: var(--orange-500); }
   .c-blue { color: var(--blue-600); }
@@ -273,17 +278,34 @@ document.head.appendChild(link);
 </head>
 <body>
 
+<!-- ─────────── LOGIN SCREEN ─────────── -->
+<div id="login-overlay">
+  <div class="login-card fade-in-up">
+    <div class="icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+    </div>
+    <h2>영상의학과 캘린더</h2>
+    <p>부서 공용 비밀번호를 입력해주세요</p>
+    <input type="tel" id="pin-input" class="pin-input" maxlength="4" placeholder="••••" autocomplete="off" onkeypress="if(event.key === 'Enter') handleLogin()">
+    <button class="login-btn" onclick="handleLogin()">접속하기</button>
+  </div>
+</div>
+
+<div id="app-container">
 <!-- ── NAV ── -->
 
 <nav>
   <div class="logo">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     <h1>영상의학과 캘린더</h1>
   </div>
   <div class="nav-right">
     <span id="sync-indicator">●</span>
     <button id="btn-screening" title="정산">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+    </button>
+    <button id="btn-logout" title="로그아웃" onclick="handleLogout()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
     </button>
   </div>
 </nav>
@@ -292,14 +314,14 @@ document.head.appendChild(link);
 
 <div id="month-header">
   <button id="btn-prev">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
   <div id="month-title">
     <div class="label">ROSTER</div>
     <h2 id="month-text"></h2>
   </div>
   <button id="btn-next">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
 </div>
 
@@ -319,8 +341,8 @@ document.head.appendChild(link);
 <div id="screening">
   <div class="screening-card fade-in-up">
     <div class="tab-bar">
-      <button class="tab-btn duty-tab active-tab" id="tab-duty" onclick="switchTab('duty')">당직 시간 정산</button>
-      <button class="tab-btn leave-tab" id="tab-leave" onclick="switchTab('leave')">연차 사용 현황</button>
+      <button class="tab-btn duty-tab active-tab" id="tab-duty" onclick="switchTab('duty')">당직 정산표</button>
+      <button class="tab-btn leave-tab" id="tab-leave" onclick="switchTab('leave')">연차 현황표</button>
     </div>
     <div id="tab-content-duty">
       <div style="overflow-x:auto;border-radius:1rem;border:1px solid #e2e8f0;">
@@ -365,11 +387,10 @@ document.head.appendChild(link);
         <h3 id="popup-title"></h3>
       </div>
       <button class="close-btn" onclick="closePopup()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
       </button>
     </div>
 
-```
 <!-- 직원 선택 스크롤 -->
 <div class="popup-doc-wrap">
   <button class="popup-arr left" onclick="popupScroll(-1)">&#8249;</button>
@@ -380,20 +401,18 @@ document.head.appendChild(link);
 <!-- 당직 배정 행들 -->
 <div class="duty-rows" id="duty-rows"></div>
 
-<!-- ✅ 개선3: 메모(공지사항) 입력 섹션 -->
+<!-- 메모(공지사항) 입력 섹션 -->
 <div class="memo-section">
   <div class="memo-section-header">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     <span class="memo-section-label">메모 / 공지사항</span>
   </div>
   <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요.&#10;저장하면 달력에 말풍선 아이콘이 표시됩니다 💬"></textarea>
-  <button class="memo-save-btn" onclick="saveMemo()">저장</button>
+  <button class="memo-save-btn" onclick="saveMemo()">메모 저장하기</button>
   <div class="memo-clear"></div>
 </div>
 
-<button class="done-btn" onclick="closePopup()">편집 완료</button>
-```
-
+<button class="done-btn" onclick="closePopup()">편집 완료 (닫기)</button>
   </div>
 </div>
 
@@ -401,8 +420,48 @@ document.head.appendChild(link);
 
 <div id="toast"></div>
 
-<!-- ── FIREBASE SDK ── -->
+</div> <!-- END APP CONTAINER -->
 
+
+<!-- ── LOGIN LOGIC ── -->
+<script>
+  // ✅ 비밀번호 6633으로 변경
+  const SECRET_PIN = "6633";
+
+  function checkLoginStatus() {
+    const isLogged = localStorage.getItem('calendar_auth') === 'true';
+    if (isLogged) {
+      document.getElementById('login-overlay').style.display = 'none';
+      document.getElementById('app-container').style.display = 'block';
+    } else {
+      document.getElementById('login-overlay').style.display = 'flex';
+      document.getElementById('app-container').style.display = 'none';
+      document.getElementById('pin-input').value = ''; 
+    }
+  }
+
+  function handleLogin() {
+    const input = document.getElementById('pin-input').value;
+    if (input === SECRET_PIN) {
+      localStorage.setItem('calendar_auth', 'true');
+      showToast("로그인 성공");
+      checkLoginStatus();
+    } else {
+      showToast("비밀번호가 일치하지 않습니다.");
+      document.getElementById('pin-input').value = ''; 
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('calendar_auth');
+    showToast("로그아웃 되었습니다.");
+    checkLoginStatus();
+  }
+
+  checkLoginStatus();
+</script>
+
+<!-- ── FIREBASE SDK ── -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
@@ -507,69 +566,8 @@ const DOT_MARKERS = {
 
 const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
 
-window.schedule = {
-  "2026-01-02":{vacation:"승"},"2026-01-05":{vacation:"석"},"2026-01-07":{vacation:"박"},
-  "2026-01-08":{vacation:"동 강"},"2026-01-09":{vacation:"동 강"},"2026-01-12":{vacation:"동"},
-  "2026-01-13":{half_pm:"봉"},"2026-01-15":{half_pm:"박 진"},"2026-01-16":{vacation:"송"},
-  "2026-01-19":{vacation:"송"},"2026-01-20":{vacation:"박"},"2026-01-21":{vacation:"석",half_pm:"선"},
-  "2026-01-22":{vacation:"선"},"2026-01-23":{vacation:"동"},"2026-01-26":{vacation:"종 봉"},
-  "2026-01-27":{vacation:"봉",half_pm:"지"},"2026-01-28":{vacation:"봉"},"2026-01-29":{vacation:"선 현"},
-  "2026-01-30":{half_pm:"박"},
-  "2026-02-02":{vacation:"승 지"},"2026-02-03":{half_pm:"석"},"2026-02-04":{half_pm:"박 강"},
-  "2026-02-05":{vacation:"봉"},"2026-02-06":{vacation:"송"},"2026-02-09":{vacation:"송"},
-  "2026-02-10":{vacation:"승"},"2026-02-11":{half_pm:"박 진"},"2026-02-12":{vacation:"동",half_pm:"선"},
-  "2026-02-13":{vacation:"동"},"2026-02-19":{vacation:"박"},"2026-02-20":{vacation:"박",half_pm:"승"},
-  "2026-02-24":{half_pm:"지"},"2026-02-25":{vacation:"강 지",half_pm:"현"},"2026-02-26":{half_pm:"강"},
-  "2026-03-01":{ctmr:"종",evening:"이동현",night:"김현석"},
-  "2026-03-02":{ctmr:"승",night:"지은열"},
-  "2026-03-03":{off40:"현",ctmr:"종",night:"이승남",vacation:"동"},
-  "2026-03-04":{off40:"송",ctmr:"동",night:"송진우",half_pm:"박"},
-  "2026-03-05":{ctmr:"송",night:"지은열",half_pm:"현",vacation:"석"},
-  "2026-03-06":{ctmr:"승",night:"송우석"},
-  "2026-03-07":{off40:"종선지조",ctmr:"종",evening:"이승남",night:"이동현"},
-  "2026-03-08":{ctmr:"송",evening:"송진우",night:"김현석"},
-  "2026-03-09":{ctmr:"종",night:"송진우",half_pm:"승"},
-  "2026-03-10":{off40:"지",ctmr:"승",night:"송우석"},
-  "2026-03-11":{ctmr:"동",night:"이승남"},
-  "2026-03-12":{off40:"승",ctmr:"종",night:"김현석",half_am:"송",vacation:"진"},
-  "2026-03-13":{off40:"종",ctmr:"송",night:"이동현",vacation:"진"},
-  "2026-03-14":{off40:"승석진봉",ctmr:"승",evening:"송우석",night:"김종환"},
-  "2026-03-15":{ctmr:"종",evening:"이승남",night:"지은열"},
-  "2026-03-16":{ctmr:"송",night:"이승남"},
-  "2026-03-17":{ctmr:"종",night:"지은열"},
-  "2026-03-18":{off40:"조",ctmr:"송",night:"이동현"},
-  "2026-03-19":{off40:"선",ctmr:"승",night:"송우석"},
-  "2026-03-20":{ctmr:"동",night:"송진우",vacation:"진"},
-  "2026-03-21":{off40:"박송현용",ctmr:"종",evening:"김현석",night:"이승남"},
-  "2026-03-22":{ctmr:"종",evening:"송우석",night:"지은열"},
-  "2026-03-23":{ctmr:"동",night:"송우석"},
-  "2026-03-24":{ctmr:"종",night:"김현석"},
-  "2026-03-25":{ctmr:"동",night:"이승남",half_pm:"강"},
-  "2026-03-26":{ctmr:"송",night:"이동현"},
-  "2026-03-27":{ctmr:"승",night:"김현석"},
-  "2026-03-28":{off40:"박동선종",ctmr:"동",evening:"김종환",night:"송진우"},
-  "2026-03-29":{ctmr:"종",evening:"지은열",night:"송우석"},
-  "2026-03-30":{ctmr:"종",night:"이동현",half_pm:"박"},
-  "2026-03-31":{off40:"승",ctmr:"승",night:"송진우",half_pm:"박"},
-  "2026-04-01":{ctmr:"종",night:"김현석"},"2026-04-02":{ctmr:"승",night:"지은열"},"2026-04-03":{ctmr:"동",night:"송우석"},
-  "2026-04-04":{off40:"봉지진조",ctmr:"송",evening:"이동현",night:"김종환"},"2026-04-05":{ctmr:"종",evening:"이승남",night:"김현석"},
-  "2026-04-06":{ctmr:"송",night:"이승남"},"2026-04-07":{ctmr:"종",night:"송우석"},"2026-04-08":{ctmr:"동",night:"송진우"},
-  "2026-04-09":{ctmr:"승",night:"김현석"},"2026-04-10":{ctmr:"송",night:"지은열"},
-  "2026-04-11":{off40:"승선석조",ctmr:"종",evening:"송우석",night:"이동현"},
-  "2026-04-12":{ctmr:"종",evening:"송진우",night:"이승남"},"2026-04-13":{ctmr:"동",night:"송진우"},"2026-04-14":{ctmr:"승",night:"송우석"},
-  "2026-04-15":{ctmr:"동",night:"김현석"},"2026-04-16":{off40:"송",ctmr:"종",night:"이동현"},"2026-04-17":{ctmr:"송",night:"이승남"},
-  "2026-04-18":{off40:"종현지용",ctmr:"동",evening:"송진우",night:"송우석"},
-  "2026-04-19":{ctmr:"종",evening:"이동현",night:"지은열"},
-  "2026-04-20":{ctmr:"종",night:"이동현"},"2026-04-21":{ctmr:"종",night:"이승남"},"2026-04-22":{ctmr:"동",night:"지은열"},
-  "2026-04-23":{ctmr:"송",night:"이동현"},"2026-04-24":{ctmr:"승",night:"송우석"},
-  "2026-04-25":{off40:"동봉조",ctmr:"승",evening:"김종환",night:"송진우"},
-  "2026-04-26":{ctmr:"종",evening:"지은열",night:"김현석"},
-  "2026-04-27":{ctmr:"승",night:"지은열"},"2026-04-28":{ctmr:"종",night:"이승남"},
-  "2026-04-29":{ctmr:"동",night:"송진우"},
-  "2026-04-30":{off40:"석",ctmr:"송",night:"김현석"}
-};
+window.schedule = window.schedule || {};
 
-// ─── 상태 ─────────────────────────────────────────────
 let viewYear = 2026, viewMonth = 2;
 let selectedDateKey = null;
 let selectedDoc = null;
@@ -605,7 +603,6 @@ function renderCalendar() {
     const cell = document.createElement('div');
     cell.className = 'cal-cell' + (selectedDateKey === dateKey ? ' selected' : '');
 
-    // 하이라이트 오버레이
     const hl = getHighlightType(dateKey);
     if (hl) {
       const ov = document.createElement('div');
@@ -622,7 +619,6 @@ function renderCalendar() {
     const inner = document.createElement('div');
     inner.className = 'cell-inner';
 
-    // ✅ 개선3: 날짜 번호 + 메모 말풍선 아이콘
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';
     const numSpan = document.createElement('span');
@@ -638,17 +634,15 @@ function renderCalendar() {
     }
     inner.appendChild(dayHeaderRow);
 
-    // 도트
     const dots = DOT_MARKERS[dateKey];
     if (dots) {
       const dotRow = document.createElement('div'); dotRow.className = 'dots';
       for (let x=0;x<dots;x++) { const dot=document.createElement('div'); dot.className='dot'; dotRow.appendChild(dot); }
       inner.appendChild(dotRow);
     } else {
-      const ph = document.createElement('div'); ph.style.height='10px'; inner.appendChild(ph);
+      const ph = document.createElement('div'); ph.style.height='14px'; inner.appendChild(ph);
     }
 
-    // 배지 슬롯
     const slots = document.createElement('div');
     slots.className = 'badge-slots';
 
@@ -672,7 +666,6 @@ function renderCalendar() {
     slots.appendChild(rowVac);
     inner.appendChild(slots);
 
-    // 이브닝/야간 하단
     const bottom = document.createElement('div');
     bottom.className = 'bottom-tags';
     (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{ const t=document.createElement('div'); t.className='evening-tag'; t.textContent='E:'+n; bottom.appendChild(t); });
@@ -681,7 +674,6 @@ function renderCalendar() {
 
     cell.appendChild(inner);
 
-    // ✅ 개선2: 날짜 클릭 시 selectedDoc null 초기화 후 팝업 오픈
     cell.addEventListener('click', () => openPopup(dateKey));
     grid.appendChild(cell);
   }
@@ -724,16 +716,13 @@ function bannerScroll(dir) {
 
 // ─── 팝업 ─────────────────────────────────────────────
 
-// ✅ 개선2: 팝업 오픈 시 selectedDoc 항상 null 초기화
 function openPopup(dateKey) {
   selectedDateKey = dateKey;
-  selectedDoc = null;   // ← 팝업 진입 시 직원 선택 상태 초기화
+  selectedDoc = null; 
   renderBanner();
   renderCalendar();
 
   document.getElementById('popup-title').textContent = dateKey.slice(5) + ' 배정';
-
-  // ✅ 개선3: 기존 메모 불러오기
   document.getElementById('memo-textarea').value = (window.schedule[dateKey] || {}).memo || '';
 
   renderPopupDocs();
@@ -770,7 +759,6 @@ function popupScroll(dir) {
   document.getElementById('popup-doc-scroll').scrollBy({left: dir*200, behavior:'smooth'});
 }
 
-// ✅ 개선1+2 모두 반영된 renderDutyRows
 function renderDutyRows() {
   const container = document.getElementById('duty-rows');
   container.innerHTML = '';
@@ -784,7 +772,6 @@ function renderDutyRows() {
     const div = document.createElement('div');
     div.className = 'duty-row' + (isActive?' active-row':'') + (!selectedDoc?' no-doc':'');
 
-    // ✅ 개선1: 박스 전체 클릭으로 배정/제거 (직원 선택된 경우에만)
     div.addEventListener('click', () => {
       if (!selectedDoc) return;
       toggleAssignment(selectedDateKey, row.id, selectedDoc, row.useName);
@@ -802,7 +789,6 @@ function renderDutyRows() {
       const btn = document.createElement('button');
       btn.className = 'assign-btn ' + (isActive ? 'remove' : 'add');
       btn.textContent = isActive ? '제거' : '배정';
-      // ✅ 개선1: 버튼 버블링 차단
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleAssignment(selectedDateKey, row.id, selectedDoc, row.useName);
@@ -824,7 +810,6 @@ function renderDutyRows() {
         const chip = document.createElement('button');
         chip.className = 'assigned-chip ' + row.color;
         chip.innerHTML = `${n} <span class="del-icon">✕</span>`;
-        // ✅ 개선1: 칩 클릭 시 버블링 차단
         chip.addEventListener('click', (e) => {
           e.stopPropagation();
           removeAssignment(selectedDateKey, row.id, n);
@@ -834,7 +819,7 @@ function renderDutyRows() {
     } else {
       const none = document.createElement('span');
       none.className = 'no-assign';
-      none.textContent = 'No Assignment';
+      none.textContent = '배정 없음';
       list.appendChild(none);
     }
     div.appendChild(list);
@@ -872,7 +857,6 @@ function removeAssignment(dk, rowId, targetStr) {
   showToast(`${targetStr} 제거됨`);
 }
 
-// ✅ 개선3: 메모 저장
 window.saveMemo = function() {
   if (!selectedDateKey) return;
   const memo = document.getElementById('memo-textarea').value.trim();
@@ -935,7 +919,7 @@ function renderReport() {
   dutyTbody.innerHTML = '';
   data.filter(r=>r.totalHours>0).forEach(r => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="padding:10px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td style="padding:10px 8px;color:#64748b;font-size:10px">${r.weekdays.join(', ')}</td><td style="padding:10px 8px;color:#64748b;font-size:10px">${r.weekends.join(', ')}</td><td class="hours-cell" style="padding:10px 8px">${r.totalHours}h</td>`;
+    tr.innerHTML = `<td style="padding:14px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td style="padding:14px 8px;color:#64748b;font-size:13px">${r.weekdays.join(', ')}</td><td style="padding:14px 8px;color:#64748b;font-size:13px">${r.weekends.join(', ')}</td><td class="hours-cell" style="padding:14px 8px">${r.totalHours}h</td>`;
     dutyTbody.appendChild(tr);
   });
 
@@ -946,7 +930,7 @@ function renderReport() {
     const remain = usable - r.usedVacation;
     const payout = Math.max(0, r.totalLeave - 20);
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="padding:10px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td class="used-cell" style="padding:10px 8px">${r.usedVacation}일</td><td class="remain-cell" style="padding:10px 8px">${remain}일${payout>0?`<span class="payout-note">수당 +${payout}일</span>`:''}</td>`;
+    tr.innerHTML = `<td style="padding:14px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td class="used-cell" style="padding:14px 8px">${r.usedVacation}일</td><td class="remain-cell" style="padding:14px 8px">${remain}일${payout>0?`<span class="payout-note">수당 +${payout}일</span>`:''}</td>`;
     leaveTbody.appendChild(tr);
   });
 }
@@ -979,3 +963,5 @@ renderBanner();
 
 </body>
 </html>
+
+

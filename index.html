@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="영상의학과"/>
 <meta name="theme-color" content="#1a237e"/>
-<title>영상의학과 캘린더 (시니어 모드)</title>
+<title>영상의학과 캘린더 (스마트 알림 & 모던 로그인)</title>
 
 <script>
 const manifestData = {
@@ -41,8 +41,11 @@ document.head.appendChild(link);
     --indigo-50: #eef2ff;
     --indigo-200: #c7d2fe;
     --indigo-400: #818cf8;
+    --indigo-500: #6366f1;
     --indigo-600: #4f46e5;
+    --rose-100: #ffe4e6;
     --rose-500: #f43f5e;
+    --rose-600: #e11d48;
     --rose-700: #be123c;
     --purple-600: #9333ea;
     --emerald-600: #059669;
@@ -151,6 +154,9 @@ document.head.appendChild(link);
   .badge.off40-sat { background: #3730a3; }
   .badge.vacation { background: var(--purple-600); }
   .badge.alt-leave { background: white; color: var(--emerald-600); border: 1px solid var(--emerald-600); }
+  
+  /* ✅ 장비 검사 알림 뱃지 (망치 마크 + 장비명) */
+  .badge.inspection-badge { background: var(--rose-100); color: var(--rose-600); border: 1px solid var(--rose-500); font-size: 11px; padding: 2px 4px; display: inline-flex; align-items: center; gap: 2px; }
 
   .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
   .evening-tag { font-size: 11px; font-weight: 900; color: var(--amber-600); padding-left: 6px; border-left: 3px solid #fde68a; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.5px; }
@@ -259,11 +265,64 @@ document.head.appendChild(link);
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   .fade-in-up { animation: fadeInUp 0.3s ease-out; }
 
-  /* ── 로그인 창 ── */
-  .login-card h2 { font-size: 24px; }
-  .login-card p { font-size: 15px; }
-  .pin-input { font-size: 36px; padding: 20px; }
-  .login-btn { font-size: 18px; padding: 20px; }
+  /* ✅ 완전히 새로워진 모던 로그인 화면 (다크 글래스모피즘) */
+  #login-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .login-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2.5rem;
+    padding: 40px 30px;
+    text-align: center;
+    color: white;
+    width: 90%; max-width: 380px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .login-icon { width: 72px; height: 72px; margin: 0 auto 20px; background: rgba(99, 102, 241, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--indigo-400); box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.2); }
+  .login-card h2 { font-size: 26px; font-weight: 900; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .login-card p { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 32px; font-weight: 700; }
+  
+  .pin-input {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 1.5rem;
+    padding: 20px;
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    letter-spacing: 0.5em;
+    margin-bottom: 24px;
+    outline: none;
+    transition: all 0.3s;
+    font-family: monospace;
+  }
+  .pin-input:focus {
+    border-color: var(--indigo-400);
+    box-shadow: 0 0 20px rgba(129,140,248,0.3);
+    background: rgba(0,0,0,0.5);
+  }
+  .pin-input::placeholder { color: rgba(255,255,255,0.2); font-size: 24px; vertical-align: middle; letter-spacing: 0.5em; }
+  
+  .login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--indigo-500), var(--purple-600));
+    border: none;
+    padding: 20px;
+    border-radius: 1.5rem;
+    color: white;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+  }
+  .login-btn:active { transform: scale(0.96); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4); }
 
   .c-orange { color: var(--orange-500); }
   .c-blue { color: var(--blue-600); }
@@ -278,15 +337,16 @@ document.head.appendChild(link);
 </head>
 <body>
 
-<!-- ─────────── LOGIN SCREEN ─────────── -->
+<!-- ─────────── MODERN LOGIN SCREEN ─────────── -->
 <div id="login-overlay">
   <div class="login-card fade-in-up">
-    <div class="icon">
+    <div class="login-icon">
       <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
     </div>
-    <h2>영상의학과 캘린더</h2>
-    <p>부서 공용 비밀번호를 입력해주세요</p>
-    <input type="tel" id="pin-input" class="pin-input" maxlength="4" placeholder="••••" autocomplete="off" onkeypress="if(event.key === 'Enter') handleLogin()">
+    <h2>영상의학과 일정관리</h2>
+    <p>보안을 위해 비밀번호를 입력해주세요</p>
+    <!-- 숫자 키패드가 바로 뜨도록 설정 -->
+    <input type="password" pattern="[0-9]*" inputmode="numeric" id="pin-input" class="pin-input" maxlength="4" placeholder="••••" autocomplete="off" onkeypress="if(event.key === 'Enter') handleLogin()">
     <button class="login-btn" onclick="handleLogin()">접속하기</button>
   </div>
 </div>
@@ -407,7 +467,7 @@ document.head.appendChild(link);
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     <span class="memo-section-label">메모 / 공지사항</span>
   </div>
-  <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요.&#10;저장하면 달력에 말풍선 아이콘이 표시됩니다 💬"></textarea>
+  <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요.&#10;'검사'라는 단어를 쓰면 달력에 장비알림 뱃지가 붙습니다 🛠️"></textarea>
   <button class="memo-save-btn" onclick="saveMemo()">메모 저장하기</button>
   <div class="memo-clear"></div>
 </div>
@@ -425,7 +485,6 @@ document.head.appendChild(link);
 
 <!-- ── LOGIN LOGIC ── -->
 <script>
-  // ✅ 비밀번호 6633으로 변경
   const SECRET_PIN = "6633";
 
   function checkLoginStatus() {
@@ -566,6 +625,40 @@ const DOT_MARKERS = {
 
 const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
 
+// ✅ 표 데이터 100% 하드코딩 반영 (기본 스케줄 시드 데이터)
+const DEFAULT_INSPECTIONS = {
+  // 2025년
+  '2025-01-04': 'C-ARM 1 안전검사',
+  '2025-01-13': 'CT 안전/정밀검사',
+  '2025-02-04': '선별 POTABLE 안전검사',
+  '2025-03-07': 'MAMMO 안전/정밀검사\n촬영실 2 안전검사',
+  '2025-04-09': '골밀도촬영기 안전검사',
+  '2025-04-11': '초음파쇄석기 안전검사',
+  '2025-04-29': 'C-ARM 2 안전검사',
+  '2025-12-24': '분만 POTABLE 안전검사',
+
+  // 2026년
+  '2026-03-03': 'MAMMO 안전검사',
+  '2026-04-02': 'MRI 정밀검사',
+  '2026-04-28': '촬영실 1 안전검사',
+  '2026-05-13': '검진 INNOVISION 안전검사',
+  '2026-09-22': '음압 POTABLE 안전검사',
+
+  // 2027년
+  '2027-02-27': '검진 파노라마 안전검사',
+  '2027-09-26': '검진 위장촬영 안전검사',
+
+  // 2028년
+  '2028-01-04': 'C-ARM 1 안전검사',
+  '2028-01-13': 'CT 안전/정밀검사',
+  '2028-02-04': '선별 POTABLE 안전검사',
+  '2028-03-07': 'MAMMO 안전/정밀검사\n촬영실 2 안전검사',
+  '2028-04-09': '골밀도촬영기 안전검사',
+  '2028-04-11': '초음파쇄석기 안전검사',
+  '2028-04-29': 'C-ARM 2 안전검사',
+  '2028-12-24': '분만 POTABLE 안전검사'
+};
+
 window.schedule = window.schedule || {};
 
 let viewYear = 2026, viewMonth = 2;
@@ -581,6 +674,16 @@ function showToast(msg) {
   el.classList.add('show');
   clearTimeout(el._t);
   el._t = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+// ✅ 메모에서 장비 검사 텍스트를 똑똑하게 추출하는 함수
+function getEffectiveMemo(dateKey, dayData) {
+  // 사용자가 한 번이라도 메모를 편집/저장했다면 (빈 칸으로 지운 것 포함) 그것을 따름
+  if (dayData && dayData.memo !== undefined) {
+    return dayData.memo;
+  }
+  // 사용자가 한 번도 터치 안 했다면, 표에 있는 기본 장비 일정 반환
+  return DEFAULT_INSPECTIONS[dateKey] || '';
 }
 
 // ─── 캘린더 렌더 ──────────────────────────────────────
@@ -625,10 +728,13 @@ function renderCalendar() {
     numSpan.className = 'day-num' + (isSun?' sun':(isSat?' sat':''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
-    if (dayData.memo && dayData.memo.trim()) {
+    
+    // ✅ 메모 기반 스마트 장비/공지 아이콘 렌더링
+    const memoText = getEffectiveMemo(dateKey, dayData);
+    if (memoText.trim()) {
       const memoIcon = document.createElement('span');
       memoIcon.className = 'memo-icon';
-      memoIcon.title = dayData.memo;
+      memoIcon.title = memoText;
       memoIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
       dayHeaderRow.appendChild(memoIcon);
     }
@@ -645,6 +751,27 @@ function renderCalendar() {
 
     const slots = document.createElement('div');
     slots.className = 'badge-slots';
+
+    // ✅ 메모 텍스트에 "검사"라는 글자가 있으면, 약어를 찾아서 망치(🛠) 뱃지 생성
+    if (memoText.includes('검사')) {
+      let equipAbbr = '장비';
+      if (memoText.match(/MAMMO/i)) equipAbbr = 'MAMMO';
+      else if (memoText.match(/MRI/i)) equipAbbr = 'MRI';
+      else if (memoText.match(/CT/i)) equipAbbr = 'CT';
+      else if (memoText.match(/C-ARM/i)) equipAbbr = 'C-ARM';
+      else if (memoText.match(/촬영실/i)) equipAbbr = '촬영실';
+      else if (memoText.match(/POTABLE/i)) equipAbbr = 'POTABLE';
+      else if (memoText.match(/골밀도/i)) equipAbbr = '골밀도';
+      else if (memoText.match(/초음파/i)) equipAbbr = '초음파';
+      else if (memoText.match(/파노라마/i)) equipAbbr = '파노라마';
+      else if (memoText.match(/INNOVISION/i)) equipAbbr = 'INNOVISION';
+      else if (memoText.match(/위장/i)) equipAbbr = '위장조영';
+
+      const inspBadge = document.createElement('span');
+      inspBadge.className = 'badge inspection-badge';
+      inspBadge.innerHTML = `🛠 ${equipAbbr}`;
+      slots.appendChild(inspBadge);
+    }
 
     const mkRow = () => { const r=document.createElement('div'); r.className='badge-row'; return r; };
 
@@ -723,7 +850,9 @@ function openPopup(dateKey) {
   renderCalendar();
 
   document.getElementById('popup-title').textContent = dateKey.slice(5) + ' 배정';
-  document.getElementById('memo-textarea').value = (window.schedule[dateKey] || {}).memo || '';
+  
+  // ✅ 스마트 메모 (기본 설정된 장비 검사가 있으면 불러오기)
+  document.getElementById('memo-textarea').value = getEffectiveMemo(dateKey, window.schedule[dateKey] || {});
 
   renderPopupDocs();
   renderDutyRows();
@@ -857,14 +986,21 @@ function removeAssignment(dk, rowId, targetStr) {
   showToast(`${targetStr} 제거됨`);
 }
 
+// ✅ 메모 저장 로직
 window.saveMemo = function() {
   if (!selectedDateKey) return;
-  const memo = document.getElementById('memo-textarea').value.trim();
+  const memo = document.getElementById('memo-textarea').value; // 지우면 빈 칸("")으로 저장됨
   const dayData = window.schedule[selectedDateKey] || {};
+  
   window.schedule = { ...window.schedule, [selectedDateKey]: { ...dayData, memo } };
   renderCalendar();
   if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(memo ? '메모 저장 완료 💬' : '메모가 삭제되었습니다');
+  
+  if (memo.trim() === '') {
+    showToast('메모가 삭제되었습니다');
+  } else {
+    showToast('메모 저장 완료 💬');
+  }
 };
 
 // ─── 정산 ─────────────────────────────────────────────

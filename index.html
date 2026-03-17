@@ -155,7 +155,7 @@ document.head.appendChild(link);
   .badge.vacation { background: var(--purple-600); }
   .badge.alt-leave { background: white; color: var(--emerald-600); border: 1px solid var(--emerald-600); }
   
-  /* ✅ 장비 검사 알림 뱃지 (망치 마크 + 장비명) */
+  /* 장비 검사 알림 뱃지 */
   .badge.inspection-badge { background: var(--rose-100); color: var(--rose-600); border: 1px solid var(--rose-500); font-size: 11px; padding: 2px 4px; display: inline-flex; align-items: center; gap: 2px; }
 
   .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
@@ -265,7 +265,7 @@ document.head.appendChild(link);
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   .fade-in-up { animation: fadeInUp 0.3s ease-out; }
 
-  /* ✅ 완전히 새로워진 모던 로그인 화면 (다크 글래스모피즘) */
+  /* ── 모던 로그인 화면 (다크 글래스모피즘) ── */
   #login-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
@@ -345,7 +345,6 @@ document.head.appendChild(link);
     </div>
     <h2>영상의학과 일정관리</h2>
     <p>보안을 위해 비밀번호를 입력해주세요</p>
-    <!-- 숫자 키패드가 바로 뜨도록 설정 -->
     <input type="password" pattern="[0-9]*" inputmode="numeric" id="pin-input" class="pin-input" maxlength="4" placeholder="••••" autocomplete="off" onkeypress="if(event.key === 'Enter') handleLogin()">
     <button class="login-btn" onclick="handleLogin()">접속하기</button>
   </div>
@@ -625,7 +624,7 @@ const DOT_MARKERS = {
 
 const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
 
-// ✅ 표 데이터 100% 하드코딩 반영 (기본 스케줄 시드 데이터)
+// 표 데이터 100% 하드코딩 반영
 const DEFAULT_INSPECTIONS = {
   // 2025년
   '2025-01-04': 'C-ARM 1 안전검사',
@@ -676,13 +675,11 @@ function showToast(msg) {
   el._t = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
-// ✅ 메모에서 장비 검사 텍스트를 똑똑하게 추출하는 함수
+// 메모에서 장비 검사 텍스트 추출
 function getEffectiveMemo(dateKey, dayData) {
-  // 사용자가 한 번이라도 메모를 편집/저장했다면 (빈 칸으로 지운 것 포함) 그것을 따름
   if (dayData && dayData.memo !== undefined) {
     return dayData.memo;
   }
-  // 사용자가 한 번도 터치 안 했다면, 표에 있는 기본 장비 일정 반환
   return DEFAULT_INSPECTIONS[dateKey] || '';
 }
 
@@ -729,7 +726,7 @@ function renderCalendar() {
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
     
-    // ✅ 메모 기반 스마트 장비/공지 아이콘 렌더링
+    // 스마트 메모 아이콘
     const memoText = getEffectiveMemo(dateKey, dayData);
     if (memoText.trim()) {
       const memoIcon = document.createElement('span');
@@ -752,7 +749,7 @@ function renderCalendar() {
     const slots = document.createElement('div');
     slots.className = 'badge-slots';
 
-    // ✅ 메모 텍스트에 "검사"라는 글자가 있으면, 약어를 찾아서 망치(🛠) 뱃지 생성
+    // 스마트 장비 검사 뱃지
     if (memoText.includes('검사')) {
       let equipAbbr = '장비';
       if (memoText.match(/MAMMO/i)) equipAbbr = 'MAMMO';
@@ -849,9 +846,11 @@ function openPopup(dateKey) {
   renderBanner();
   renderCalendar();
 
-  document.getElementById('popup-title').textContent = dateKey.slice(5) + ' 배정';
+  // ✅ 팝업 헤더에 한글 요일 표시 추가
+  const dowKor = ['일', '월', '화', '수', '목', '금', '토'][new Date(dateKey).getDay()];
+  document.getElementById('popup-title').textContent = `${dateKey.slice(5)} (${dowKor}) 배정`;
   
-  // ✅ 스마트 메모 (기본 설정된 장비 검사가 있으면 불러오기)
+  // 스마트 메모 불러오기
   document.getElementById('memo-textarea').value = getEffectiveMemo(dateKey, window.schedule[dateKey] || {});
 
   renderPopupDocs();
@@ -986,10 +985,10 @@ function removeAssignment(dk, rowId, targetStr) {
   showToast(`${targetStr} 제거됨`);
 }
 
-// ✅ 메모 저장 로직
+// 메모 저장 로직
 window.saveMemo = function() {
   if (!selectedDateKey) return;
-  const memo = document.getElementById('memo-textarea').value; // 지우면 빈 칸("")으로 저장됨
+  const memo = document.getElementById('memo-textarea').value;
   const dayData = window.schedule[selectedDateKey] || {};
   
   window.schedule = { ...window.schedule, [selectedDateKey]: { ...dayData, memo } };

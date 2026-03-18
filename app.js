@@ -244,19 +244,6 @@ function renderCalendar() {
       memoIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
       dayHeaderRow.appendChild(memoIcon);
     }
-    inner.appendChild(dayHeaderRow);
-
-    const dots = DOT_MARKERS[dateKey];
-    if (dots) {
-      const dotRow = document.createElement('div'); dotRow.className = 'dots';
-      for (let x=0;x<dots;x++) { const dot=document.createElement('div'); dot.className='dot'; dotRow.appendChild(dot); }
-      inner.appendChild(dotRow);
-    } else {
-      const ph = document.createElement('div'); ph.style.height='14px'; inner.appendChild(ph);
-    }
-
-    const slots = document.createElement('div');
-    slots.className = 'badge-slots';
 
     // 스마트 장비 검사 뱃지
     if (memoText.includes('검사')) {
@@ -276,10 +263,29 @@ function renderCalendar() {
       const inspBadge = document.createElement('span');
       inspBadge.className = 'badge inspection-badge';
       inspBadge.innerHTML = `🛠 ${equipAbbr}`;
-      slots.appendChild(inspBadge);
+      dayHeaderRow.appendChild(inspBadge);
     }
 
+    inner.appendChild(dayHeaderRow);
+
+    const dots = DOT_MARKERS[dateKey];
+    if (dots) {
+      const dotRow = document.createElement('div'); dotRow.className = 'dots';
+      for (let x=0;x<dots;x++) { const dot=document.createElement('div'); dot.className='dot'; dotRow.appendChild(dot); }
+      inner.appendChild(dotRow);
+    } else {
+      const ph = document.createElement('div'); ph.style.height='14px'; inner.appendChild(ph);
+    }
+
+    const slots = document.createElement('div');
+    slots.className = 'badge-slots';
+
     const mkRow = () => { const r=document.createElement('div'); r.className='badge-row'; return r; };
+
+    const rowVac = mkRow();
+    (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge vacation'; b.textContent='🏝'+n; rowVac.appendChild(b); });
+    (dayData.alt_leave||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge alt-leave'; b.textContent='🌿'+n; rowVac.appendChild(b); });
+    slots.appendChild(rowVac);
 
     const rowAm = mkRow();
     (dayData.half_am||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge half-am'; b.textContent='☀'+n; rowAm.appendChild(b); });
@@ -292,11 +298,6 @@ function renderCalendar() {
     const rowOff = mkRow();
     (dayData.off40||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge '+(isSat?'off40-sat':'off40-weekday'); b.textContent=isSat?n:'40:'+n; rowOff.appendChild(b); });
     slots.appendChild(rowOff);
-
-    const rowVac = mkRow();
-    (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge vacation'; b.textContent='🏝'+n; rowVac.appendChild(b); });
-    (dayData.alt_leave||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge alt-leave'; b.textContent='🌿'+n; rowVac.appendChild(b); });
-    slots.appendChild(rowVac);
     inner.appendChild(slots);
 
     const bottom = document.createElement('div');

@@ -1,19 +1,3 @@
-const manifestData = {
-  name: "영상의학과 캘린더",
-  short_name: "영상의학과",
-  start_url: "./",
-  display: "standalone",
-  background_color: "#1a237e",
-  theme_color: "#1a237e",
-  icons: [{ src: "https://via.placeholder.com/192x192/1a237e/ffffff?text=X", sizes: "192x192", type: "image/png" }]
-};
-const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
-const link = document.createElement('link');
-link.rel = 'manifest';
-link.href = URL.createObjectURL(blob);
-document.head.appendChild(link);
-
-
   const SECRET_PIN = "6633";
 
   function checkLoginStatus() {

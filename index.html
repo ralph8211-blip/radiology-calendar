@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="영상의학과"/>
+<meta name="apple-mobile-web-app-title" content="영상의학과 캘린더"/>
 <meta name="theme-color" content="#1a237e"/>
-<title>영상의학과 캘린더 (스마트 알림 & 모던 로그인)</title>
+<title>영상의학과 캘린더</title>
 
-
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="https://via.placeholder.com/192/1a237e/ffffff?text=X">
 
 <link rel=stylesheet href=style.css>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('Service Worker Registered!', reg))
+        .catch(err => console.log('Service Worker registration failed: ', err));
+    });
+  }
+</script>
 
 </head>
 <body>

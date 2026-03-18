@@ -159,8 +159,9 @@ document.head.appendChild(link);
   .badge.inspection-badge { background: var(--rose-100); color: var(--rose-600); border: 1px solid var(--rose-500); font-size: 11px; padding: 2px 4px; display: inline-flex; align-items: center; gap: 2px; }
 
   .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
-  .evening-tag { font-size: 11px; font-weight: 900; color: var(--amber-600); padding-left: 6px; border-left: 3px solid #fde68a; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.5px; }
-  .night-tag { font-size: 11px; font-weight: 900; color: #4338ca; padding-left: 6px; border-left: 3px solid var(--indigo-400); line-height: 1.4; text-decoration: underline; text-decoration-color: #c7d2fe; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.5px; }
+  /* 글자가 잘리지 않도록 letter-spacing과 padding-left 조정 */
+  .evening-tag { font-size: 11px; font-weight: 900; color: var(--amber-600); padding-left: 4px; border-left: 3px solid #fde68a; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -1px; }
+  .night-tag { font-size: 11px; font-weight: 900; color: #4338ca; padding-left: 4px; border-left: 3px solid var(--indigo-400); line-height: 1.4; text-decoration: underline; text-decoration-color: #c7d2fe; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -1px; }
 
   /* ── BOTTOM BANNER ── */
   #bottom-banner { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; width: 95%; max-width: 440px; }
@@ -792,10 +793,28 @@ function renderCalendar() {
 
     const bottom = document.createElement('div');
     bottom.className = 'bottom-tags';
-    (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{ const t=document.createElement('div'); t.className='evening-tag'; t.textContent='E:'+n; bottom.appendChild(t); });
-    (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{ const t=document.createElement('div'); t.className='night-tag'; t.textContent='N:'+n; bottom.appendChild(t); });
+    
+    // 이브닝 렌더링 (이름 2글자로 변환)
+    (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{ 
+      const doc = DOCTOR_MAP.find(d => d.name === n || d.initial === n);
+      const dispName = doc ? doc.name.substring(1) : n; // 성을 제외한 이름 2글자
+      const t=document.createElement('div'); 
+      t.className='evening-tag'; 
+      t.textContent='E:'+dispName; 
+      bottom.appendChild(t); 
+    });
+    
+    // 야간당직 렌더링 (이름 2글자로 변환)
+    (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{ 
+      const doc = DOCTOR_MAP.find(d => d.name === n || d.initial === n);
+      const dispName = doc ? doc.name.substring(1) : n; // 성을 제외한 이름 2글자
+      const t=document.createElement('div'); 
+      t.className='night-tag'; 
+      t.textContent='N:'+dispName; 
+      bottom.appendChild(t); 
+    });
+    
     inner.appendChild(bottom);
-
     cell.appendChild(inner);
 
     cell.addEventListener('click', () => openPopup(dateKey));
@@ -846,7 +865,7 @@ function openPopup(dateKey) {
   renderBanner();
   renderCalendar();
 
-  // ✅ 팝업 헤더에 한글 요일 표시 추가
+  // 팝업 헤더에 한글 요일 표시 추가
   const dowKor = ['일', '월', '화', '수', '목', '금', '토'][new Date(dateKey).getDay()];
   document.getElementById('popup-title').textContent = `${dateKey.slice(5)} (${dowKor}) 배정`;
   

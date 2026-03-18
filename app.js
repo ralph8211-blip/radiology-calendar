@@ -1,4 +1,4 @@
-  const SECRET_PIN = "6633";
+const SECRET_PIN = "6633";
 
   function checkLoginStatus() {
     const isLogged = localStorage.getItem('calendar_auth') === 'true';
@@ -133,9 +133,7 @@ const DOT_MARKERS = {
 
 const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
 
-// 표 데이터 100% 하드코딩 반영
 const DEFAULT_INSPECTIONS = {
-  // 2025년
   '2025-01-04': 'C-ARM 1 안전검사',
   '2025-01-13': 'CT 안전/정밀검사',
   '2025-02-04': '선별 POTABLE 안전검사',
@@ -144,19 +142,13 @@ const DEFAULT_INSPECTIONS = {
   '2025-04-11': '초음파쇄석기 안전검사',
   '2025-04-29': 'C-ARM 2 안전검사',
   '2025-12-24': '분만 POTABLE 안전검사',
-
-  // 2026년
   '2026-03-03': 'MAMMO 안전검사',
   '2026-04-02': 'MRI 정밀검사',
   '2026-04-28': '촬영실 1 안전검사',
   '2026-05-13': '검진 INNOVISION 안전검사',
   '2026-09-22': '음압 POTABLE 안전검사',
-
-  // 2027년
   '2027-02-27': '검진 파노라마 안전검사',
   '2027-09-26': '검진 위장촬영 안전검사',
-
-  // 2028년
   '2028-01-04': 'C-ARM 1 안전검사',
   '2028-01-13': 'CT 안전/정밀검사',
   '2028-02-04': '선별 POTABLE 안전검사',
@@ -184,7 +176,6 @@ function showToast(msg) {
   el._t = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
-// 메모에서 장비 검사 텍스트 추출
 function getEffectiveMemo(dateKey, dayData) {
   if (dayData && dayData.memo !== undefined) {
     return dayData.memo;
@@ -230,17 +221,46 @@ function renderCalendar() {
 
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';
+    // 🛠️ 수정: 가로 정렬을 위한 CSS 추가
+    dayHeaderRow.style.display = 'flex';
+    dayHeaderRow.style.alignItems = 'center';
+
     const numSpan = document.createElement('span');
     numSpan.className = 'day-num' + (isSun?' sun':(isSat?' sat':''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
 
-    // 스마트 메모 아이콘
+    // 🛠️ 수정: 장비 뱃지를 slots 영역이 아닌 날짜 바로 옆(dayHeaderRow)으로 분리 이동!
     const memoText = getEffectiveMemo(dateKey, dayData);
+    if (memoText.includes('검사')) {
+      let equipAbbr = '장비';
+      if (memoText.match(/MAMMO/i)) equipAbbr = 'MAMMO';
+      else if (memoText.match(/MRI/i)) equipAbbr = 'MRI';
+      else if (memoText.match(/CT/i)) equipAbbr = 'CT';
+      else if (memoText.match(/C-ARM/i)) equipAbbr = 'C-ARM';
+      else if (memoText.match(/촬영실/i)) equipAbbr = '촬영실';
+      else if (memoText.match(/POTABLE/i)) equipAbbr = 'POTABLE';
+      else if (memoText.match(/골밀도/i)) equipAbbr = '골밀도';
+      else if (memoText.match(/초음파/i)) equipAbbr = '초음파';
+      else if (memoText.match(/파노라마/i)) equipAbbr = '파노라마';
+      else if (memoText.match(/INNOVISION/i)) equipAbbr = 'INNOVISION';
+      else if (memoText.match(/위장/i)) equipAbbr = '위장조영';
+
+      const inspBadge = document.createElement('span');
+      inspBadge.className = 'badge inspection-badge';
+      inspBadge.style.marginLeft = '6px'; // 날짜와 살짝 띄우기
+      inspBadge.style.fontSize = '10px';
+      inspBadge.style.padding = '1px 4px';
+      inspBadge.innerHTML = `🛠 ${equipAbbr}`;
+      dayHeaderRow.appendChild(inspBadge);
+    }
+
+    // 스마트 메모 아이콘
     if (memoText.trim()) {
       const memoIcon = document.createElement('span');
       memoIcon.className = 'memo-icon';
       memoIcon.title = memoText;
+      memoIcon.style.marginLeft = 'auto'; // 메모 아이콘은 맨 우측 끝으로 밀기
       memoIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
       dayHeaderRow.appendChild(memoIcon);
     }
@@ -258,28 +278,15 @@ function renderCalendar() {
     const slots = document.createElement('div');
     slots.className = 'badge-slots';
 
-    // 스마트 장비 검사 뱃지
-    if (memoText.includes('검사')) {
-      let equipAbbr = '장비';
-      if (memoText.match(/MAMMO/i)) equipAbbr = 'MAMMO';
-      else if (memoText.match(/MRI/i)) equipAbbr = 'MRI';
-      else if (memoText.match(/CT/i)) equipAbbr = 'CT';
-      else if (memoText.match(/C-ARM/i)) equipAbbr = 'C-ARM';
-      else if (memoText.match(/촬영실/i)) equipAbbr = '촬영실';
-      else if (memoText.match(/POTABLE/i)) equipAbbr = 'POTABLE';
-      else if (memoText.match(/골밀도/i)) equipAbbr = '골밀도';
-      else if (memoText.match(/초음파/i)) equipAbbr = '초음파';
-      else if (memoText.match(/파노라마/i)) equipAbbr = '파노라마';
-      else if (memoText.match(/INNOVISION/i)) equipAbbr = 'INNOVISION';
-      else if (memoText.match(/위장/i)) equipAbbr = '위장조영';
-
-      const inspBadge = document.createElement('span');
-      inspBadge.className = 'badge inspection-badge';
-      inspBadge.innerHTML = `🛠 ${equipAbbr}`;
-      slots.appendChild(inspBadge);
-    }
-
-    const mkRow = () => { const r=document.createElement('div'); r.className='badge-row'; return r; };
+    // 🛠️ 수정: 모든 줄의 최소 높이를 강제 고정!
+    // 오전반차 행이 비어도 18px을 차지하므로 40H OFF가 절대 위로 당겨지지 않고 행이 완벽히 정렬됩니다.
+    const mkRow = () => { 
+      const r = document.createElement('div'); 
+      r.className = 'badge-row'; 
+      r.style.minHeight = '18px'; // 핵심 고정 높이
+      r.style.marginBottom = '2px';
+      return r; 
+    };
 
     const rowAm = mkRow();
     (dayData.half_am||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge half-am'; b.textContent='☀'+n; rowAm.appendChild(b); });
@@ -294,28 +301,28 @@ function renderCalendar() {
     slots.appendChild(rowOff);
 
     const rowVac = mkRow();
+    // 🛠️ 연차(vacation)와 대휴(alt_leave)는 완벽히 동일한 rowVac(4번째 줄) 안에 들어갑니다.
     (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge vacation'; b.textContent='🏝'+n; rowVac.appendChild(b); });
     (dayData.alt_leave||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge alt-leave'; b.textContent='🌿'+n; rowVac.appendChild(b); });
     slots.appendChild(rowVac);
+    
     inner.appendChild(slots);
 
     const bottom = document.createElement('div');
     bottom.className = 'bottom-tags';
 
-    // 이브닝 렌더링 (이름 2글자로 변환)
     (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{
       const doc = DOCTOR_MAP.find(d => d.name === n || d.initial === n);
-      const dispName = doc ? doc.name.substring(1) : n; // 성을 제외한 이름 2글자
+      const dispName = doc ? doc.name.substring(1) : n; 
       const t=document.createElement('div');
       t.className='evening-tag';
       t.textContent='E:'+dispName;
       bottom.appendChild(t);
     });
 
-    // 야간당직 렌더링 (이름 2글자로 변환)
     (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{
       const doc = DOCTOR_MAP.find(d => d.name === n || d.initial === n);
-      const dispName = doc ? doc.name.substring(1) : n; // 성을 제외한 이름 2글자
+      const dispName = doc ? doc.name.substring(1) : n; 
       const t=document.createElement('div');
       t.className='night-tag';
       t.textContent='N:'+dispName;
@@ -344,7 +351,6 @@ function getHighlightType(dateKey) {
   return null;
 }
 
-// ─── 하단 배너 ────────────────────────────────────────
 function renderBanner() {
   const scroll = document.getElementById('banner-scroll');
   scroll.innerHTML = '';
@@ -365,19 +371,15 @@ function bannerScroll(dir) {
   document.getElementById('banner-scroll').scrollBy({left: dir*200, behavior:'smooth'});
 }
 
-// ─── 팝업 ─────────────────────────────────────────────
-
 function openPopup(dateKey) {
   selectedDateKey = dateKey;
   selectedDoc = null;
   renderBanner();
   renderCalendar();
 
-  // 팝업 헤더에 한글 요일 표시 추가
   const dowKor = ['일', '월', '화', '수', '목', '금', '토'][new Date(dateKey).getDay()];
   document.getElementById('popup-title').textContent = `${dateKey.slice(5)} (${dowKor}) 배정`;
 
-  // 스마트 메모 불러오기
   document.getElementById('memo-textarea').value = getEffectiveMemo(dateKey, window.schedule[dateKey] || {});
 
   renderPopupDocs();
@@ -482,7 +484,6 @@ function renderDutyRows() {
   });
 }
 
-// ─── 배정 로직 ────────────────────────────────────────
 function toggleAssignment(dk, rowId, doc, useName) {
   const dayData = window.schedule[dk] || {};
   const target = useName ? doc.name : doc.initial;
@@ -512,7 +513,6 @@ function removeAssignment(dk, rowId, targetStr) {
   showToast(`${targetStr} 제거됨`);
 }
 
-// 메모 저장 로직
 window.saveMemo = function() {
   if (!selectedDateKey) return;
   const memo = document.getElementById('memo-textarea').value;
@@ -529,7 +529,6 @@ window.saveMemo = function() {
   }
 };
 
-// ─── 정산 ─────────────────────────────────────────────
 function renderReport() {
   const yearStr = String(viewYear);
   const monthPrefix = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
@@ -627,6 +626,4 @@ window.handleLogout = handleLogout;
 window.bannerScroll = bannerScroll;
 window.popupScroll = popupScroll;
 window.switchTab = switchTab;
-
-
 window.checkLoginStatus = checkLoginStatus;

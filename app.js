@@ -38,7 +38,7 @@ import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/f
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey:            "AIzaSyBpeLflDoGLmbvciVoYMfDJPm2lIIj9Q0I",
+  apiKey:            "AIzaSyDV99aveXERsGBDue-fQX1-4RkyoRVZ_RA",
   authDomain:        "haedong-calendar.firebaseapp.com",
   projectId:         "haedong-calendar",
   storageBucket:     "haedong-calendar.firebasestorage.app",

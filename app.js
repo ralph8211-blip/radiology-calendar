@@ -4,7 +4,7 @@ const SECRET_PIN = "6633";
 // ==========================================
 (function() {
     // 👇 아래 "G-여기에입력하세요" 부분을 원장님이 방금 발급받은 아이디로 꼭 바꿔주세요!
-    const GA_ID = "G-ZLCFLGHH3L"; 
+    const GA_ID = "G-0GDG8P62X2"; 
     
     const script = document.createElement('script');
     script.async = true;

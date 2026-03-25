@@ -1,5 +1,24 @@
 const SECRET_PIN = "6633";
+// ==========================================
+// 📊 구글 애널리틱스 (방문자 통계) 자동 연결 코드
+// ==========================================
+(function() {
+    // 👇 아래 "G-여기에입력하세요" 부분을 원장님이 방금 발급받은 아이디로 꼭 바꿔주세요!
+    const GA_ID = "G-ZLCFLGHH3L"; 
+    
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(script);
 
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+    
+    console.log("📊 구글 애널리틱스 장착 완료!");
+})();
+// ==========================================
   function checkLoginStatus() {
     const isLogged = localStorage.getItem('calendar_auth') === 'true';
     if (isLogged) {

@@ -410,6 +410,8 @@ window.closePopup = function(e) {
   if (e && e.target !== document.getElementById('popup-overlay')) return;
   document.getElementById('popup-overlay').classList.remove('open');
   selectedDateKey = null;
+  selectedDoc = null; // 💡 핵심 1: 선택된 사람 기억 지우기
+  renderBanner();     // 💡 핵심 2: 하단 배너를 새로고침해서 눌린 버튼 원상복구
   renderCalendar();
 };
 

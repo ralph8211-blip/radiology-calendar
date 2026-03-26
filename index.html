@@ -7,7 +7,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="영상의학과"/>
 <meta name="theme-color" content="#1a237e"/>
-<!-- 구글 애널리틱스 -->
+
+<!-- ── 구글 애널리틱스 ── -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GDG8P62X2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -35,6 +36,55 @@ document.head.appendChild(link);
 </script>
 
 <style>
+  /* ── LOGIN OVERLAY ── */
+  #login-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0;
+  }
+  .login-box {
+    width: 88%; max-width: 340px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 2.5rem;
+    padding: 40px 32px 36px;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .login-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .login-logo svg { color: #93c5fd; }
+  .login-title { color: white; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+  .login-sub { color: rgba(255,255,255,0.45); font-size: 12px; font-weight: 500; text-align: center; line-height: 1.5; margin-top: -8px; }
+  .pin-dots { display: flex; gap: 12px; margin: 4px 0; }
+  .pin-dot { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); transition: all 0.2s; }
+  .pin-dot.filled { background: #818cf8; border-color: #818cf8; transform: scale(1.1); }
+  #pin-input {
+    width: 100%; background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 1.2rem; padding: 14px 18px;
+    color: white; font-size: 22px; font-weight: 900;
+    text-align: center; letter-spacing: 0.5em;
+    outline: none; transition: border-color 0.2s;
+    -webkit-text-security: disc;
+  }
+  #pin-input:focus { border-color: #818cf8; }
+  #pin-input::placeholder { color: rgba(255,255,255,0.25); font-size: 14px; letter-spacing: 0.05em; font-weight: 400; }
+  .login-btn {
+    width: 100%; background: #4f46e5; color: white;
+    border: none; padding: 15px; border-radius: 1.5rem;
+    font-size: 15px; font-weight: 900; cursor: pointer;
+    transition: all 0.15s; letter-spacing: 0.02em;
+  }
+  .login-btn:hover { background: #4338ca; }
+  .login-btn:active { transform: scale(0.97); }
+  .login-shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
+  }
+  /* 로그아웃 버튼 */
+  #logout-btn { background: rgba(255,255,255,0.08) !important; font-size: 11px !important; padding: 6px 10px !important; border-radius: 8px !important; }
+
   :root {
     --navy: #1a237e;
     --white: #ffffff;
@@ -279,6 +329,27 @@ document.head.appendChild(link);
 </head>
 <body>
 
+<!-- ── LOGIN OVERLAY ── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="login-title">영상의학과 캘린더</span>
+    </div>
+    <p class="login-sub">해동병원 영상의학과 전용<br>비밀번호를 입력하세요</p>
+    <div class="pin-dots">
+      <div class="pin-dot" id="dot-0"></div>
+      <div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div>
+      <div class="pin-dot" id="dot-3"></div>
+    </div>
+    <input type="password" id="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="비밀번호 4자리" oninput="onPinInput()" onkeydown="if(event.key==='Enter')handleLogin()"/>
+    <button class="login-btn" onclick="handleLogin()">입장하기</button>
+  </div>
+</div>
+
+<!-- ── APP CONTAINER (로그인 후 표시) ── -->
+<div id="app-container" style="display:none">
 <!-- ── NAV ── -->
 <nav>
   <div class="logo">
@@ -287,6 +358,9 @@ document.head.appendChild(link);
   </div>
   <div class="nav-right">
     <span id="sync-indicator">●</span>
+    <button id="logout-btn" onclick="handleLogout()" title="로그아웃">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
     <button id="btn-screening" title="정산">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
     </button>
@@ -466,6 +540,61 @@ window.setSyncStatus = setSyncStatus;
 
 <!-- ── APP LOGIC ── -->
 <script>
+const SECRET_PIN = "6633";
+
+// ── 로그인 로직 ────────────────────────────────────────
+function checkLoginStatus() {
+  const isLogged = localStorage.getItem('calendar_auth') === 'true';
+  document.getElementById('login-overlay').style.display = isLogged ? 'none' : 'flex';
+  document.getElementById('app-container').style.display = isLogged ? 'block' : 'none';
+  if (!isLogged) {
+    const inp = document.getElementById('pin-input');
+    if (inp) { inp.value = ''; updateDots(''); }
+  }
+}
+
+function onPinInput() {
+  const val = document.getElementById('pin-input').value;
+  updateDots(val);
+  if (val.length === 4) {
+    setTimeout(handleLogin, 80); // 4자리 입력 즉시 자동 시도
+  }
+}
+
+function updateDots(val) {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('dot-' + i);
+    if (dot) dot.classList.toggle('filled', i < val.length);
+  }
+}
+
+function handleLogin() {
+  const input = document.getElementById('pin-input').value;
+  if (input === SECRET_PIN) {
+    localStorage.setItem('calendar_auth', 'true');
+    checkLoginStatus();
+    showToast('✅ 입장 완료!');
+  } else {
+    const box = document.querySelector('.login-box');
+    box.classList.remove('login-shake');
+    void box.offsetWidth;
+    box.classList.add('login-shake');
+    document.getElementById('pin-input').value = '';
+    updateDots('');
+    showToast('비밀번호가 틀렸습니다');
+  }
+}
+
+function handleLogout() {
+  localStorage.removeItem('calendar_auth');
+  checkLoginStatus();
+  showToast('로그아웃 되었습니다');
+}
+
+window.handleLogin = handleLogin;
+window.handleLogout = handleLogout;
+window.onPinInput = onPinInput;
+
 const DOCTOR_MAP = [
   { name: '김종환', initial: '종', totalLeave: 25, title: '실장' },
   { name: '이승남', initial: '승', totalLeave: 24, title: '계장' },
@@ -982,6 +1111,8 @@ document.getElementById('btn-next').onclick = () => { viewMonth++; if(viewMonth>
 
 renderCalendar();
 renderBanner();
+checkLoginStatus();
 </script>
+</div><!-- /app-container -->
 </body>
 </html>

@@ -471,9 +471,8 @@ const DOCTOR_MAP = [
   { name: '송진우', initial: '진', totalLeave: 15, title: '선생님' },
   { name: '조지혜', initial: '조', totalLeave: 10, title: '선생님' },
   { name: '이용진', initial: '용', totalLeave: 9,  title: '선생님' },
-  { name: '김봉선', initial: '봉', totalLeave: 17, title: '선생님' },
-  { name: '박용주', initial: '박', totalLeave: 25, title: '선생님' }
-];
+  { name: '김봉선', initial: '봉', totalLeave: 17, title: '선생님' }
+  ];
 
 const DUTY_ROWS = [
   { id: 'half_am',  label: '오전반차',    color: 'c-orange', useName: false },
@@ -691,7 +690,7 @@ function getHighlightType(dateKey) {
 function renderBanner() {
   const scroll = document.getElementById('banner-scroll');
   scroll.innerHTML = '';
-  DOCTOR_MAP.filter(d=>d.name!=='박용주').forEach(doc => {
+  DOCTOR_MAP.forEach(doc => {
     const btn = document.createElement('button');
     btn.className = 'doc-btn' + (selectedDoc?.name===doc.name?' active':'');
     btn.innerHTML = `<span class="t">${doc.title}</span><span class="n">${doc.initial}</span>`;
@@ -703,7 +702,6 @@ function renderBanner() {
     scroll.appendChild(btn);
   });
 }
-
 function bannerScroll(dir) {
   document.getElementById('banner-scroll').scrollBy({left: dir*200, behavior:'smooth'});
 }

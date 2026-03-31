@@ -729,15 +729,19 @@ function renderCalendar() {
     const cell = document.createElement('div');
     cell.className = 'cal-cell' + (selectedDateKey === dateKey ? ' selected' : '');
 
-   // 하이라이트 오버레이
-   // 하이라이트 오버레이
+  // 하이라이트 오버레이
     const hl = getHighlightType(dateKey);
     if (hl) {
       const ov = document.createElement('div');
       ov.className = 'hl-overlay';
       
       if (hl === 'yellow') {
-        ov.classList.add('hl-yellow-wave'); // CT/MR: 노란색 물결 
+        // 1. CT/MR: 노란색 배경 고정 + 중앙에 큰 'CT' 글자 삽입
+        ov.style.background = 'rgba(251, 191, 36, 0.3)'; // 은은한 노란색
+        ov.style.display = 'flex';
+        ov.style.alignItems = 'center';
+        ov.style.justifyContent = 'center';
+        ov.innerHTML = '<span style="font-size:40px; font-weight:900; color:rgba(0,0,0,0.07); letter-spacing:-2px;">CT</span>';
       } else if (hl === 'blue') {
         ov.style.background = 'rgba(59,130,246,0.25)'; // 야간/이브닝: 파란색 전체
       } else if (hl === 'red') {

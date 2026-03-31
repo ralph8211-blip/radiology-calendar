@@ -730,21 +730,30 @@ function renderCalendar() {
     cell.className = 'cal-cell' + (selectedDateKey === dateKey ? ' selected' : '');
 
    // 하이라이트 오버레이
+   // 하이라이트 오버레이
     const hl = getHighlightType(dateKey);
     if (hl) {
       const ov = document.createElement('div');
       ov.className = 'hl-overlay';
+      
       if (hl === 'yellow') {
-        ov.classList.add('hl-yellow-wave'); // 노란색 물결 효과 강제 적용!
-      } else {
-        ov.style.background =
-          hl==='blue'    ? 'rgba(59,130,246,0.25)' :
-          hl==='red'     ? 'rgba(239,68,68,0.25)' :
-          hl==='half-am' ? 'linear-gradient(to bottom,rgba(239,68,68,0.25) 50%,transparent 50%)' :
-                           'linear-gradient(to top,rgba(239,68,68,0.25) 50%,transparent 50%)';
+        ov.classList.add('hl-yellow-wave'); // CT/MR: 노란색 물결 
+      } else if (hl === 'blue') {
+        ov.style.background = 'rgba(59,130,246,0.25)'; // 야간/이브닝: 파란색 전체
+      } else if (hl === 'red') {
+        ov.style.background = 'rgba(239,68,68,0.25)'; // 종일연차: 빨간색 전체
+      } else if (hl === 'half-am') {
+        ov.style.background = 'linear-gradient(to bottom, rgba(239,68,68,0.25) 50%, transparent 50%)'; // 오전반차: 상단 반칸
+      } else if (hl === 'half-pm') {
+        ov.style.background = 'linear-gradient(to top, rgba(239,68,68,0.25) 50%, transparent 50%)'; // 오후/40오프: 하단 반칸
       }
+      
       cell.appendChild(ov);
     }
+    if (selectedDoc && !hl) cell.classList.add('dimmed');
+
+    const inner = document.createElement('div');
+    inner.className = 'cell-inner';
     // ✅ 개선3: 날짜 번호 + 메모 말풍선 아이콘
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';

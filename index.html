@@ -730,31 +730,46 @@ function renderCalendar() {
     cell.className = 'cal-cell' + (selectedDateKey === dateKey ? ' selected' : '');
 
   // 하이라이트 오버레이
+    // 하이라이트 오버레이
     const hl = getHighlightType(dateKey);
-    if (hl) {
+    const dayData = window.schedule[dateKey];
+    const isCT = dayData && selectedDoc && (dayData.ctmr || '').includes(selectedDoc.initial);
+
+    if (hl || isCT) {
       const ov = document.createElement('div');
       ov.className = 'hl-overlay';
-      
-      if (hl === 'yellow') {
-        // 1. CT/MR: 노란색 배경 고정 + 중앙에 큰 'CT' 글자 삽입
-        ov.style.background = 'rgba(251, 191, 36, 0.3)'; // 은은한 노란색
-        ov.style.display = 'flex';
-        ov.style.alignItems = 'center';
-        ov.style.justifyContent = 'center';
-        ov.innerHTML = '<span style="font-size:40px; font-weight:900; color:rgba(0,0,0,0.07); letter-spacing:-2px;">CT</span>';
-      } else if (hl === 'blue') {
-        ov.style.background = 'rgba(59,130,246,0.25)'; // 야간/이브닝: 파란색 전체
+      ov.style.display = 'flex';
+      ov.style.alignItems = 'center';
+      ov.style.justifyContent = 'center';
+      ov.style.pointerEvents = 'none'; // 클릭 방해 금지
+
+      // 배경색 지정 (CT 전용 타입인 'ct-text'는 배경색 없음)
+      if (hl === 'blue') {
+        ov.style.background = 'rgba(59,130,246,0.25)';
       } else if (hl === 'red') {
-        ov.style.background = 'rgba(239,68,68,0.25)'; // 종일연차: 빨간색 전체
+        ov.style.background = 'rgba(239,68,68,0.25)';
       } else if (hl === 'half-am') {
-        ov.style.background = 'linear-gradient(to bottom, rgba(239,68,68,0.25) 50%, transparent 50%)'; // 오전반차: 상단 반칸
+        ov.style.background = 'linear-gradient(to bottom, rgba(239,68,68,0.25) 50%, transparent 50%)';
       } else if (hl === 'half-pm') {
-        ov.style.background = 'linear-gradient(to top, rgba(239,68,68,0.25) 50%, transparent 50%)'; // 오후/40오프: 하단 반칸
+        ov.style.background = 'linear-gradient(to top, rgba(239,68,68,0.25) 50%, transparent 50%)';
+      }
+
+      // 배경색과 상관없이 CT 근무자라면 'CT' 글자를 띄움
+      if (isCT) {
+        const ctLabel = document.createElement('span');
+        ctLabel.innerText = 'CT';
+        ctLabel.style.fontSize = '40px';
+        ctLabel.style.fontWeight = '900';
+        ctLabel.style.color = 'rgba(0,0,0,0.08)'; // 은은한 투명도
+        ctLabel.style.letterSpacing = '-2px';
+        ov.appendChild(ctLabel);
       }
       
       cell.appendChild(ov);
     }
-    if (selectedDoc && !hl) cell.classList.add('dimmed');
+    
+    // 하이라이트(오프/당직 등)도 없고 CT 대기도 없을 때만 흐리게 처리
+    if (selectedDoc && !hl && !isCT) cell.classList.add('dimmed');
 
     const inner = document.createElement('div');
     inner.className = 'cell-inner';
@@ -845,20 +860,26 @@ function getHighlightType(dateKey) {
   const day = window.schedule[dateKey];
   if (!day) return null;
   
+  const dateObj = new Date(dateKey);
+  const isSaturday = dateObj.getDay() === 6; // 6은 토요일
+  
   // 1. 야간, 이브닝 (파란색 전체)
   if ((day.night||'').includes(selectedDoc.name) || (day.evening||'').includes(selectedDoc.name)) return 'blue';
   
-  // 2. CT/MR (노란색 물결)
-  if ((day.ctmr||'').includes(selectedDoc.initial)) return 'yellow';
-  
-  // 3. 종일연차 (빨간색 전체)
+  // 2. 종일연차 (빨간색 전체)
   if ((day.vacation||'').includes(selectedDoc.initial)) return 'red';
   
-  // 4. 오전반차 (빨간색 상단 반)
+  // 3. 오전반차 (빨간색 상단 반)
   if ((day.half_am||'').includes(selectedDoc.initial)) return 'half-am';
   
-  // 5. 오후반차 OR 40H OFF (빨간색 하단 반) - 요일 상관없이 무조건 하단!
-  if ((day.half_pm||'').includes(selectedDoc.initial) || (day.off40||'').includes(selectedDoc.initial)) return 'half-pm';
+  // 4. 40H OFF 또는 오후반차
+  if ((day.off40||'').includes(selectedDoc.initial) || (day.half_pm||'').includes(selectedDoc.initial)) {
+    // 토요일인 경우 40H OFF는 전체 빨간색으로 표기
+    return isSaturday ? 'red' : 'half-pm';
+  }
+  
+  // 5. CT/MR 근무 (이제 배경색이 아니라 글자만 띄울 용도)
+  if ((day.ctmr||'').includes(selectedDoc.initial)) return 'ct-text';
   
   return null;
 }

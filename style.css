@@ -304,3 +304,19 @@
   .c-teal { color: var(--teal-600); }
   .c-amber { color: var(--amber-600); }
   .c-indigo { color: #4338ca; }
+/* ==========================================
+   하단 배너 반투명(유리) 효과 및 가림 방지
+   ========================================== */
+
+/* 1. 배너를 반투명하게 만들고 뒤를 흐리게(블러) 처리 */
+#bottom-banner {
+    background-color: rgba(15, 23, 42, 0.85) !important; /* 기존 까만색을 85% 불투명도로 변경 */
+    backdrop-filter: blur(8px) !important; /* 뒤에 비치는 달력 글자를 예쁘게 흐리게 만듦 */
+    -webkit-backdrop-filter: blur(8px) !important; /* 아이폰/사파리 호환용 */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3) !important; /* 그림자를 살짝 줘서 입체감 추가 */
+}
+
+/* 2. 달력 맨 밑바닥에 '투명한 깔창'을 깔아서 배너 위로 끌어올리기 */
+#calendar-section {
+    padding-bottom: 120px !important; /* 배너 높이만큼 밑에 여백을 강제로 만듦 */
+}

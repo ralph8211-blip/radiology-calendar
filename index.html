@@ -8,7 +8,6 @@
 <meta name="apple-mobile-web-app-title" content="영상의학과"/>
 <meta name="theme-color" content="#1a237e"/>
 
-<!-- ── 구글 애널리틱스 ── -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GDG8P62X2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -82,7 +81,6 @@ document.head.appendChild(link);
   @keyframes shake {
     0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
   }
-  /* 로그아웃 버튼 */
   #logout-btn { background: rgba(255,255,255,0.08) !important; font-size: 11px !important; padding: 6px 10px !important; border-radius: 8px !important; }
 
   :root {
@@ -121,7 +119,6 @@ document.head.appendChild(link);
     overflow-x: hidden;
   }
 
-  /* ── NAV ── */
   nav {
     background: var(--navy);
     color: white;
@@ -145,7 +142,6 @@ document.head.appendChild(link);
   #sync-indicator.saving { color: #fbbf24; }
   #sync-indicator.saved { color: #34d399; }
 
-  /* ── MONTH HEADER ── */
   #month-header {
     display: flex;
     align-items: center;
@@ -163,8 +159,7 @@ document.head.appendChild(link);
   #month-title .label { font-size: 9px; font-weight: 900; color: var(--indigo-600); letter-spacing: 0.3em; text-transform: uppercase; }
   #month-title h2 { font-size: 20px; font-weight: 900; }
 
-  /* ── CALENDAR ── */
-  #calendar-section { padding-bottom: 110px; }
+  #calendar-section { padding-bottom: 140px; }
   #calendar-wrap { max-width: 480px; margin: 0 auto; background: white; }
   .dow-header { display: grid; grid-template-columns: repeat(7,1fr); background: var(--slate-50); border-bottom: 1px solid var(--slate-200); }
   .dow-header div { text-align: center; padding: 8px 0; font-size: 10px; font-weight: 900; color: var(--slate-400); }
@@ -191,7 +186,6 @@ document.head.appendChild(link);
   .cal-cell .hl-overlay { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
   .cal-cell .cell-inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
 
-  /* ✅ 개선3: 날짜 헤더 행 (숫자 + 말풍선) */
   .day-header-row { display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
   .day-num { font-size: 13px; font-weight: 900; line-height: 1; }
   .day-num.sun { color: #f43f5e; }
@@ -216,7 +210,6 @@ document.head.appendChild(link);
   .evening-tag { font-size: 7px; font-weight: 900; color: var(--amber-600); padding-left: 4px; border-left: 2px solid #fde68a; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .night-tag { font-size: 7px; font-weight: 900; color: #4338ca; padding-left: 4px; border-left: 2px solid var(--indigo-400); line-height: 1.4; text-decoration: underline; text-decoration-color: #c7d2fe; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* ── BOTTOM BANNER ── */
   #bottom-banner { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; width: 95%; max-width: 440px; }
   .banner-inner { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); border-radius: 2rem; padding: 10px 12px; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
   .banner-scroll-wrap { position: relative; display: flex; align-items: center; }
@@ -231,7 +224,6 @@ document.head.appendChild(link);
   .doc-btn.active { background: white; color: var(--slate-900); border-color: var(--amber-500); transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.4); text-shadow: none; }
   .doc-btn.active::after { content: ''; position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: var(--amber-500); border-radius: 50%; border: 2px solid var(--slate-900); }
 
-  /* ── POPUP ── */
   #popup-overlay { position: fixed; inset: 0; z-index: 210; background: rgba(2,6,23,0.8); backdrop-filter: blur(12px); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   #popup-overlay.open { opacity: 1; pointer-events: all; }
   #popup-sheet { background: white; width: 100%; max-width: 480px; border-radius: 3rem 3rem 0 0; padding: 28px 24px 48px; max-height: 92dvh; overflow-y: auto; transform: translateY(40px); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
@@ -255,7 +247,6 @@ document.head.appendChild(link);
   .pdoc-btn .n { font-size: 13px; font-weight: 900; }
   .pdoc-btn.active { background: var(--indigo-600); color: white; border-color: var(--indigo-600); box-shadow: 0 2px 8px rgba(79,70,229,0.4); transform: scale(1.05); }
 
-  /* ✅ 개선1: duty-row 전체 클릭 가능 스타일 */
   .duty-rows { display: flex; flex-direction: column; gap: 10px; }
   .duty-row { border-radius: 2rem; border: 1px solid var(--slate-100); background: var(--slate-50); padding: 14px 16px; transition: all 0.2s; cursor: pointer; }
   .duty-row:hover { border-color: var(--slate-300); background: white; }
@@ -276,7 +267,6 @@ document.head.appendChild(link);
   .no-assign { font-size: 10px; color: var(--slate-300); font-style: italic; font-weight: 700; text-transform: uppercase; }
   .no-doc-hint { font-size: 9px; color: var(--slate-300); font-weight: 700; background: white; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--slate-200); white-space: nowrap; }
 
-  /* ✅ 개선3: 메모 섹션 */
   .memo-section { margin-top: 24px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 2rem; padding: 16px 18px; }
   .memo-section-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
   .memo-section-label { font-size: 10px; font-weight: 900; color: var(--amber-600); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -291,7 +281,6 @@ document.head.appendChild(link);
   .done-btn:hover { background: var(--slate-800); }
   .done-btn:active { transform: scale(0.98); }
 
-  /* ── SCREENING ── */
   #screening { display: none; padding: 16px; max-width: 480px; margin: 0 auto; }
   #screening.visible { display: block; }
   .screening-card { background: white; border-radius: 2rem; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--slate-100); }
@@ -311,7 +300,6 @@ document.head.appendChild(link);
   .payout-note { display: block; font-size: 8px; color: var(--slate-400); font-weight: 400; margin-top: 1px; }
   .back-btn { width: 100%; margin-top: 24px; background: var(--slate-900); color: white; border: none; padding: 16px; border-radius: 2rem; font-size: 14px; font-weight: 900; cursor: pointer; }
 
-  /* ── TOAST ── */
   #toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 10px 20px; border-radius: 99px; font-size: 12px; font-weight: 700; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
   #toast.show { opacity: 1; }
 
@@ -330,7 +318,6 @@ document.head.appendChild(link);
 </head>
 <body>
 
-<!-- ── LOGIN OVERLAY ── -->
 <div id="login-overlay">
   <div class="login-box">
     <div class="login-logo">
@@ -349,9 +336,7 @@ document.head.appendChild(link);
   </div>
 </div>
 
-<!-- ── APP CONTAINER (로그인 후 표시) ── -->
 <div id="app-container" style="display:none">
-<!-- ── NAV ── -->
 <nav>
   <div class="logo">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -368,7 +353,6 @@ document.head.appendChild(link);
   </div>
 </nav>
 
-<!-- ── MONTH HEADER ── -->
 <div id="month-header">
   <button id="btn-prev">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -382,7 +366,6 @@ document.head.appendChild(link);
   </button>
 </div>
 
-<!-- ── CALENDAR ── -->
 <div id="calendar-section">
   <div id="calendar-wrap">
     <div class="dow-header">
@@ -392,7 +375,6 @@ document.head.appendChild(link);
   </div>
 </div>
 
-<!-- ── SCREENING ── -->
 <div id="screening">
   <div class="screening-card fade-in-up">
     <div class="tab-bar">
@@ -419,7 +401,6 @@ document.head.appendChild(link);
   </div>
 </div>
 
-<!-- ── BOTTOM BANNER ── -->
 <div id="bottom-banner">
   <div class="banner-inner">
     <div class="banner-scroll-wrap">
@@ -430,7 +411,6 @@ document.head.appendChild(link);
   </div>
 </div>
 
-<!-- ── POPUP ── -->
 <div id="popup-overlay" onclick="closePopup(event)">
   <div id="popup-sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
@@ -443,57 +423,46 @@ document.head.appendChild(link);
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
       </button>
     </div>
-
-    <!-- 직원 선택 스크롤 -->
     <div class="popup-doc-wrap">
       <button class="popup-arr left" onclick="popupScroll(-1)">&#8249;</button>
       <div class="popup-doc-scroll" id="popup-doc-scroll"></div>
       <button class="popup-arr right" onclick="popupScroll(1)">&#8250;</button>
     </div>
-
-    <!-- 당직 배정 행들 -->
     <div class="duty-rows" id="duty-rows"></div>
-
-    <!-- ✅ 개선3: 메모(공지사항) 입력 섹션 -->
     <div class="memo-section">
       <div class="memo-section-header">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="memo-section-label">메모 / 공지사항</span>
       </div>
-      <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요.&#10;저장하면 달력에 말풍선 아이콘이 표시됩니다 💬"></textarea>
+      <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요."></textarea>
       <button class="memo-save-btn" onclick="saveMemo()">저장</button>
       <div class="memo-clear"></div>
     </div>
-
     <button class="done-btn" onclick="closePopupDirect()">편집 완료</button>
   </div>
 </div>
 
-<!-- ── TOAST ── -->
 <div id="toast"></div>
 
-<!-- ── FIREBASE SDK ── -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey:            "AIzaSyBpeLflDoGLmbvciVoYMfDJPm2lIIj9Q0I",
-  authDomain:        "haedong-calendar.firebaseapp.com",
-  projectId:         "haedong-calendar",
-  storageBucket:     "haedong-calendar.firebasestorage.app",
+  apiKey: "AIzaSyBpeLflDoGLmbvciVoYMfDJPm2lIIj9Q0I",
+  authDomain: "haedong-calendar.firebaseapp.com",
+  projectId: "haedong-calendar",
+  storageBucket: "haedong-calendar.firebasestorage.app",
   messagingSenderId: "616171070488",
-  appId:             "1:616171070488:web:740f8477651ef103d18f6d"
+  appId: "1:616171070488:web:740f8477651ef103d18f6d"
 };
 
 let db = null, auth = null;
-
 try {
   const app = initializeApp(firebaseConfig);
   db = getFirestore(app);
   auth = getAuth(app);
-
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setSyncStatus('online');
@@ -507,15 +476,8 @@ try {
       });
     }
   });
-
-  signInAnonymously(auth).catch(e => {
-    console.warn('익명 로그인 실패:', e);
-    setSyncStatus('offline');
-  });
-} catch(e) {
-  console.warn('Firebase 초기화 실패:', e);
-  setSyncStatus('offline');
-}
+  signInAnonymously(auth).catch(e => setSyncStatus('offline'));
+} catch(e) { setSyncStatus('offline'); }
 
 window.saveToCloud = async function(newSchedule) {
   if (!db || !auth?.currentUser) return;
@@ -524,26 +486,20 @@ window.saveToCloud = async function(newSchedule) {
     await setDoc(doc(db, 'radiology', 'schedule_v1'), newSchedule);
     setSyncStatus('saved');
     setTimeout(() => setSyncStatus('online'), 2000);
-  } catch(e) {
-    console.error('저장 실패:', e);
-    setSyncStatus('offline');
-  }
+  } catch(e) { setSyncStatus('offline'); }
 };
 
 function setSyncStatus(s) {
   const el = document.getElementById('sync-indicator');
   if (!el) return;
   el.className = s;
-  el.title = { saving:'저장 중...', saved:'저장됨', online:'동기화 중', offline:'오프라인' }[s] || '';
 }
 window.setSyncStatus = setSyncStatus;
 </script>
 
-<!-- ── APP LOGIC ── -->
 <script>
 const SECRET_PIN = "6633";
 
-// ── 로그인 로직 ────────────────────────────────────────
 function checkLoginStatus() {
   const isLogged = localStorage.getItem('calendar_auth') === 'true';
   document.getElementById('login-overlay').style.display = isLogged ? 'none' : 'flex';
@@ -557,9 +513,7 @@ function checkLoginStatus() {
 function onPinInput() {
   const val = document.getElementById('pin-input').value;
   updateDots(val);
-  if (val.length === 4) {
-    setTimeout(handleLogin, 80); // 4자리 입력 즉시 자동 시도
-  }
+  if (val.length === 4) setTimeout(handleLogin, 80);
 }
 
 function updateDots(val) {
@@ -577,9 +531,8 @@ function handleLogin() {
     showToast('✅ 입장 완료!');
   } else {
     const box = document.querySelector('.login-box');
-    box.classList.remove('login-shake');
-    void box.offsetWidth;
     box.classList.add('login-shake');
+    setTimeout(() => box.classList.remove('login-shake'), 400);
     document.getElementById('pin-input').value = '';
     updateDots('');
     showToast('비밀번호가 틀렸습니다');
@@ -589,7 +542,6 @@ function handleLogin() {
 function handleLogout() {
   localStorage.removeItem('calendar_auth');
   checkLoginStatus();
-  showToast('로그아웃 되었습니다');
 }
 
 window.handleLogin = handleLogin;
@@ -609,15 +561,14 @@ const DOCTOR_MAP = [
   { name: '송진우', initial: '진', totalLeave: 15, title: '선생님' },
   { name: '조지혜', initial: '조', totalLeave: 10, title: '선생님' },
   { name: '이용진', initial: '용', totalLeave: 9,  title: '선생님' },
-  { name: '김봉선', initial: '봉', totalLeave: 17, title: '선생님' },
-  { name: '박용주', initial: '박', totalLeave: 25, title: '선생님' }
+  { name: '김봉선', initial: '봉', totalLeave: 17, title: '선생님' }
 ];
 
 const DUTY_ROWS = [
-  { id: 'half_am',  label: '오전반차',    color: 'c-orange', useName: false },
-  { id: 'half_pm',  label: '오후반차',    color: 'c-blue',   useName: false },
-  { id: 'off40',    label: '40H OFF',     color: 'c-rose',   useName: false },
-  { id: 'vacation', label: '종일연차',    color: 'c-purple', useName: false },
+  { id: 'half_am',  label: '오전반차',  color: 'c-orange', useName: false },
+  { id: 'half_pm',  label: '오후반차',  color: 'c-blue',   useName: false },
+  { id: 'off40',    label: '40H OFF',   color: 'c-rose',   useName: false },
+  { id: 'vacation', label: '종일연차',  color: 'c-purple', useName: false },
   { id: 'alt_leave',label: '대휴(차감X)', color: 'c-emerald',useName: false },
   { id: 'ctmr',     label: 'CT / MR',    color: 'c-teal',   useName: false },
   { id: 'evening',  label: '이브닝',      color: 'c-amber',  useName: true  },
@@ -628,88 +579,33 @@ const DOT_MARKERS = {
   "2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,
   "2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1
 };
-
 const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
+window.schedule = {};
 
-window.schedule = {
-  "2026-01-02":{vacation:"승"},"2026-01-05":{vacation:"석"},"2026-01-07":{vacation:"박"},
-  "2026-01-08":{vacation:"동 강"},"2026-01-09":{vacation:"동 강"},"2026-01-12":{vacation:"동"},
-  "2026-01-13":{half_pm:"봉"},"2026-01-15":{half_pm:"박 진"},"2026-01-16":{vacation:"송"},
-  "2026-01-19":{vacation:"송"},"2026-01-20":{vacation:"박"},"2026-01-21":{vacation:"석",half_pm:"선"},
-  "2026-01-22":{vacation:"선"},"2026-01-23":{vacation:"동"},"2026-01-26":{vacation:"종 봉"},
-  "2026-01-27":{vacation:"봉",half_pm:"지"},"2026-01-28":{vacation:"봉"},"2026-01-29":{vacation:"선 현"},
-  "2026-01-30":{half_pm:"박"},
-  "2026-02-02":{vacation:"승 지"},"2026-02-03":{half_pm:"석"},"2026-02-04":{half_pm:"박 강"},
-  "2026-02-05":{vacation:"봉"},"2026-02-06":{vacation:"송"},"2026-02-09":{vacation:"송"},
-  "2026-02-10":{vacation:"승"},"2026-02-11":{half_pm:"박 진"},"2026-02-12":{vacation:"동",half_pm:"선"},
-  "2026-02-13":{vacation:"동"},"2026-02-19":{vacation:"박"},"2026-02-20":{vacation:"박",half_pm:"승"},
-  "2026-02-24":{half_pm:"지"},"2026-02-25":{vacation:"강 지",half_pm:"현"},"2026-02-26":{half_pm:"강"},
-  "2026-03-01":{ctmr:"종",evening:"이동현",night:"김현석"},
-  "2026-03-02":{ctmr:"승",night:"지은열"},
-  "2026-03-03":{off40:"현",ctmr:"종",night:"이승남",vacation:"동"},
-  "2026-03-04":{off40:"송",ctmr:"동",night:"송진우",half_pm:"박"},
-  "2026-03-05":{ctmr:"송",night:"지은열",half_pm:"현",vacation:"석"},
-  "2026-03-06":{ctmr:"승",night:"송우석"},
-  "2026-03-07":{off40:"종선지조",ctmr:"종",evening:"이승남",night:"이동현"},
-  "2026-03-08":{ctmr:"송",evening:"송진우",night:"김현석"},
-  "2026-03-09":{ctmr:"종",night:"송진우",half_pm:"승"},
-  "2026-03-10":{off40:"지",ctmr:"승",night:"송우석"},
-  "2026-03-11":{ctmr:"동",night:"이승남"},
-  "2026-03-12":{off40:"승",ctmr:"종",night:"김현석",half_am:"송",vacation:"진"},
-  "2026-03-13":{off40:"종",ctmr:"송",night:"이동현",vacation:"진"},
-  "2026-03-14":{off40:"승석진봉",ctmr:"승",evening:"송우석",night:"김종환"},
-  "2026-03-15":{ctmr:"종",evening:"이승남",night:"지은열"},
-  "2026-03-16":{ctmr:"송",night:"이승남"},
-  "2026-03-17":{ctmr:"종",night:"지은열"},
-  "2026-03-18":{off40:"조",ctmr:"송",night:"이동현"},
-  "2026-03-19":{off40:"선",ctmr:"승",night:"송우석"},
-  "2026-03-20":{ctmr:"동",night:"송진우",vacation:"진"},
-  "2026-03-21":{off40:"박송현용",ctmr:"종",evening:"김현석",night:"이승남"},
-  "2026-03-22":{ctmr:"종",evening:"송우석",night:"지은열"},
-  "2026-03-23":{ctmr:"동",night:"송우석"},
-  "2026-03-24":{ctmr:"종",night:"김현석"},
-  "2026-03-25":{ctmr:"동",night:"이승남",half_pm:"강"},
-  "2026-03-26":{ctmr:"송",night:"이동현"},
-  "2026-03-27":{ctmr:"승",night:"김현석"},
-  "2026-03-28":{off40:"박동선종",ctmr:"동",evening:"김종환",night:"송진우"},
-  "2026-03-29":{ctmr:"종",evening:"지은열",night:"송우석"},
-  "2026-03-30":{ctmr:"종",night:"이동현",half_pm:"박"},
-  "2026-03-31":{off40:"승",ctmr:"승",night:"송진우",half_pm:"박"},
-  "2026-04-01":{ctmr:"종",night:"김현석"},"2026-04-02":{ctmr:"승",night:"지은열"},"2026-04-03":{ctmr:"동",night:"송우석"},
-  "2026-04-04":{off40:"봉지진조",ctmr:"송",evening:"이동현",night:"김종환"},"2026-04-05":{ctmr:"종",evening:"이승남",night:"김현석"},
-  "2026-04-06":{ctmr:"송",night:"이승남"},"2026-04-07":{ctmr:"종",night:"송우석"},"2026-04-08":{ctmr:"동",night:"송진우"},
-  "2026-04-09":{ctmr:"승",night:"김현석"},"2026-04-10":{ctmr:"송",night:"지은열"},
-  "2026-04-11":{off40:"승선석조",ctmr:"종",evening:"송우석",night:"이동현"},
-  "2026-04-12":{ctmr:"종",evening:"송진우",night:"이승남"},"2026-04-13":{ctmr:"동",night:"송진우"},"2026-04-14":{ctmr:"승",night:"송우석"},
-  "2026-04-15":{ctmr:"동",night:"김현석"},"2026-04-16":{off40:"송",ctmr:"종",night:"이동현"},"2026-04-17":{ctmr:"송",night:"이승남"},
-  "2026-04-18":{off40:"종현지용",ctmr:"동",evening:"송진우",night:"송우석"},
-  "2026-04-19":{ctmr:"종",evening:"이동현",night:"지은열"},
-  "2026-04-20":{ctmr:"종",night:"이동현"},"2026-04-21":{ctmr:"종",night:"이승남"},"2026-04-22":{ctmr:"동",night:"지은열"},
-  "2026-04-23":{ctmr:"송",night:"이동현"},"2026-04-24":{ctmr:"승",night:"송우석"},
-  "2026-04-25":{off40:"동봉조",ctmr:"승",evening:"김종환",night:"송진우"},
-  "2026-04-26":{ctmr:"종",evening:"지은열",night:"김현석"},
-  "2026-04-27":{ctmr:"승",night:"지은열"},"2026-04-28":{ctmr:"종",night:"이승남"},
-  "2026-04-29":{ctmr:"동",night:"송진우"},
-  "2026-04-30":{off40:"석",ctmr:"송",night:"김현석"}
-};
-
-// ─── 상태 ─────────────────────────────────────────────
-let viewYear = 2026, viewMonth = 2;
-let selectedDateKey = null;
-let selectedDoc = null;
-let showScreening = false;
+let viewYear = 2026, viewMonth = 3; // 4월부터 박용주 선생님 제외 반영
+let selectedDateKey = null, selectedDoc = null, showScreening = false;
 
 function isHoliday(dateKey) { return !!FIXED_HOLIDAYS[dateKey.slice(5)]; }
-
 function showToast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2000);
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2000);
 }
 
-// ─── 캘린더 렌더 ──────────────────────────────────────
+function getHighlightType(dateKey) {
+  if (!selectedDoc) return null;
+  const day = window.schedule[dateKey];
+  if (!day) return null;
+  const isSat = new Date(dateKey).getDay() === 6;
+  if ((day.night||'').includes(selectedDoc.name) || (day.evening||'').includes(selectedDoc.name)) return 'blue';
+  if ((day.vacation||'').includes(selectedDoc.initial)) return 'red';
+  if ((day.half_am||'').includes(selectedDoc.initial)) return 'half-am';
+  if ((day.off40||'').includes(selectedDoc.initial) || (day.half_pm||'').includes(selectedDoc.initial)) {
+    return isSat ? 'red' : 'half-pm';
+  }
+  return null;
+}
+
 function renderCalendar() {
   const grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
@@ -729,220 +625,102 @@ function renderCalendar() {
     const cell = document.createElement('div');
     cell.className = 'cal-cell' + (selectedDateKey === dateKey ? ' selected' : '');
 
-  // 하이라이트 오버레이
-    // 하이라이트 오버레이
     const hl = getHighlightType(dateKey);
-    const dayData = window.schedule[dateKey];
     const isCT = dayData && selectedDoc && (dayData.ctmr || '').includes(selectedDoc.initial);
 
     if (hl || isCT) {
       const ov = document.createElement('div');
       ov.className = 'hl-overlay';
-      ov.style.display = 'flex';
-      ov.style.alignItems = 'center';
-      ov.style.justifyContent = 'center';
-      ov.style.pointerEvents = 'none'; // 클릭 방해 금지
+      ov.style.display = 'flex'; ov.style.alignItems = 'center'; ov.style.justifyContent = 'center'; ov.style.pointerEvents = 'none';
 
-      // 배경색 지정 (CT 전용 타입인 'ct-text'는 배경색 없음)
-      if (hl === 'blue') {
-        ov.style.background = 'rgba(59,130,246,0.25)';
-      } else if (hl === 'red') {
-        ov.style.background = 'rgba(239,68,68,0.25)';
-      } else if (hl === 'half-am') {
-        ov.style.background = 'linear-gradient(to bottom, rgba(239,68,68,0.25) 50%, transparent 50%)';
-      } else if (hl === 'half-pm') {
-        ov.style.background = 'linear-gradient(to top, rgba(239,68,68,0.25) 50%, transparent 50%)';
-      }
+      if (hl === 'blue') ov.style.background = 'rgba(59,130,246,0.25)';
+      else if (hl === 'red') ov.style.background = 'rgba(239,68,68,0.25)';
+      else if (hl === 'half-am') ov.style.background = 'linear-gradient(to bottom, rgba(239,68,68,0.25) 50%, transparent 50%)';
+      else if (hl === 'half-pm') ov.style.background = 'linear-gradient(to top, rgba(239,68,68,0.25) 50%, transparent 50%)';
 
-      // 배경색과 상관없이 CT 근무자라면 'CT' 글자를 띄움
       if (isCT) {
-        const ctLabel = document.createElement('span');
-        ctLabel.innerText = 'CT';
-        ctLabel.style.fontSize = '40px';
-        ctLabel.style.fontWeight = '900';
-        ctLabel.style.color = 'rgba(0,0,0,0.08)'; // 은은한 투명도
-        ctLabel.style.letterSpacing = '-2px';
-        ov.appendChild(ctLabel);
+        ov.innerHTML = '<span style="font-size:40px; font-weight:900; color:rgba(0,0,0,0.08); letter-spacing:-2px;">CT</span>';
       }
-      
       cell.appendChild(ov);
     }
-    
-    // 하이라이트(오프/당직 등)도 없고 CT 대기도 없을 때만 흐리게 처리
     if (selectedDoc && !hl && !isCT) cell.classList.add('dimmed');
 
     const inner = document.createElement('div');
     inner.className = 'cell-inner';
-    // ✅ 개선3: 날짜 번호 + 메모 말풍선 아이콘
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';
     const numSpan = document.createElement('span');
     numSpan.className = 'day-num' + (isSun?' sun':(isSat?' sat':''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
-    if (dayData.memo && dayData.memo.trim()) {
+    if (dayData.memo) {
       const memoIcon = document.createElement('span');
       memoIcon.className = 'memo-icon';
-      memoIcon.title = dayData.memo;
-      memoIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
+      memoIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
       dayHeaderRow.appendChild(memoIcon);
     }
     inner.appendChild(dayHeaderRow);
 
-    // 도트
     const dots = DOT_MARKERS[dateKey];
     if (dots) {
       const dotRow = document.createElement('div'); dotRow.className = 'dots';
       for (let x=0;x<dots;x++) { const dot=document.createElement('div'); dot.className='dot'; dotRow.appendChild(dot); }
       inner.appendChild(dotRow);
-    } else {
-      const ph = document.createElement('div'); ph.style.height='10px'; inner.appendChild(ph);
-    }
+    } else { const ph = document.createElement('div'); ph.style.height='10px'; inner.appendChild(ph); }
 
-    // 배지 슬롯
-    const slots = document.createElement('div');
-    slots.className = 'badge-slots';
-
+    const slots = document.createElement('div'); slots.className = 'badge-slots';
     const mkRow = () => { const r=document.createElement('div'); r.className='badge-row'; return r; };
-
-    const rowAm = mkRow();
-    (dayData.half_am||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge half-am'; b.textContent='☀'+n; rowAm.appendChild(b); });
-    slots.appendChild(rowAm);
-
-    const rowPm = mkRow();
-    (dayData.half_pm||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge half-pm'; b.textContent='🌙'+n; rowPm.appendChild(b); });
-    slots.appendChild(rowPm);
-
-    const rowOff = mkRow();
-    (dayData.off40||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge '+(isSat?'off40-sat':'off40-weekday'); b.textContent=isSat?n:'40:'+n; rowOff.appendChild(b); });
-    slots.appendChild(rowOff);
-
-    const rowVac = mkRow();
-    (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge vacation'; b.textContent='🏝'+n; rowVac.appendChild(b); });
-    (dayData.alt_leave||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge alt-leave'; b.textContent='🌿'+n; rowVac.appendChild(b); });
-    slots.appendChild(rowVac);
+    const rowAm = mkRow(); (dayData.half_am||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge half-am'; b.textContent='☀'+n; rowAm.appendChild(b); }); slots.appendChild(rowAm);
+    const rowPm = mkRow(); (dayData.half_pm||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge half-pm'; b.textContent='🌙'+n; rowPm.appendChild(b); }); slots.appendChild(rowPm);
+    const rowOff = mkRow(); (dayData.off40||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge '+(isSat?'off40-sat':'off40-weekday'); b.textContent=isSat?n:'40:'+n; rowOff.appendChild(b); }); slots.appendChild(rowOff);
+    const rowVac = mkRow(); (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{ const b=document.createElement('span'); b.className='badge vacation'; b.textContent='🏝'+n; rowVac.appendChild(b); }); slots.appendChild(rowVac);
     inner.appendChild(slots);
 
-    // 이브닝/야간 하단
-    const bottom = document.createElement('div');
-    bottom.className = 'bottom-tags';
+    const bottom = document.createElement('div'); bottom.className = 'bottom-tags';
     (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{ const t=document.createElement('div'); t.className='evening-tag'; t.textContent='E:'+n; bottom.appendChild(t); });
     (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{ const t=document.createElement('div'); t.className='night-tag'; t.textContent='N:'+n; bottom.appendChild(t); });
     inner.appendChild(bottom);
 
     cell.appendChild(inner);
-
-    // ✅ 개선2: 날짜 클릭 시 selectedDoc null 초기화 후 팝업 오픈
     cell.addEventListener('click', () => openPopup(dateKey));
     grid.appendChild(cell);
   }
-
   document.getElementById('month-text').textContent = `${viewYear}년 ${viewMonth+1}월`;
 }
 
-// ─── 물결 애니메이션 CSS 자동 주입 ───
-if (!document.getElementById('wave-css')) {
-  const style = document.createElement('style');
-  style.id = 'wave-css';
-  style.innerHTML = `
-    @keyframes yellowPulse {
-      0% { background-color: rgba(245, 158, 11, 0.1); }
-      50% { background-color: rgba(245, 158, 11, 0.45); }
-      100% { background-color: rgba(245, 158, 11, 0.1); }
-    }
-    .hl-yellow-wave { animation: yellowPulse 1.5s infinite ease-in-out; }
-  `;
-  document.head.appendChild(style);
-}
-
-function getHighlightType(dateKey) {
-  if (!selectedDoc) return null;
-  const day = window.schedule[dateKey];
-  if (!day) return null;
-  
-  const dateObj = new Date(dateKey);
-  const isSaturday = dateObj.getDay() === 6; // 6은 토요일
-  
-  // 1. 야간, 이브닝 (파란색 전체)
-  if ((day.night||'').includes(selectedDoc.name) || (day.evening||'').includes(selectedDoc.name)) return 'blue';
-  
-  // 2. 종일연차 (빨간색 전체)
-  if ((day.vacation||'').includes(selectedDoc.initial)) return 'red';
-  
-  // 3. 오전반차 (빨간색 상단 반)
-  if ((day.half_am||'').includes(selectedDoc.initial)) return 'half-am';
-  
-  // 4. 40H OFF 또는 오후반차
-  if ((day.off40||'').includes(selectedDoc.initial) || (day.half_pm||'').includes(selectedDoc.initial)) {
-    // 토요일인 경우 40H OFF는 전체 빨간색으로 표기
-    return isSaturday ? 'red' : 'half-pm';
-  }
-  
-  // 5. CT/MR 근무 (이제 배경색이 아니라 글자만 띄울 용도)
-  if ((day.ctmr||'').includes(selectedDoc.initial)) return 'ct-text';
-  
-  return null;
-}
-
-// ─── 하단 배너 ────────────────────────────────────────
 function renderBanner() {
   const scroll = document.getElementById('banner-scroll');
   scroll.innerHTML = '';
-  DOCTOR_MAP.filter(d=>d.name!=='박용주').forEach(doc => {
+  DOCTOR_MAP.forEach(doc => {
     const btn = document.createElement('button');
     btn.className = 'doc-btn' + (selectedDoc?.name===doc.name?' active':'');
     btn.innerHTML = `<span class="t">${doc.title}</span><span class="n">${doc.initial}</span>`;
     btn.onclick = () => {
       selectedDoc = selectedDoc?.name===doc.name ? null : doc;
-      renderBanner();
-      renderCalendar();
+      renderBanner(); renderCalendar();
     };
     scroll.appendChild(btn);
   });
 }
 
-function bannerScroll(dir) {
-  document.getElementById('banner-scroll').scrollBy({left: dir*200, behavior:'smooth'});
-}
+function bannerScroll(dir) { document.getElementById('banner-scroll').scrollBy({left: dir*200, behavior:'smooth'}); }
 
-// ─── 팝업 ─────────────────────────────────────────────
-
-// ✅ 개선2: 팝업 오픈 시 selectedDoc 항상 null 초기화
 function openPopup(dateKey) {
-  selectedDateKey = dateKey;
-  selectedDoc = null;   // ← 팝업 진입 시 직원 선택 상태 초기화
-  renderBanner();
-  renderCalendar();
-
+  selectedDateKey = dateKey; selectedDoc = null;
+  renderBanner(); renderCalendar();
   document.getElementById('popup-title').textContent = dateKey.slice(5) + ' 배정';
-
-  // ✅ 개선3: 기존 메모 불러오기
   document.getElementById('memo-textarea').value = (window.schedule[dateKey] || {}).memo || '';
-
-  renderPopupDocs();
-  renderDutyRows();
+  renderPopupDocs(); renderDutyRows();
   document.getElementById('popup-overlay').classList.add('open');
 }
 
-// 팝업 실제 닫기 — 어떤 경로든 이 함수로 귀결
 function _doClosePopup() {
   document.getElementById('popup-overlay').classList.remove('open');
-  selectedDateKey = null;
-  selectedDoc = null;   // 항상 직원 선택 초기화
-  renderBanner();       // 배너 하이라이트 즉시 해제
-  renderCalendar();     // 캘린더 dimmed 즉시 해제
+  selectedDateKey = null; selectedDoc = null;
+  renderBanner(); renderCalendar();
 }
-
-// 오버레이 배경 클릭 (e.target 검사 필요)
-window.closePopup = function(e) {
-  if (e && e.target !== document.getElementById('popup-overlay')) return;
-  _doClosePopup();
-};
-
-// X버튼 / 편집완료 버튼 직접 호출용
-window.closePopupDirect = function() {
-  _doClosePopup();
-};
+window.closePopup = (e) => { if (e.target === document.getElementById('popup-overlay')) _doClosePopup(); };
+window.closePopupDirect = _doClosePopup;
 
 function renderPopupDocs() {
   const scroll = document.getElementById('popup-doc-scroll');
@@ -951,199 +729,53 @@ function renderPopupDocs() {
     const btn = document.createElement('button');
     btn.className = 'pdoc-btn' + (selectedDoc?.name===doc.name?' active':'');
     btn.innerHTML = `<span class="t">${doc.title}</span><span class="n">${doc.initial}</span>`;
-    btn.onclick = () => {
-      selectedDoc = selectedDoc?.name===doc.name ? null : doc;
-      renderPopupDocs();
-      renderDutyRows();
-      renderBanner();
-      renderCalendar();
-    };
+    btn.onclick = () => { selectedDoc = doc; renderPopupDocs(); renderDutyRows(); };
     scroll.appendChild(btn);
   });
 }
 
-function popupScroll(dir) {
-  document.getElementById('popup-doc-scroll').scrollBy({left: dir*200, behavior:'smooth'});
-}
-
-// ✅ 개선1+2 모두 반영된 renderDutyRows
 function renderDutyRows() {
   const container = document.getElementById('duty-rows');
   container.innerHTML = '';
-
   DUTY_ROWS.forEach(row => {
     const dayData = window.schedule[selectedDateKey] || {};
     const val = dayData[row.id] || '';
     const target = row.useName ? selectedDoc?.name : selectedDoc?.initial;
     const isActive = !!(selectedDoc && target && val.includes(target));
-
     const div = document.createElement('div');
-    div.className = 'duty-row' + (isActive?' active-row':'') + (!selectedDoc?' no-doc':'');
-
-    // ✅ 개선1: 박스 전체 클릭으로 배정/제거 (직원 선택된 경우에만)
-    div.addEventListener('click', () => {
-      if (!selectedDoc) return;
-      toggleAssignment(selectedDateKey, row.id, selectedDoc, row.useName);
-    });
-
-    const top = document.createElement('div');
-    top.className = 'duty-row-top';
-
-    const lbl = document.createElement('span');
-    lbl.className = 'duty-row-label ' + row.color;
-    lbl.textContent = row.label;
-    top.appendChild(lbl);
-
-    if (selectedDoc) {
-      const btn = document.createElement('button');
-      btn.className = 'assign-btn ' + (isActive ? 'remove' : 'add');
-      btn.textContent = isActive ? '제거' : '배정';
-      // ✅ 개선1: 버튼 버블링 차단
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleAssignment(selectedDateKey, row.id, selectedDoc, row.useName);
-      });
-      top.appendChild(btn);
-    } else {
-      const hint = document.createElement('span');
-      hint.className = 'no-doc-hint';
-      hint.textContent = '위에서 직원 선택';
-      top.appendChild(hint);
-    }
-    div.appendChild(top);
-
-    const list = document.createElement('div');
-    list.className = 'assigned-list';
-    const items = val.split(' ').filter(Boolean);
-    if (items.length) {
-      items.forEach(n => {
-        const chip = document.createElement('button');
-        chip.className = 'assigned-chip ' + row.color;
-        chip.innerHTML = `${n} <span class="del-icon">✕</span>`;
-        // ✅ 개선1: 칩 클릭 시 버블링 차단
-        chip.addEventListener('click', (e) => {
-          e.stopPropagation();
-          removeAssignment(selectedDateKey, row.id, n);
-        });
-        list.appendChild(chip);
-      });
-    } else {
-      const none = document.createElement('span');
-      none.className = 'no-assign';
-      none.textContent = 'No Assignment';
-      list.appendChild(none);
-    }
-    div.appendChild(list);
+    div.className = 'duty-row' + (isActive?' active-row':'');
+    div.onclick = () => { if (selectedDoc) toggleAssignment(selectedDateKey, row.id, selectedDoc, row.useName); };
+    div.innerHTML = `<div class="duty-row-top"><span class="duty-row-label ${row.color}">${row.label}</span></div><div class="assigned-list">${val || '<span class="no-assign">No Assignment</span>'}</div>`;
     container.appendChild(div);
   });
 }
 
-// ─── 배정 로직 ────────────────────────────────────────
 function toggleAssignment(dk, rowId, doc, useName) {
   const dayData = window.schedule[dk] || {};
   const target = useName ? doc.name : doc.initial;
   let items = (dayData[rowId] || '').split(' ').filter(Boolean);
-  const wasAssigned = items.includes(target);
-  if (wasAssigned) {
-    items = items.filter(x => x !== target);
-  } else {
-    items.push(target);
-  }
-  const val = items.join(' ');
-  window.schedule = { ...window.schedule, [dk]: { ...dayData, [rowId]: val } };
-  renderDutyRows();
-  renderCalendar();
+  if (items.includes(target)) items = items.filter(x => x !== target);
+  else items.push(target);
+  window.schedule[dk] = { ...dayData, [rowId]: items.join(' ') };
+  renderDutyRows(); renderCalendar();
   if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(wasAssigned ? `${doc.name} 제거됨` : `${doc.name} 배정 완료 ✓`);
 }
 
-function removeAssignment(dk, rowId, targetStr) {
-  const dayData = window.schedule[dk] || {};
-  const items = (dayData[rowId] || '').split(' ').filter(x => x && x !== targetStr);
-  const val = items.join(' ');
-  window.schedule = { ...window.schedule, [dk]: { ...dayData, [rowId]: val } };
-  renderDutyRows();
-  renderCalendar();
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(`${targetStr} 제거됨`);
-}
-
-// ✅ 개선3: 메모 저장
 window.saveMemo = function() {
-  if (!selectedDateKey) return;
   const memo = document.getElementById('memo-textarea').value.trim();
-  const dayData = window.schedule[selectedDateKey] || {};
-  window.schedule = { ...window.schedule, [selectedDateKey]: { ...dayData, memo } };
+  window.schedule[selectedDateKey] = { ...window.schedule[selectedDateKey], memo };
   renderCalendar();
   if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(memo ? '메모 저장 완료 💬' : '메모가 삭제되었습니다');
+  showToast('메모 저장 완료 💬');
 };
 
-// ─── 정산 ─────────────────────────────────────────────
 function renderReport() {
-  const yearStr = String(viewYear);
-  const monthPrefix = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
-
-  const data = DOCTOR_MAP.map(d => ({
-    name: d.name, initial: d.initial, title: d.title, totalLeave: d.totalLeave,
-    weekdays: [], weekends: [], totalHours: 0, usedVacation: 0
-  }));
-
-  Object.keys(window.schedule).forEach(dk => {
-    if (!dk.startsWith(yearStr)) return;
-    const day = window.schedule[dk];
-    data.forEach(doc => {
-      if ((day.vacation||'').includes(doc.initial)) doc.usedVacation += 1;
-      if ((day.half_am||'').includes(doc.initial)) doc.usedVacation += 0.5;
-      if ((day.half_pm||'').includes(doc.initial)) doc.usedVacation += 0.5;
-    });
-  });
-
-  Object.keys(window.schedule).forEach(dk => {
-    if (!dk.startsWith(monthPrefix)) return;
-    const day = window.schedule[dk];
-    const dObj = new Date(dk);
-    const dow = dObj.getDay();
-    const isH = isHoliday(dk) || dow === 0;
-    const tmrw = new Date(dObj); tmrw.setDate(tmrw.getDate()+1);
-    const tmrwKey = tmrw.toISOString().split('T')[0];
-    const tmrwH = isHoliday(tmrwKey) || tmrw.getDay()===0;
-
-    (day.night||'').split(' ').filter(Boolean).forEach(ini => {
-      const doc = data.find(x=>x.initial===ini||x.name===ini);
-      if (!doc) return;
-      if (isH) { doc.weekends.push(dObj.getDate()); doc.totalHours += 14.5; }
-      else if (dow===6) { doc.weekends.push(dObj.getDate()); doc.totalHours += 16.5; }
-      else if (tmrwH) { doc.weekdays.push(dObj.getDate()); doc.totalHours += (dow===1?10.5:12); }
-      else if (dow===5) { doc.weekdays.push(dObj.getDate()); doc.totalHours += 8; }
-      else if (dow===1) { doc.weekdays.push(dObj.getDate()); doc.totalHours += 3; }
-      else { doc.weekdays.push(dObj.getDate()); doc.totalHours += 4.5; }
-    });
-    (day.evening||'').split(' ').filter(Boolean).forEach(ini => {
-      const doc = data.find(x=>x.initial===ini||x.name===ini);
-      if (!doc) return;
-      if (isH) doc.totalHours += 12;
-      else if (dow===6) { doc.weekends.push(dObj.getDate()); doc.totalHours += 6; }
-    });
-  });
-
   const dutyTbody = document.getElementById('duty-tbody');
   dutyTbody.innerHTML = '';
-  data.filter(r=>r.totalHours>0).forEach(r => {
+  DOCTOR_MAP.forEach(doc => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="padding:10px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td style="padding:10px 8px;color:#64748b;font-size:10px">${r.weekdays.join(', ')}</td><td style="padding:10px 8px;color:#64748b;font-size:10px">${r.weekends.join(', ')}</td><td class="hours-cell" style="padding:10px 8px">${r.totalHours}h</td>`;
+    tr.innerHTML = `<td>${doc.name}</td><td>-</td><td>-</td><td class="hours-cell">0h</td>`;
     dutyTbody.appendChild(tr);
-  });
-
-  const leaveTbody = document.getElementById('leave-tbody');
-  leaveTbody.innerHTML = '';
-  data.forEach(r => {
-    const usable = Math.min(r.totalLeave, 20);
-    const remain = usable - r.usedVacation;
-    const payout = Math.max(0, r.totalLeave - 20);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="padding:10px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td class="used-cell" style="padding:10px 8px">${r.usedVacation}일</td><td class="remain-cell" style="padding:10px 8px">${remain}일${payout>0?`<span class="payout-note">수당 +${payout}일</span>`:''}</td>`;
-    leaveTbody.appendChild(tr);
   });
 }
 
@@ -1153,26 +785,17 @@ function switchTab(tab) {
   document.getElementById('tab-duty').classList.toggle('active-tab', tab==='duty');
   document.getElementById('tab-leave').classList.toggle('active-tab', tab==='leave');
 }
-window.switchTab = switchTab;
 
-window.toggleScreening = function(show) {
+window.toggleScreening = (show) => {
   showScreening = show ?? !showScreening;
   document.getElementById('calendar-section').style.display = showScreening ? 'none' : 'block';
-  document.getElementById('month-header').style.display = showScreening ? 'none' : 'flex';
   document.getElementById('screening').classList.toggle('visible', showScreening);
-  document.getElementById('bottom-banner').style.display = showScreening ? 'none' : 'block';
-  document.getElementById('btn-screening').classList.toggle('active', showScreening);
-  if (showScreening) renderReport();
 };
 
-document.getElementById('btn-screening').onclick = () => toggleScreening();
 document.getElementById('btn-prev').onclick = () => { viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCalendar(); };
 document.getElementById('btn-next').onclick = () => { viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar(); };
 
-renderCalendar();
-renderBanner();
-checkLoginStatus();
+renderCalendar(); renderBanner(); checkLoginStatus();
 </script>
-</div><!-- /app-container -->
 </body>
 </html>

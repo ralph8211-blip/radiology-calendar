@@ -813,15 +813,41 @@ function renderCalendar() {
   document.getElementById('month-text').textContent = `${viewYear}년 ${viewMonth+1}월`;
 }
 
+// ─── 물결 애니메이션 CSS 자동 주입 ───
+if (!document.getElementById('wave-css')) {
+  const style = document.createElement('style');
+  style.id = 'wave-css';
+  style.innerHTML = `
+    @keyframes yellowPulse {
+      0% { background-color: rgba(245, 158, 11, 0.1); }
+      50% { background-color: rgba(245, 158, 11, 0.45); }
+      100% { background-color: rgba(245, 158, 11, 0.1); }
+    }
+    .hl-yellow-wave { animation: yellowPulse 1.5s infinite ease-in-out; }
+  `;
+  document.head.appendChild(style);
+}
+
 function getHighlightType(dateKey) {
   if (!selectedDoc) return null;
   const day = window.schedule[dateKey];
   if (!day) return null;
-  const isSat = new Date(dateKey).getDay() === 6;
+  
+  // 1. 야간, 이브닝 (파란색 전체)
   if ((day.night||'').includes(selectedDoc.name) || (day.evening||'').includes(selectedDoc.name)) return 'blue';
-  if ((day.vacation||'').includes(selectedDoc.initial) || (isSat && (day.off40||'').includes(selectedDoc.initial))) return 'red';
+  
+  // 2. CT/MR (노란색 물결)
+  if ((day.ctmr||'').includes(selectedDoc.initial)) return 'yellow';
+  
+  // 3. 종일연차 (빨간색 전체)
+  if ((day.vacation||'').includes(selectedDoc.initial)) return 'red';
+  
+  // 4. 오전반차 (빨간색 상단 반)
   if ((day.half_am||'').includes(selectedDoc.initial)) return 'half-am';
-  if ((day.half_pm||'').includes(selectedDoc.initial)) return 'half-pm';
+  
+  // 5. 오후반차 OR 40H OFF (빨간색 하단 반) - 요일 상관없이 무조건 하단!
+  if ((day.half_pm||'').includes(selectedDoc.initial) || (day.off40||'').includes(selectedDoc.initial)) return 'half-pm';
+  
   return null;
 }
 

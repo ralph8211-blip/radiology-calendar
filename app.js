@@ -973,19 +973,5 @@ document.getElementById('btn-next').onclick = () => { viewMonth++; if(viewMonth>
 renderCalendar();
 renderBanner();
 </script>
-  <style>
-    /* 1. 하단 배너를 예쁜 반투명 유리창으로 강제 변경 */
-    #bottom-banner {
-        background-color: rgba(15, 23, 42, 0.6) !important; /* 0.6으로 낮춰서 뒤가 더 잘 비치게! */
-        backdrop-filter: blur(8px) !important;
-        -webkit-backdrop-filter: blur(8px) !important;
-    }
-    
-    /* 2. 달력 맨 밑바닥 공간을 140px만큼 강제로 띄워버림 */
-    #calendar-section {
-        padding-bottom: 140px !important;
-    }
-</style>
 </body>
 </html>
-

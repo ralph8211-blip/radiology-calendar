@@ -975,3 +975,23 @@ renderBanner();
 </script>
 </body>
 </html>
+// --- 하단 배너 투명화 및 달력 밑창 늘리기 (자바스크립트 강제 적용) ---
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        // 1. 하단 배너를 반투명 유리처럼 만들기
+        const banner = document.getElementById('bottom-banner');
+        if (banner) {
+            // 기존 까만색을 무시하고 반투명(0.85) 검정으로 강제 변경
+            banner.style.setProperty('background-color', 'rgba(15, 23, 42, 0.85)', 'important');
+            banner.style.setProperty('backdrop-filter', 'blur(8px)', 'important');
+            banner.style.setProperty('-webkit-backdrop-filter', 'blur(8px)', 'important');
+        }
+        
+        // 2. 달력 맨 밑바닥에 쿠션(여백) 120px 강제 추가
+        const calSection = document.getElementById('calendar-section');
+        if (calSection) {
+            calSection.style.setProperty('padding-bottom', '120px', 'important');
+        }
+    }, 500); // 캘린더가 켜지고 0.5초 뒤에 기존 디자인을 강제로 바꿔치기!
+});
+// ----------------------------------------------------

@@ -973,26 +973,19 @@ document.getElementById('btn-next').onclick = () => { viewMonth++; if(viewMonth>
 renderCalendar();
 renderBanner();
 </script>
-  <script>
-// --- 하단 배너 투명화 및 달력 밑창 늘리기 (수정본) ---
-window.addEventListener('load', function() {
-    setTimeout(() => {
-        // 1. 배너 반투명 유리창 효과
-        const banner = document.getElementById('bottom-banner');
-        if (banner) {
-            banner.style.setProperty('background-color', 'rgba(15, 23, 42, 0.85)', 'important');
-            banner.style.setProperty('backdrop-filter', 'blur(8px)', 'important');
-            banner.style.setProperty('-webkit-backdrop-filter', 'blur(8px)', 'important');
-        }
-        
-        // 2. 달력 밑바닥 여백 120px 추가
-        const calSection = document.getElementById('calendar-section');
-        if (calSection) {
-            calSection.style.setProperty('padding-bottom', '120px', 'important');
-        }
-    }, 500);
-});
-</script>
+  <style>
+    /* 1. 하단 배너를 예쁜 반투명 유리창으로 강제 변경 */
+    #bottom-banner {
+        background-color: rgba(15, 23, 42, 0.6) !important; /* 0.6으로 낮춰서 뒤가 더 잘 비치게! */
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+    }
+    
+    /* 2. 달력 맨 밑바닥 공간을 140px만큼 강제로 띄워버림 */
+    #calendar-section {
+        padding-bottom: 140px !important;
+    }
+</style>
 </body>
 </html>
 

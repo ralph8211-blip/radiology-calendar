@@ -729,23 +729,22 @@ function renderCalendar() {
     const cell = document.createElement('div');
     cell.className = 'cal-cell' + (selectedDateKey === dateKey ? ' selected' : '');
 
-    // 하이라이트 오버레이
+   // 하이라이트 오버레이
     const hl = getHighlightType(dateKey);
     if (hl) {
       const ov = document.createElement('div');
       ov.className = 'hl-overlay';
-      ov.style.background =
-        hl==='blue'    ? 'rgba(59,130,246,0.25)' :
-        hl==='red'     ? 'rgba(239,68,68,0.25)' :
-        hl==='half-am' ? 'linear-gradient(to bottom,rgba(239,68,68,0.25) 50%,transparent 50%)' :
-                         'linear-gradient(to top,rgba(239,68,68,0.25) 50%,transparent 50%)';
+      if (hl === 'yellow') {
+        ov.classList.add('hl-yellow-wave'); // 노란색 물결 효과 강제 적용!
+      } else {
+        ov.style.background =
+          hl==='blue'    ? 'rgba(59,130,246,0.25)' :
+          hl==='red'     ? 'rgba(239,68,68,0.25)' :
+          hl==='half-am' ? 'linear-gradient(to bottom,rgba(239,68,68,0.25) 50%,transparent 50%)' :
+                           'linear-gradient(to top,rgba(239,68,68,0.25) 50%,transparent 50%)';
+      }
       cell.appendChild(ov);
     }
-    if (selectedDoc && !hl) cell.classList.add('dimmed');
-
-    const inner = document.createElement('div');
-    inner.className = 'cell-inner';
-
     // ✅ 개선3: 날짜 번호 + 메모 말풍선 아이콘
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';

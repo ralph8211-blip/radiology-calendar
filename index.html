@@ -827,8 +827,8 @@ function renderCalendar() {
 
     // 이브닝/야간 하단
     const bottom=document.createElement('div'); bottom.className='bottom-tags';
-    (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='evening-tag'+tagClass(n);t.textContent='E:'+n;bottom.appendChild(t);});
-    (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='night-tag'+tagClass(n);t.textContent='N:'+n;bottom.appendChild(t);});
+    (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='evening-tag'+tagClass(n);t.textContent=n;bottom.appendChild(t);});
+    (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='night-tag'+tagClass(n);t.textContent=n;bottom.appendChild(t);});
     inner.appendChild(bottom);
 
     cell.appendChild(inner);

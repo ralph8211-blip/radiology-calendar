@@ -62,7 +62,6 @@ document.head.appendChild(lnk);
   .login-shake { animation: shake 0.4s ease; }
   @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }
 
-  /* ── ROOT ── */
   :root {
     --navy: #1a237e;
     --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
@@ -74,7 +73,6 @@ document.head.appendChild(lnk);
     --amber-500: #f59e0b; --amber-600: #d97706;
     --teal-600: #0d9488; --orange-500: #f97316; --blue-600: #2563eb;
   }
-  /* ✅ 다크모드 강제 비활성화 — 갤럭시 등 안드로이드 다크테마 무시 */
   :root { color-scheme: light only; }
   @media (prefers-color-scheme: dark) {
     html { filter: none !important; }
@@ -84,7 +82,6 @@ document.head.appendChild(lnk);
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Malgun Gothic', sans-serif; background: var(--slate-100); color: var(--slate-800); min-height: 100dvh; overflow-x: hidden; }
 
-  /* ── NAV ── */
   nav { background: var(--navy); color: white; position: sticky; top: 0; z-index: 100; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
   nav .logo { display: flex; align-items: center; gap: 8px; }
   nav h1 { font-size: 17px; font-weight: 900; letter-spacing: -0.5px; }
@@ -97,15 +94,12 @@ document.head.appendChild(lnk);
   #sync-indicator.saved { color: #34d399; }
   #logout-btn { background: rgba(255,255,255,0.08) !important; }
 
-  /* ── MONTH HEADER ── */
   #month-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: white; border-bottom: 1px solid var(--slate-200); position: sticky; top: 56px; z-index: 90; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
   #month-header button { background: var(--slate-50); border: none; padding: 8px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   #month-title { text-align: center; }
   #month-title .label { font-size: 9px; font-weight: 900; color: var(--indigo-600); letter-spacing: 0.3em; text-transform: uppercase; }
   #month-title h2 { font-size: 20px; font-weight: 900; }
 
-  /* ── CALENDAR ── */
-  /* ✅ 개선3: 배너 높이만큼 하단 여백 확보 */
   #calendar-section { padding-bottom: 110px; }
   #calendar-wrap { max-width: 480px; margin: 0 auto; background: white; }
   .dow-header { display: grid; grid-template-columns: repeat(7,1fr); background: var(--slate-50); border-bottom: 1px solid var(--slate-200); }
@@ -116,23 +110,16 @@ document.head.appendChild(lnk);
   .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); }
   .cal-cell-empty { min-height: 185px; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; background: var(--slate-50); opacity: 0.4; }
   .cal-cell {
-    /* ✅ 개선2: 셀 높이 키움 */
-    min-height: 185px;
-    padding: 6px 4px 4px;
-    border-right: 1px solid #f1f5f9;
-    border-bottom: 1px solid #f1f5f9;
-    background: white;
-    position: relative; overflow: hidden; cursor: pointer;
+    min-height: 185px; padding: 6px 4px 4px;
+    border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
+    background: white; position: relative; overflow: hidden; cursor: pointer;
     display: flex; flex-direction: column; transition: background 0.15s;
   }
   .cal-cell.selected { background: #eef2ff; box-shadow: inset 0 0 0 2px var(--indigo-400); z-index: 2; }
-  /* ✅ 개선1: CT 워터마크 — 배지 전체 흐리기 제거, JS에서 개별 배지별로 처리 */
-  /* dimmed: 다른 직원 선택 시 */
   .cal-cell.dimmed { opacity: 0.12; filter: grayscale(0.8); }
   .hl-overlay { position: absolute; inset: 0; z-index: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
   .cell-inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
 
-  /* ✅ 개선2: 날짜 숫자 크게 */
   .day-header-row { display: flex; align-items: center; gap: 3px; margin-bottom: 3px; }
   .day-num { font-size: 18px; font-weight: 900; line-height: 1; }
   .day-num.sun { color: #f43f5e; }
@@ -146,11 +133,9 @@ document.head.appendChild(lnk);
 
   .badge-slots { display: flex; flex-direction: column; gap: 2px; }
   .badge-row { min-height: 16px; display: flex; flex-wrap: wrap; gap: 1px; }
-  /* CT 근무일: 본인 배지는 선명, 타인 배지는 흐리게 */
   .cal-cell.ct-day .badge.other-badge { opacity: 0.3; }
   .cal-cell.ct-day .evening-tag.other-tag { opacity: 0.3; }
   .cal-cell.ct-day .night-tag.other-tag { opacity: 0.3; }
-  /* ✅ 개선2: 배지 폰트 키움 */
   .badge { font-size: 10px; font-weight: 900; color: white; padding: 2px 5px; border-radius: 4px; line-height: 1.35; white-space: nowrap; }
   .badge.half-am { background: var(--orange-500); }
   .badge.half-pm { background: var(--blue-600); }
@@ -158,7 +143,6 @@ document.head.appendChild(lnk);
   .badge.off40-sat { background: #3730a3; }
   .badge.vacation { background: var(--purple-600); }
   .badge.alt-leave { background: white; color: var(--emerald-600); border: 1px solid var(--emerald-600); font-size: 9px; }
-  /* 대휴 사유별 뱃지 */
   .badge.alt-rest     { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; font-size: 9px; }
   .badge.alt-reserve  { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; font-size: 9px; }
   .badge.alt-event    { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; font-size: 9px; }
@@ -166,7 +150,6 @@ document.head.appendChild(lnk);
   .badge.alt-half-am  { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; font-size: 9px; }
   .badge.alt-half-pm  { background: #fdf2f8; color: #7e22ce; border: 1px solid #e879f9; font-size: 9px; }
 
-  /* 대휴 사유 선택 팝업 */
   #alt-reason-overlay {
     position: fixed; inset: 0; z-index: 500;
     background: rgba(2,6,23,0.7); backdrop-filter: blur(8px);
@@ -197,12 +180,10 @@ document.head.appendChild(lnk);
   .alt-reason-btn.type-half-pm { border-color: #e879f9; background: #fdf2f8; color: #7e22ce; }
   .alt-reason-cancel { width: 100%; padding: 13px; border: none; background: var(--slate-100); color: var(--slate-500); border-radius: 1.2rem; font-size: 14px; font-weight: 700; cursor: pointer; }
 
-  /* ✅ 개선2: E:/N: 태그 크게 */
   .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 3px; }
   .evening-tag { font-size: 11px; font-weight: 900; color: #92400e; background: #fef3c7; padding: 2px 4px; border-radius: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .night-tag { font-size: 11px; font-weight: 900; color: #3730a3; background: #e0e7ff; padding: 2px 4px; border-radius: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  /* ── BOTTOM BANNER ── */
   #bottom-banner { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; width: 95%; max-width: 440px; }
   .banner-inner { background: rgba(15,23,42,0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); border-radius: 2rem; padding: 10px 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.35); }
   .banner-scroll-wrap { position: relative; display: flex; align-items: center; }
@@ -216,7 +197,6 @@ document.head.appendChild(lnk);
   .doc-btn.active { background: white; color: var(--slate-900); border-color: var(--amber-500); transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
   .doc-btn.active::after { content:''; position:absolute; top:-4px; right:-4px; width:12px; height:12px; background:var(--amber-500); border-radius:50%; border:2px solid #0f172a; }
 
-  /* ── POPUP ── */
   #popup-overlay { position: fixed; inset: 0; z-index: 210; background: rgba(2,6,23,0.8); backdrop-filter: blur(12px); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   #popup-overlay.open { opacity: 1; pointer-events: all; }
   #popup-sheet { background: white; width: 100%; max-width: 480px; border-radius: 3rem 3rem 0 0; padding: 28px 24px 48px; max-height: 92dvh; overflow-y: auto; transform: translateY(40px); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
@@ -239,7 +219,6 @@ document.head.appendChild(lnk);
   .pdoc-btn .n { font-size: 14px; font-weight: 900; }
   .pdoc-btn.active { background: var(--indigo-600); color: white; border-color: var(--indigo-600); box-shadow: 0 2px 8px rgba(79,70,229,0.4); transform: scale(1.05); }
 
-  /* duty rows */
   .duty-rows { display: flex; flex-direction: column; gap: 10px; }
   .duty-row { border-radius: 2rem; border: 1px solid var(--slate-100); background: var(--slate-50); padding: 14px 16px; transition: all 0.2s; cursor: pointer; }
   .duty-row:hover { border-color: var(--slate-300); background: white; }
@@ -259,7 +238,6 @@ document.head.appendChild(lnk);
   .no-assign { font-size: 11px; color: var(--slate-300); font-style: italic; font-weight: 700; }
   .no-doc-hint { font-size: 10px; color: var(--slate-300); font-weight: 700; background: white; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--slate-200); white-space: nowrap; }
 
-  /* memo */
   .memo-section { margin-top: 24px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 2rem; padding: 16px 18px; }
   .memo-section-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
   .memo-section-label { font-size: 11px; font-weight: 900; color: var(--amber-600); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -272,7 +250,6 @@ document.head.appendChild(lnk);
   .done-btn { width: 100%; margin-top: 32px; background: var(--slate-900); color: white; border: none; padding: 18px; border-radius: 2rem; font-size: 16px; font-weight: 900; cursor: pointer; display: block; transition: all 0.15s; }
   .done-btn:active { transform: scale(0.98); }
 
-  /* screening */
   #screening { display: none; padding: 16px; max-width: 480px; margin: 0 auto; }
   #screening.visible { display: block; }
   .screening-card { background: white; border-radius: 2rem; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--slate-100); }
@@ -292,9 +269,6 @@ document.head.appendChild(lnk);
   .payout-note { display: block; font-size: 9px; color: var(--slate-400); font-weight: 400; margin-top: 1px; }
   .back-btn { width: 100%; margin-top: 24px; background: var(--slate-900); color: white; border: none; padding: 16px; border-radius: 2rem; font-size: 15px; font-weight: 900; cursor: pointer; }
 
-  /* toast */
-
-  /* ── 전체 공지사항 배너 ── */
   #notice-bar {
     max-width: 480px; margin: 0 auto;
     background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
@@ -307,31 +281,17 @@ document.head.appendChild(lnk);
     background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 20px);
     pointer-events: none;
   }
-  #notice-bar-inner {
-    display: flex; align-items: stretch; position: relative; z-index: 1;
-  }
+  #notice-bar-inner { display: flex; align-items: stretch; position: relative; z-index: 1; }
   #notice-label {
     background: #fbbf24; color: #1a237e;
     font-size: 11px; font-weight: 900;
     padding: 0 14px;
     display: flex; align-items: center; justify-content: center;
     white-space: nowrap; letter-spacing: 0.05em; flex-shrink: 0;
-    writing-mode: horizontal-tb;
   }
-  #notice-content-wrap {
-    flex: 1; padding: 10px 12px; min-height: 44px;
-    display: flex; align-items: center;
-  }
-  #notice-text {
-    color: white; font-size: 14px; font-weight: 600;
-    line-height: 1.5; word-break: keep-all;
-    opacity: 0.95;
-    white-space: pre-wrap;
-  }
-  #notice-text.empty {
-    font-size: 13px; color: rgba(255,255,255,0.35);
-    font-style: italic; font-weight: 400;
-  }
+  #notice-content-wrap { flex: 1; padding: 10px 12px; min-height: 44px; display: flex; align-items: center; }
+  #notice-text { color: white; font-size: 14px; font-weight: 600; line-height: 1.5; word-break: keep-all; opacity: 0.95; white-space: pre-wrap; }
+  #notice-text.empty { font-size: 13px; color: rgba(255,255,255,0.35); font-style: italic; font-weight: 400; }
   #notice-edit-btn {
     background: rgba(255,255,255,0.1); border: none;
     color: rgba(255,255,255,0.6); padding: 0 14px;
@@ -342,7 +302,6 @@ document.head.appendChild(lnk);
   #notice-edit-btn:hover { background: rgba(255,255,255,0.2); color: white; }
   #notice-edit-btn svg { width: 16px; height: 16px; }
 
-  /* 공지 편집 팝업 */
   #notice-popup-overlay {
     position: fixed; inset: 0; z-index: 400;
     background: rgba(2,6,23,0.75); backdrop-filter: blur(10px);
@@ -368,17 +327,9 @@ document.head.appendChild(lnk);
   #notice-edit-textarea:focus { border-color: var(--indigo-400); box-shadow: 0 0 0 3px rgba(129,140,248,0.15); }
   #notice-edit-textarea::placeholder { color: var(--slate-300); }
   .notice-popup-btns { display: flex; gap: 10px; }
-  .notice-save-btn {
-    flex: 1; background: var(--navy); color: white; border: none;
-    padding: 14px; border-radius: 1.2rem; font-size: 14px; font-weight: 900; cursor: pointer;
-  }
-  .notice-cancel-btn {
-    background: var(--slate-100); color: var(--slate-500); border: none;
-    padding: 14px 20px; border-radius: 1.2rem; font-size: 14px; font-weight: 700; cursor: pointer;
-  }
+  .notice-save-btn { flex: 1; background: var(--navy); color: white; border: none; padding: 14px; border-radius: 1.2rem; font-size: 14px; font-weight: 900; cursor: pointer; }
+  .notice-cancel-btn { background: var(--slate-100); color: var(--slate-500); border: none; padding: 14px 20px; border-radius: 1.2rem; font-size: 14px; font-weight: 700; cursor: pointer; }
 
-
-  /* ── 날씨 위젯 ── */
   #weather-bar {
     max-width: 480px; margin: 0 auto;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
@@ -391,52 +342,21 @@ document.head.appendChild(lnk);
   #weather-bar.weather-snowy    { background: linear-gradient(135deg, #a8c0ff, #3f2b96); }
   #weather-bar.weather-night    { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); }
   #weather-bar.weather-thunder  { background: linear-gradient(135deg, #232526, #414345); }
-
-  #weather-inner {
-    display: flex; align-items: center; padding: 10px 16px; gap: 12px;
-    position: relative; z-index: 1;
-  }
-  #weather-icon-wrap {
-    font-size: 32px; line-height: 1; flex-shrink: 0;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-  }
-  #weather-main {
-    flex: 1; min-width: 0;
-  }
-  #weather-temp-row {
-    display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;
-  }
-  #weather-temp {
-    font-size: 26px; font-weight: 900; color: white;
-    line-height: 1; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  #weather-feels {
-    font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 600;
-  }
-  #weather-desc {
-    font-size: 13px; color: rgba(255,255,255,0.9); font-weight: 700;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-
-  #weather-times {
-    display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;
-  }
-  .weather-time-item {
-    display: flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,0.12); border-radius: 99px;
-    padding: 4px 10px;
-  }
+  #weather-inner { display: flex; align-items: center; padding: 10px 16px; gap: 12px; position: relative; z-index: 1; }
+  #weather-icon-wrap { font-size: 32px; line-height: 1; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+  #weather-main { flex: 1; min-width: 0; }
+  #weather-temp-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+  #weather-temp { font-size: 26px; font-weight: 900; color: white; line-height: 1; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  #weather-feels { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 600; }
+  #weather-desc { font-size: 13px; color: rgba(255,255,255,0.9); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #weather-times { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+  .weather-time-item { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 99px; padding: 4px 10px; }
   .weather-time-label { font-size: 10px; color: rgba(255,255,255,0.65); font-weight: 700; }
   .weather-time-icon  { font-size: 14px; }
   .weather-time-temp  { font-size: 12px; font-weight: 900; color: white; }
-  #weather-loading {
-    padding: 14px 16px; color: rgba(255,255,255,0.5);
-    font-size: 12px; font-weight: 600; text-align: center;
-  }
+  #weather-loading { padding: 14px 16px; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 600; text-align: center; }
   #weather-error { display: none; }
 
-
-  /* ── 날씨 알림 강조 ── */
   #weather-alert {
     font-size: 12px; color: #fde68a; font-weight: 800;
     margin-top: 5px; display: none;
@@ -446,32 +366,21 @@ document.head.appendChild(lnk);
     width: fit-content;
     box-shadow: 0 0 8px rgba(239,68,68,0.4);
   }
-  #weather-alert.show {
-    display: block !important;
-    animation: pulse-alert 1.8s ease-in-out infinite;
-  }
+  #weather-alert.show { display: block !important; animation: pulse-alert 1.8s ease-in-out infinite; }
   @keyframes pulse-alert {
     0%,100% { opacity: 1; box-shadow: 0 0 8px rgba(239,68,68,0.4); }
     50%      { opacity: 0.8; box-shadow: 0 0 16px rgba(239,68,68,0.8); }
   }
 
-  /* ── 주간 예보 ── */
   #weekly-forecast {
     max-width: 480px; margin: 0 auto;
-    background: rgba(15,23,42,0.72);
-    backdrop-filter: blur(6px);
+    background: rgba(15,23,42,0.72); backdrop-filter: blur(6px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
     overflow-x: auto; scrollbar-width: none;
   }
   #weekly-forecast::-webkit-scrollbar { display: none; }
-  #weekly-forecast-inner {
-    display: flex; gap: 0; min-width: max-content; padding: 6px 12px;
-  }
-  .fc-day {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 6px 10px; gap: 3px; flex-shrink: 0; min-width: 52px;
-    border-right: 1px solid rgba(255,255,255,0.07);
-  }
+  #weekly-forecast-inner { display: flex; gap: 0; min-width: max-content; padding: 6px 12px; }
+  .fc-day { display: flex; flex-direction: column; align-items: center; padding: 6px 10px; gap: 3px; flex-shrink: 0; min-width: 52px; border-right: 1px solid rgba(255,255,255,0.07); }
   .fc-day:last-child { border-right: none; }
   .fc-day.today { background: rgba(255,255,255,0.12); border-radius: 10px; }
   .fc-dow  { font-size: 10px; font-weight: 900; color: rgba(255,255,255,0.55); text-transform: uppercase; }
@@ -484,7 +393,6 @@ document.head.appendChild(lnk);
   .fc-low   { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.5); }
   .fc-rain  { font-size: 9px; color: #93c5fd; font-weight: 700; }
 
-
   /* ── 검사일 변경 팝업 ── */
   #insp-move-overlay {
     position: fixed; inset: 0; z-index: 600;
@@ -495,7 +403,7 @@ document.head.appendChild(lnk);
   #insp-move-overlay.open { opacity: 1; pointer-events: all; }
   #insp-move-box {
     background: white; border-radius: 2rem; padding: 28px 24px 24px;
-    width: 90%; max-width: 360px;
+    width: 90%; max-width: 380px;
     transform: scale(0.92); transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   }
@@ -517,6 +425,22 @@ document.head.appendChild(lnk);
   .insp-move-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 13px 18px; border-radius: 1rem; font-size: 14px; font-weight: 700; cursor: pointer; }
   .insp-move-reset  { background: #fef3c7; color: #92400e; border: none; padding: 13px 14px; border-radius: 1rem; font-size: 11px; font-weight: 700; cursor: pointer; }
 
+  /* ✅ 검사 목록 (다중 검사 지원) */
+  .insp-list { margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .insp-list-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 1rem;
+    border: 2px solid #e2e8f0; background: #f8fafc;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .insp-list-item.selected { border-color: #ef4444; background: #fef2f2; }
+  .insp-list-item.non-adj { opacity: 0.5; cursor: default; }
+  .insp-list-item .insp-emoji { font-size: 18px; }
+  .insp-list-item .insp-info { flex: 1; min-width: 0; }
+  .insp-list-item .insp-short { font-size: 13px; font-weight: 900; color: #0f172a; }
+  .insp-list-item .insp-type  { font-size: 10px; color: #94a3b8; }
+  .insp-list-item .insp-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; transition: all 0.15s; }
+  .insp-list-item.selected .insp-check { background: #ef4444; border-color: #ef4444; }
 
   #weather-link-btn {
     display: flex; align-items: center; gap: 3px;
@@ -564,7 +488,6 @@ document.head.appendChild(lnk);
 
 <!-- ── APP ── -->
 <div id="app-container" style="display:none">
-
 <nav>
   <div class="logo">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -587,7 +510,6 @@ document.head.appendChild(lnk);
   <button id="btn-next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
 </div>
 
-<!-- ── 날씨 위젯 ── -->
 <div id="weather-bar">
   <div id="weather-loading">🌤 날씨 불러오는 중...</div>
   <div id="weather-inner" style="display:none">
@@ -598,7 +520,6 @@ document.head.appendChild(lnk);
         <span id="weather-feels">체감 --°</span>
       </div>
       <div id="weather-desc">부산 날씨</div>
-
     </div>
     <div id="weather-times">
       <div class="weather-time-item">
@@ -611,27 +532,20 @@ document.head.appendChild(lnk);
         <span class="weather-time-icon" id="wt-evening-icon">🌤</span>
         <span class="weather-time-temp" id="wt-evening-temp">--°</span>
       </div>
-      <a id="weather-link-btn"
-         href="https://weather.naver.com/today/09260000"
-         target="_blank" rel="noopener">
-        🌐 상세
-      </a>
+      <a id="weather-link-btn" href="https://weather.naver.com/today/09260000" target="_blank" rel="noopener">🌐 상세</a>
     </div>
   </div>
-  <!-- 퇴근길 알림 — weather-inner 밖에서 항상 표시 가능 -->
   <div id="weather-alert-wrap" style="padding:0 14px 10px;display:none;">
     <div id="weather-alert">⚠️ 퇴근길 비 예보 — 우산 챙기세요 🌂</div>
   </div>
 </div>
 
-<!-- ── 주간 날씨 예보 ── -->
 <div id="weekly-forecast">
   <div id="weekly-forecast-inner">
     <div style="display:flex;align-items:center;padding:0 8px 0 0;color:rgba(255,255,255,0.4);font-size:10px;font-weight:700;white-space:nowrap;">5일<br>예보</div>
   </div>
 </div>
 
-<!-- ── 전체 공지사항 배너 ── -->
 <div id="notice-bar">
   <div id="notice-bar-inner">
     <div id="notice-label">📢 공지</div>
@@ -646,9 +560,7 @@ document.head.appendChild(lnk);
 
 <div id="calendar-section">
   <div id="calendar-wrap">
-    <div class="dow-header">
-      <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-    </div>
+    <div class="dow-header"><div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div></div>
     <div class="calendar-grid" id="cal-grid"></div>
   </div>
 </div>
@@ -688,10 +600,7 @@ document.head.appendChild(lnk);
   <div id="popup-sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
     <div class="sheet-header">
-      <div class="sheet-title-wrap">
-        <div class="label">Editor</div>
-        <h3 id="popup-title"></h3>
-      </div>
+      <div class="sheet-title-wrap"><div class="label">Editor</div><h3 id="popup-title"></h3></div>
       <button class="close-btn" onclick="closePopupDirect()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
       </button>
@@ -707,7 +616,6 @@ document.head.appendChild(lnk);
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="memo-section-label">메모 / 공지사항</span>
       </div>
-      <!-- 장비 검사 일정 읽기전용 표시 영역 -->
       <div id="insp-info-box" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:1rem;padding:10px 14px;margin-bottom:10px;font-size:12px;color:#991b1b;font-weight:600;line-height:1.6;white-space:pre-line;"></div>
       <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요."></textarea>
       <button class="memo-save-btn" onclick="saveMemo()">저장</button>
@@ -716,10 +624,8 @@ document.head.appendChild(lnk);
     <button class="done-btn" onclick="closePopupDirect()">편집 완료</button>
   </div>
 </div>
-
 </div><!-- /app-container -->
 
-<!-- ── 전체 공지사항 편집 팝업 ── -->
 <div id="notice-popup-overlay" onclick="closeNoticePopup(event)">
   <div id="notice-popup-box" onclick="event.stopPropagation()">
     <div class="notice-popup-label">📢 전체 공지사항</div>
@@ -732,27 +638,26 @@ document.head.appendChild(lnk);
   </div>
 </div>
 
-
-<!-- ── 검사일 변경 팝업 ── -->
+<!-- ✅ 검사일 변경 팝업 — 다중 검사 지원 -->
 <div id="insp-move-overlay" onclick="closeInspMove(event)">
   <div id="insp-move-box" onclick="event.stopPropagation()">
     <div class="insp-move-label">🛡 장비검사 일정 조정</div>
-    <div class="insp-move-name" id="insp-move-name"></div>
     <div class="insp-move-base" id="insp-move-base"></div>
+    <!-- ✅ 다중 검사 목록 -->
+    <div class="insp-list" id="insp-list"></div>
     <div class="insp-move-row">
-      <label>실제 검사일</label>
+      <label>이동할 날짜</label>
       <input type="date" id="insp-move-date"/>
     </div>
-    <div class="insp-move-hint">⚡ 업체 스케줄에 따라 기준일 앞뒤 7일 내 조정 가능<br>변경 시 달력에 새 날짜로 표시됩니다</div>
+    <div class="insp-move-hint">⚡ 기준일 ±21일 이내 조정 가능 · 선택한 검사만 이동됩니다</div>
     <div class="insp-move-btns">
       <button class="insp-move-cancel" onclick="closeInspMove()">취소</button>
       <button class="insp-move-reset"  onclick="resetInspDate()">기준일 복원</button>
-      <button class="insp-move-save"   onclick="saveInspDate()">저장</button>
+      <button class="insp-move-save"   onclick="saveInspDate()">선택 항목 이동</button>
     </div>
   </div>
 </div>
 
-<!-- ── 대휴 사유 선택 팝업 ── -->
 <div id="alt-reason-overlay">
   <div id="alt-reason-box">
     <div class="alt-reason-title">대휴 (차감X)</div>
@@ -812,7 +717,10 @@ window.saveToCloud = async function(s) {
     await setDoc(doc(db, 'radiology', 'schedule_v1'), s);
     window.setSyncStatus('saved');
     setTimeout(() => window.setSyncStatus('online'), 2000);
-  } catch(e) { window.setSyncStatus('offline'); }
+  } catch(e) {
+    console.error('Firebase save error:', e);
+    window.setSyncStatus('offline');
+  }
 };
 </script>
 
@@ -820,68 +728,45 @@ window.saveToCloud = async function(s) {
 <script>
 
 // ── 장비 검사 일정 데이터 ──────────────────────────────
-// baseDate: 표에 나온 실제 검사 예정 기준일
-// cyclYears: 반복 주기 (년)
-// adjustable: true = 앞뒤 7일 업체 조율 가능
 const EQUIPMENT_INSPECTIONS = [
-
-  // ─── 특수의료장비 정밀검사 (3년) + 서류검사 (매년) ───
   { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 정밀', id: 'mri-precision',   type: 'precision',
     baseDate: '2026-04-02', cyclYears: 3, emoji: '🧲', adjustable: true },
   { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 서류', id: 'mri-doc',   type: 'doc',
     baseDate: '2026-04-02', cyclYears: 1, emoji: '📋', adjustable: false },
-
   { name: 'CT (SOMATOM-Perspective)',      short: 'CT 서류', id: 'ct-doc',    type: 'doc',
     baseDate: '2028-01-13', cyclYears: 1, emoji: '📋', adjustable: false },
-
   { name: 'MAMMO (selenia F)',             short: 'MAMMO 서류', id: 'mammo-doc', type: 'doc',
     baseDate: '2026-03-03', cyclYears: 1, emoji: '📋', adjustable: false },
-
-  // ─── 안전검사 (3년) ───
   { name: 'CT (SOMATOM-Perspective)',      short: 'CT 안전+정밀', id: 'ct-safety', type: 'safety',
     baseDate: '2028-01-13', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: 'MAMMO (selenia F)',             short: 'MAMMO 안전', id: 'mammo-safety',  type: 'safety',
     baseDate: '2026-03-03', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '촬영실1 (CDX-RD85DII)',         short: '촬영실1 안전', id: 'cr1-safety', type: 'safety',
     baseDate: '2026-04-28', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '촬영실2 (CDX-RD85DII)',         short: '촬영실2 안전', id: 'cr2-safety', type: 'safety',
     baseDate: '2028-03-07', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '골밀도 (EXCELLUS=BHR-3-83)',   short: '골밀도 안전', id: 'bone-safety',  type: 'safety',
     baseDate: '2025-04-09', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '초음파쇄석기 (Rifle=HF-5-125)', short: '초음파쇄석기 안전', id: 'uls-safety', type: 'safety',
     baseDate: '2025-04-11', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: 'C-ARM 1 (Brivo OEC 785)',      short: 'C-ARM1 안전', id: 'carm1-safety', type: 'safety',
     baseDate: '2028-01-04', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: 'C-ARM 2 (Brivo OEC 785)',      short: 'C-ARM2 안전', id: 'carm2-safety', type: 'safety',
     baseDate: '2028-04-29', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '본관 POTABLE (MUX-10)',        short: '본관POTABLE 안전', id: 'pot-main-safety', type: 'safety',
     baseDate: '2028-12-24', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '선별 POTABLE (SIRIUS STAR)',   short: '선별POTABLE 안전', id: 'pot-sel-safety', type: 'safety',
     baseDate: '2026-09-22', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '음압 POTABLE (JADE-40)',       short: '음압POTABLE 안전', id: 'pot-neg-safety', type: 'safety',
     baseDate: '2028-02-04', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '검진 파노라마 (Orthophos3)',   short: '파노라마 안전', id: 'pan-safety',   type: 'safety',
     baseDate: '2027-02-27', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '검진 INNOVISION-DX',          short: 'INNOVISION 안전', id: 'inno-safety', type: 'safety',
     baseDate: '2026-05-13', cyclYears: 3, emoji: '🛡', adjustable: true },
-
   { name: '검진 위장촬영 (KXO-50N)',     short: '위장촬영 안전', id: 'gi-safety',   type: 'safety',
     baseDate: '2027-09-26', cyclYears: 3, emoji: '🛡', adjustable: true },
 ];
 
-// 기준일로부터 cyclYears 주기로 2030년까지 날짜 목록 생성
 function getInspectionDates(baseDate, cyclYears, maxYear = 2035) {
   const dates = [];
   const base = new Date(baseDate);
@@ -894,14 +779,14 @@ function getInspectionDates(baseDate, cyclYears, maxYear = 2035) {
   return dates;
 }
 
-// 모든 검사 날짜 → 메모 데이터로 변환
+// ✅ FIX: inspDates (not __insp_dates__)
 function buildInspectionMemos() {
   const memos = {};
-  const inspDates = window.schedule['__insp_dates__'] || {};
-  EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
+  const inspDates = window.schedule['inspDates'] || {};
+  EQUIPMENT_INSPECTIONS.forEach((item) => {
     const dates = getInspectionDates(item.baseDate, item.cyclYears);
     dates.forEach(baseDk => {
-      const storeKey = baseDk + '_' + (item.id || idx);
+      const storeKey = baseDk + '_' + item.id;
       const actual = inspDates[storeKey] || baseDk;
       if (!memos[actual]) memos[actual] = [];
       const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type] || item.type;
@@ -912,17 +797,16 @@ function buildInspectionMemos() {
   return memos;
 }
 
-// 오늘부터 N일 이내 검사 목록 반환
 function getUpcomingInspections(days = 15) {
   const today = new Date();
   today.setHours(0,0,0,0);
   const limit = new Date(today); limit.setDate(today.getDate() + days);
   const results = [];
-  const inspDatesU = window.schedule['__insp_dates__'] || {};
-  EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
+  const inspDatesU = window.schedule['inspDates'] || {};
+  EQUIPMENT_INSPECTIONS.forEach((item) => {
     const dates = getInspectionDates(item.baseDate, item.cyclYears);
     dates.forEach(baseDk => {
-      const dk = inspDatesU[baseDk + '_' + (item.id || idx)] || baseDk;
+      const dk = inspDatesU[baseDk + '_' + item.id] || baseDk;
       const d = new Date(dk);
       if (d >= today && d <= limit) {
         const diff = Math.round((d - today) / 86400000);
@@ -938,40 +822,24 @@ function getUpcomingInspections(days = 15) {
 
 // ── 로그인 ───────────────────────────────────────────
 const SECRET_PIN = "6633";
-
 function checkLoginStatus() {
   const ok = localStorage.getItem('calendar_auth') === 'true';
   document.getElementById('login-overlay').style.display = ok ? 'none' : 'flex';
   document.getElementById('app-container').style.display = ok ? 'block' : 'none';
   if (!ok) { const i = document.getElementById('pin-input'); if(i){i.value=''; updateDots('');} }
 }
-function onPinInput() {
-  const v = document.getElementById('pin-input').value;
-  updateDots(v);
-  if (v.length === 4) setTimeout(handleLogin, 80);
-}
-function updateDots(v) {
-  for (let i=0;i<4;i++) { const d=document.getElementById('dot-'+i); if(d) d.classList.toggle('filled', i<v.length); }
-}
+function onPinInput() { const v = document.getElementById('pin-input').value; updateDots(v); if (v.length === 4) setTimeout(handleLogin, 80); }
+function updateDots(v) { for (let i=0;i<4;i++) { const d=document.getElementById('dot-'+i); if(d) d.classList.toggle('filled', i<v.length); } }
 function handleLogin() {
   const v = document.getElementById('pin-input').value;
-  if (v === SECRET_PIN) {
-    localStorage.setItem('calendar_auth','true');
-    checkLoginStatus(); showToast('✅ 입장 완료!');
-  } else {
-    const box = document.querySelector('.login-box');
-    box.classList.remove('login-shake'); void box.offsetWidth; box.classList.add('login-shake');
-    document.getElementById('pin-input').value = ''; updateDots('');
-    showToast('비밀번호가 틀렸습니다');
-  }
+  if (v === SECRET_PIN) { localStorage.setItem('calendar_auth','true'); checkLoginStatus(); showToast('✅ 입장 완료!'); }
+  else { const box=document.querySelector('.login-box'); box.classList.remove('login-shake'); void box.offsetWidth; box.classList.add('login-shake'); document.getElementById('pin-input').value=''; updateDots(''); showToast('비밀번호가 틀렸습니다'); }
 }
 function handleLogout() { localStorage.removeItem('calendar_auth'); checkLoginStatus(); showToast('로그아웃 되었습니다'); }
-window.handleLogin = handleLogin; window.handleLogout = handleLogout; window.onPinInput = onPinInput;
+window.handleLogin=handleLogin; window.handleLogout=handleLogout; window.onPinInput=onPinInput;
 
-// ── 동기 상태 ─────────────────────────────────────────
 window.setSyncStatus = function(s) {
-  const el = document.getElementById('sync-indicator');
-  if (!el) return;
+  const el = document.getElementById('sync-indicator'); if (!el) return;
   el.className = s;
   el.title = {saving:'저장 중...',saved:'저장됨',online:'동기화 중',offline:'오프라인'}[s]||'';
 };
@@ -1004,10 +872,7 @@ const DUTY_ROWS = [
   { id:'night',    label:'야간당직',    color:'c-indigo', useName:true  }
 ];
 
-const DOT_MARKERS = {
-  "2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,
-  "2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1
-};
+const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1};
 const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
 window.schedule = {};
 
@@ -1015,13 +880,8 @@ let viewYear=2026, viewMonth=3;
 let selectedDateKey=null, selectedDoc=null, showScreening=false;
 
 function isHoliday(dk) { return !!FIXED_HOLIDAYS[dk.slice(5)]; }
-function showToast(msg) {
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2000);
-}
+function showToast(msg) { const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2000); }
 
-// ── 하이라이트 타입 ────────────────────────────────────
 function getHighlightType(dateKey) {
   if (!selectedDoc) return null;
   const day = window.schedule[dateKey]; if (!day) return null;
@@ -1030,22 +890,18 @@ function getHighlightType(dateKey) {
   if ((day.vacation||'').includes(selectedDoc.initial)) return 'red';
   if ((day.half_am||'').includes(selectedDoc.initial)) return 'half-am';
   if ((day.off40||'').includes(selectedDoc.initial)||(day.half_pm||'').includes(selectedDoc.initial)) return isSat?'red':'half-pm';
-  // ✅ 대휴 버그 수정: alt_leave에 해당 직원 초성이 있으면 green으로 하이라이트
   if (hasAltLeave(day, selectedDoc.initial)) return 'green';
   return null;
 }
 
-// alt_leave 데이터에서 특정 초성이 있는지 검사 (사유:초성 형식 지원)
 function hasAltLeave(dayData, initial) {
   const raw = dayData.alt_leave || '';
   return raw.split(' ').filter(Boolean).some(item => {
-    // 형식: "rest:봉" 또는 구형 "봉"
     const name = item.includes(':') ? item.split(':')[1] : item;
     return name === initial;
   });
 }
 
-// alt_leave에서 특정 직원의 사유 가져오기
 function getAltLeaveReason(dayData, initial) {
   const raw = dayData.alt_leave || '';
   const found = raw.split(' ').filter(Boolean).find(item => {
@@ -1065,18 +921,18 @@ function renderCalendar() {
 
   for (let i=0;i<firstDay;i++) { const e=document.createElement('div'); e.className='cal-cell-empty'; grid.appendChild(e); }
 
-  // ── adjMemos를 루프 밖에서 한 번만 계산 (성능 개선) ──
+  // ✅ 성능: adjMemos 루프 밖에서 한 번만 계산
   const _adjMemos = {};
-  const _inspDatesCache = window.schedule['__insp_dates__'] || {};
+  const _inspDatesCache = window.schedule['inspDates'] || {};
   EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
     const dates = getInspectionDates(item.baseDate, item.cyclYears);
     dates.forEach(baseDk => {
-      const storeKey = baseDk + '_' + (item.id || idx);
+      const storeKey = baseDk + '_' + item.id;
       const actual = _inspDatesCache[storeKey] || baseDk;
       if (!_adjMemos[actual]) _adjMemos[actual] = [];
       const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
       const movedNote = actual !== baseDk ? ` ↩기준:${baseDk}` : '';
-      _adjMemos[actual].push({ text: `${item.emoji} [${typeLabel}] ${item.name}${movedNote}`, idx, base: baseDk });
+      _adjMemos[actual].push({ text: `${item.emoji} [${typeLabel}] ${item.name}${movedNote}`, idx, base: baseDk, id: item.id });
     });
   });
 
@@ -1086,17 +942,12 @@ function renderCalendar() {
     const dow=new Date(dateKey).getDay();
     const isSun=dow===0, isSat=dow===6;
 
-    // ✅ 개선1: 선택된 직원이 CT 근무인지 확인
     const isCT = selectedDoc && (dayData.ctmr||'').split(' ').filter(Boolean).includes(selectedDoc.initial);
     const hl = getHighlightType(dateKey);
 
     const cell = document.createElement('div');
-    // CT 근무인 날은 ct-day 클래스 추가 → 배지들 자동으로 흐려짐(CSS)
-    cell.className = 'cal-cell'
-      + (selectedDateKey===dateKey?' selected':'')
-      + (isCT?' ct-day':'');
+    cell.className = 'cal-cell' + (selectedDateKey===dateKey?' selected':'') + (isCT?' ct-day':'');
 
-    // 하이라이트 오버레이
     if (hl || isCT) {
       const ov = document.createElement('div');
       ov.className = 'hl-overlay';
@@ -1105,8 +956,6 @@ function renderCalendar() {
       else if (hl==='red')    ov.style.background='rgba(239,68,68,0.22)';
       else if (hl==='half-am') ov.style.background='linear-gradient(to bottom,rgba(239,68,68,0.22) 50%,transparent 50%)';
       else if (hl==='half-pm') ov.style.background='linear-gradient(to top,rgba(239,68,68,0.22) 50%,transparent 50%)';
-
-      // ✅ 개선1: CT 워터마크 — 진하고 크게, 색상도 teal 계열로 눈에 띄게
       if (isCT) {
         const ctLabel = document.createElement('span');
         ctLabel.style.cssText = 'font-size:36px;font-weight:900;color:rgba(13,148,136,0.22);letter-spacing:-1px;pointer-events:none;user-select:none;';
@@ -1115,76 +964,57 @@ function renderCalendar() {
       }
       cell.appendChild(ov);
     }
-
-    // 선택된 직원 있고, 이 날 해당 없으면 흐리게
     if (selectedDoc && !hl && !isCT) cell.classList.add('dimmed');
 
     const inner = document.createElement('div');
     inner.className = 'cell-inner';
 
-    // 날짜 + 메모 아이콘
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';
     const numSpan = document.createElement('span');
     numSpan.className = 'day-num'+(isSun?' sun':(isSat?' sat':''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
-    // 사용자 메모
+
     if (dayData.memo && dayData.memo.trim()) {
       const mi = document.createElement('span');
       mi.className = 'memo-icon'; mi.title = dayData.memo;
       mi.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
       dayHeaderRow.appendChild(mi);
     }
-    // 장비 검사 아이콘 (루프 밖에서 계산된 _adjMemos 사용)
+
+    // ✅ 장비 검사 아이콘 — 다중 검사 팝업 지원
     if (_adjMemos[dateKey]) {
       const inspIcon = document.createElement('span');
       inspIcon.className = 'memo-icon insp-icon';
-      inspIcon.title = _adjMemos[dateKey].map(x=>x.text).join('\n') + '\n(탭하여 날짜 조정)';
+      inspIcon.title = _adjMemos[dateKey].map(x=>x.text).join('\n');
       inspIcon.style.color = '#ef4444';
       inspIcon.style.cursor = 'pointer';
       inspIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`;
-      // 첫 번째 adjustable 아이템으로 팝업 오픈
-      const firstAdj = _adjMemos[dateKey].find(x => EQUIPMENT_INSPECTIONS[x.idx].adjustable);
-      if (firstAdj) {
-        inspIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          openInspMovePopup(e, firstAdj.base, firstAdj.idx);
-        });
-      }
+      // ✅ 해당 날짜의 모든 검사 항목을 팝업으로 전달
+      const dateItems = _adjMemos[dateKey];
+      inspIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openInspMovePopup(dateKey, dateItems);
+      });
       dayHeaderRow.appendChild(inspIcon);
     }
     inner.appendChild(dayHeaderRow);
 
-    // 도트
     const dots = DOT_MARKERS[dateKey];
-    if (dots) {
-      const dr=document.createElement('div'); dr.className='dots';
-      for(let x=0;x<dots;x++){const dt=document.createElement('div');dt.className='dot';dr.appendChild(dt);}
-      inner.appendChild(dr);
-    } else { const ph=document.createElement('div'); ph.style.height='10px'; inner.appendChild(ph); }
+    if (dots) { const dr=document.createElement('div'); dr.className='dots'; for(let x=0;x<dots;x++){const dt=document.createElement('div');dt.className='dot';dr.appendChild(dt);} inner.appendChild(dr); }
+    else { const ph=document.createElement('div'); ph.style.height='10px'; inner.appendChild(ph); }
 
-    // 배지 슬롯
     const slots=document.createElement('div'); slots.className='badge-slots';
     const mkRow=()=>{const r=document.createElement('div');r.className='badge-row';return r;};
-
-    // CT 근무일에 본인 초성/이름인지 판별하는 헬퍼
-    // isCT가 true일 때만 my-badge / other-badge 클래스를 붙임
-    const badgeClass = (initial) => {
-      if (!isCT) return '';
-      return (selectedDoc && selectedDoc.initial === initial) ? ' my-badge' : ' other-badge';
-    };
-    const tagClass = (name) => {
-      if (!isCT) return '';
-      return (selectedDoc && (selectedDoc.name === name || selectedDoc.initial === name)) ? ' my-tag' : ' other-tag';
-    };
+    const badgeClass = (initial) => { if (!isCT) return ''; return (selectedDoc && selectedDoc.initial === initial) ? ' my-badge' : ' other-badge'; };
+    const tagClass = (name) => { if (!isCT) return ''; return (selectedDoc && (selectedDoc.name === name || selectedDoc.initial === name)) ? ' my-tag' : ' other-tag'; };
 
     const rAm=mkRow(); (dayData.half_am||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge half-am'+badgeClass(n);b.textContent='☀'+n;rAm.appendChild(b);}); slots.appendChild(rAm);
     const rPm=mkRow(); (dayData.half_pm||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge half-pm'+badgeClass(n);b.textContent='🌙'+n;rPm.appendChild(b);}); slots.appendChild(rPm);
     const rOff=mkRow(); (dayData.off40||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge '+(isSat?'off40-sat':'off40-weekday')+badgeClass(n);b.textContent=isSat?n:'40:'+n;rOff.appendChild(b);}); slots.appendChild(rOff);
     const rVac=mkRow();
     (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge vacation'+badgeClass(n);b.textContent='🏝'+n;rVac.appendChild(b);});
-    // ✅ 대휴: 사유별 다른 아이콘/색상 표시
     (dayData.alt_leave||'').split(' ').filter(Boolean).forEach(item=>{
       const reason = item.includes(':') ? item.split(':')[0] : 'rest';
       const name   = item.includes(':') ? item.split(':')[1] : item;
@@ -1198,7 +1028,6 @@ function renderCalendar() {
     slots.appendChild(rVac);
     inner.appendChild(slots);
 
-    // 이브닝/야간 하단
     const bottom=document.createElement('div'); bottom.className='bottom-tags';
     (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='evening-tag'+tagClass(n);t.textContent=n;bottom.appendChild(t);});
     (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='night-tag'+tagClass(n);t.textContent=n;bottom.appendChild(t);});
@@ -1213,8 +1042,7 @@ function renderCalendar() {
 
 // ── 배너 ──────────────────────────────────────────────
 function renderBanner() {
-  const scroll=document.getElementById('banner-scroll');
-  scroll.innerHTML='';
+  const scroll=document.getElementById('banner-scroll'); scroll.innerHTML='';
   DOCTOR_MAP.forEach(doc=>{
     const btn=document.createElement('button');
     btn.className='doc-btn'+(selectedDoc?.name===doc.name?' active':'');
@@ -1231,21 +1059,15 @@ function openPopup(dateKey) {
   selectedDateKey=dateKey; selectedDoc=null;
   renderBanner(); renderCalendar();
   document.getElementById('popup-title').textContent=dateKey.slice(5)+' 배정';
-  // 사용자 메모만 textarea에 (검사 일정은 별도 읽기전용 영역에)
+  // ✅ 사용자 메모만 textarea에 (검사 일정은 별도 읽기전용)
   const _userMemo = (window.schedule[dateKey]||{}).memo||'';
   document.getElementById('memo-textarea').value = _userMemo;
-
-  // 장비 검사 일정 읽기전용 표시
   const _inspMemos = buildInspectionMemos();
   const _inspText = _inspMemos[dateKey] ? _inspMemos[dateKey].join('\n') : '';
   const inspBox = document.getElementById('insp-info-box');
   if (inspBox) {
-    if (_inspText) {
-      inspBox.textContent = '🛡 장비검사 예정\n' + _inspText;
-      inspBox.style.display = 'block';
-    } else {
-      inspBox.style.display = 'none';
-    }
+    if (_inspText) { inspBox.textContent = '🛡 장비검사 예정\n' + _inspText; inspBox.style.display = 'block'; }
+    else { inspBox.style.display = 'none'; }
   }
   renderPopupDocs(); renderDutyRows();
   document.getElementById('popup-overlay').classList.add('open');
@@ -1260,8 +1082,7 @@ window.closePopup=(e)=>{ if(e.target===document.getElementById('popup-overlay'))
 window.closePopupDirect=_doClosePopup;
 
 function renderPopupDocs() {
-  const scroll=document.getElementById('popup-doc-scroll');
-  scroll.innerHTML='';
+  const scroll=document.getElementById('popup-doc-scroll'); scroll.innerHTML='';
   DOCTOR_MAP.forEach(doc=>{
     const btn=document.createElement('button');
     btn.className='pdoc-btn'+(selectedDoc?.name===doc.name?' active':'');
@@ -1274,71 +1095,47 @@ function popupScroll(dir){ document.getElementById('popup-doc-scroll').scrollBy(
 window.popupScroll=popupScroll;
 
 function renderDutyRows() {
-  const container=document.getElementById('duty-rows');
-  container.innerHTML='';
+  const container=document.getElementById('duty-rows'); container.innerHTML='';
   DUTY_ROWS.forEach(row=>{
     const dayData=window.schedule[selectedDateKey]||{};
     const val=dayData[row.id]||'';
     const target=row.useName?selectedDoc?.name:selectedDoc?.initial;
     const isActive=!!(selectedDoc&&target&&val.split(' ').filter(Boolean).includes(target));
-
     const div=document.createElement('div');
     div.className='duty-row'+(isActive?' active-row':'')+((!selectedDoc)?' no-doc':'');
-
-    // 박스 전체 클릭으로 배정/제거
-    // alt_leave는 사유 선택 팝업 경유
     div.addEventListener('click',()=>{
       if(!selectedDoc) return;
       if(row.id==='alt_leave') openAltReasonPopup(selectedDateKey, selectedDoc);
       else toggleAssignment(selectedDateKey,row.id,selectedDoc,row.useName);
     });
-
     const top=document.createElement('div'); top.className='duty-row-top';
     const lbl=document.createElement('span'); lbl.className='duty-row-label '+row.color; lbl.textContent=row.label;
     top.appendChild(lbl);
-
     if (selectedDoc) {
       const btn=document.createElement('button');
       btn.className='assign-btn '+(isActive?'remove':'add');
       btn.textContent=isActive?'제거':'배정';
-      btn.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        if(row.id==='alt_leave') openAltReasonPopup(selectedDateKey, selectedDoc);
-        else toggleAssignment(selectedDateKey,row.id,selectedDoc,row.useName);
-      });
+      btn.addEventListener('click',(e)=>{ e.stopPropagation(); if(row.id==='alt_leave') openAltReasonPopup(selectedDateKey, selectedDoc); else toggleAssignment(selectedDateKey,row.id,selectedDoc,row.useName); });
       top.appendChild(btn);
-    } else {
-      const hint=document.createElement('span'); hint.className='no-doc-hint'; hint.textContent='위에서 직원 선택';
-      top.appendChild(hint);
-    }
+    } else { const hint=document.createElement('span'); hint.className='no-doc-hint'; hint.textContent='위에서 직원 선택'; top.appendChild(hint); }
     div.appendChild(top);
-
     const list=document.createElement('div'); list.className='assigned-list';
     const items=val.split(' ').filter(Boolean);
     if (items.length) {
       items.forEach(item=>{
-        const chip=document.createElement('button');
-        chip.className='assigned-chip '+row.color;
+        const chip=document.createElement('button'); chip.className='assigned-chip '+row.color;
         let displayText = item;
-        if (row.id==='alt_leave' && item.includes(':')) {
-          const [rsn,nm] = item.split(':');
-          const icons={rest:'🌿',reserve:'🪖',event:'💐',public:'🏛','half-am':'☀️','half-pm':'🌙'};
-          displayText = (icons[rsn]||'🌿')+nm;
-        }
+        if (row.id==='alt_leave' && item.includes(':')) { const [rsn,nm]=item.split(':'); const icons={rest:'🌿',reserve:'🪖',event:'💐',public:'🏛','half-am':'☀️','half-pm':'🌙'}; displayText=(icons[rsn]||'🌿')+nm; }
         chip.innerHTML=`${displayText} <span class="del-icon">✕</span>`;
         chip.addEventListener('click',(e)=>{ e.stopPropagation(); removeAssignment(selectedDateKey,row.id,item); });
         list.appendChild(chip);
       });
-    } else {
-      const none=document.createElement('span'); none.className='no-assign'; none.textContent='배정 없음';
-      list.appendChild(none);
-    }
+    } else { const none=document.createElement('span'); none.className='no-assign'; none.textContent='배정 없음'; list.appendChild(none); }
     div.appendChild(list);
     container.appendChild(div);
   });
 }
 
-// ── 배정 로직 ─────────────────────────────────────────
 function toggleAssignment(dk,rowId,doc,useName) {
   const dayData=window.schedule[dk]||{};
   const target=useName?doc.name:doc.initial;
@@ -1350,52 +1147,42 @@ function toggleAssignment(dk,rowId,doc,useName) {
   if(window.saveToCloud) window.saveToCloud(window.schedule);
   showToast(was?`${doc.name} 제거됨`:`${doc.name} 배정 완료 ✓`);
 }
-// ── 대휴 사유 팝업 ────────────────────────────────────
-let _altPopupDk = null, _altPopupDoc = null;
 
+// ── 대휴 ──────────────────────────────────────────────
+let _altPopupDk = null, _altPopupDoc = null;
 function openAltReasonPopup(dk, doc) {
   _altPopupDk = dk; _altPopupDoc = doc;
-  // 이미 배정된 사유가 있으면 → 제거 처리
   const dayData = window.schedule[dk] || {};
   if (hasAltLeave(dayData, doc.initial)) {
-    // 이미 있으면 제거 (toggle)
     const raw = dayData.alt_leave || '';
-    const items = raw.split(' ').filter(x => {
-      const nm = x.includes(':') ? x.split(':')[1] : x;
-      return nm !== doc.initial;
-    });
+    const items = raw.split(' ').filter(x => { const nm = x.includes(':') ? x.split(':')[1] : x; return nm !== doc.initial; });
     window.schedule = {...window.schedule, [dk]: {...dayData, alt_leave: items.join(' ')}};
     renderDutyRows(); renderCalendar();
     if (window.saveToCloud) window.saveToCloud(window.schedule);
     showToast(`${doc.name} 대휴 제거됨`);
     return;
   }
-  // 없으면 사유 선택 팝업 오픈
   document.getElementById('alt-reason-name').textContent = doc.name + ' 선생님 — 사유 선택';
   document.getElementById('alt-reason-overlay').classList.add('open');
 }
-
-function closeAltReasonPopup() {
-  document.getElementById('alt-reason-overlay').classList.remove('open');
-  _altPopupDk = null; _altPopupDoc = null;
-}
+function closeAltReasonPopup() { document.getElementById('alt-reason-overlay').classList.remove('open'); _altPopupDk=null; _altPopupDoc=null; }
 window.closeAltReasonPopup = closeAltReasonPopup;
 
 function selectAltReason(reason) {
   if (!_altPopupDk || !_altPopupDoc) return;
-  const dk = _altPopupDk, doc = _altPopupDoc;
+  const dk=_altPopupDk, doc=_altPopupDoc;
   closeAltReasonPopup();
-  const dayData = window.schedule[dk] || {};
-  const existing = (dayData.alt_leave || '').split(' ').filter(Boolean);
-  existing.push(reason + ':' + doc.initial);
-  window.schedule = {...window.schedule, [dk]: {...dayData, alt_leave: existing.join(' ')}};
+  const dayData=window.schedule[dk]||{};
+  const existing=(dayData.alt_leave||'').split(' ').filter(Boolean);
+  existing.push(reason+':'+doc.initial);
+  window.schedule={...window.schedule,[dk]:{...dayData, alt_leave:existing.join(' ')}};
   renderDutyRows(); renderCalendar();
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  const labels = {rest:'대휴', reserve:'예비군훈련', event:'경조사', public:'공가', 'half-am':'반일대휴(오전)', 'half-pm':'반일대휴(오후)'};
+  if(window.saveToCloud) window.saveToCloud(window.schedule);
+  const labels={rest:'대휴',reserve:'예비군훈련',event:'경조사',public:'공가','half-am':'반일대휴(오전)','half-pm':'반일대휴(오후)'};
   showToast(`${doc.name} ${labels[reason]||'대휴'} 등록 ✓`);
 }
-window.selectAltReason = selectAltReason;
-window.openAltReasonPopup = openAltReasonPopup;
+window.selectAltReason=selectAltReason;
+window.openAltReasonPopup=openAltReasonPopup;
 
 function removeAssignment(dk,rowId,targetStr) {
   const dayData=window.schedule[dk]||{};
@@ -1406,234 +1193,147 @@ function removeAssignment(dk,rowId,targetStr) {
   showToast(`${targetStr} 제거됨`);
 }
 
-// ── 날씨 기능 (Open-Meteo — 키 없음, CORS 없음) ────────
-
-
+// ── 날씨 ──────────────────────────────────────────────
 async function loadWeather() {
   const OWM_KEY = '22e3baf840c5fa55ad030accdb580d84';
-  // 부산 영도구 좌표 기반 호출 (도시명보다 정확)
   const LAT = 35.09, LON = 129.07;
-
   try {
-    // 현재 날씨 + 5일 예보 병렬 호출
     const [curRes, fcRes] = await Promise.all([
       fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric`),
       fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric&cnt=40`)
     ]);
     if (!curRes.ok) throw new Error('OWM ' + curRes.status);
     const [cur, fc] = await Promise.all([curRes.json(), fcRes.json()]);
-
-    const icon   = cur.weather[0].icon;
-    const desc   = cur.weather[0].description;
-    const temp   = Math.round(cur.main.temp);
-    const feels  = Math.round(cur.main.feels_like);
-    const humid  = cur.main.humidity;
-    const windMs = Math.round(cur.wind.speed);
-
-    // KST 오늘 날짜 (UTC+9)
-    const nowKST = new Date(Date.now() + 9*3600*1000);
-    const todayKST = nowKST.toISOString().slice(0,10);
-
-    // 아이콘 매핑
-    const ICONS = {
-      '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
-      '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
-      '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
-      '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'
-    };
-    const BG = {
-      '01':'sunny','02':'cloudy','03':'cloudy','04':'cloudy',
-      '09':'rainy','10':'rainy','11':'thunder','13':'snowy','50':'cloudy'
-    };
-    const getIcon = ic => ICONS[ic] || '🌤';
-    const getBg   = ic => {
-      if (ic.endsWith('n') && ic.startsWith('01')) return 'night';
-      return BG[ic.slice(0,2)] || 'cloudy';
-    };
-
-    // 배경 클래스
-    const bar = document.getElementById('weather-bar');
-    bar.className = 'weather-' + getBg(icon);
-    bar.id = 'weather-bar';
-
-    // 현재 날씨 표시
-    document.getElementById('weather-icon-wrap').textContent = getIcon(icon);
-    document.getElementById('weather-temp').textContent = temp + '°';
-    document.getElementById('weather-feels').textContent = '체감 ' + feels + '°';
-    document.getElementById('weather-desc').textContent =
-      desc + '  💧' + humid + '%  💨' + windMs + 'm/s';
-
-    // 출근(8시) / 퇴근(17시) 예보
-    // KST 기준 오늘 날짜로 출근/퇴근 예보 찾기
-    // OWM dt_txt는 UTC 기준 → KST = UTC+9
-    // 출근(08:00 KST) = UTC 23:00 전날 또는 UTC 00:00 당일
-    // 퇴근(17:00 KST) = UTC 08:00 당일
-    const list = fc.list;
-
-    // dt_txt를 KST로 변환하는 헬퍼
-    const toKSTHour = (dt_txt) => {
-      const utcDate = new Date(dt_txt.replace(' ', 'T') + 'Z');
-      return (utcDate.getUTCHours() + 9) % 24;
-    };
-    const toKSTDate = (dt_txt) => {
-      const utcDate = new Date(dt_txt.replace(' ', 'T') + 'Z');
-      const kst = new Date(utcDate.getTime() + 9*3600*1000);
-      return kst.toISOString().slice(0,10);
-    };
-
-    // 오늘 KST 날짜 기준으로 출근/퇴근 찾기
-    const mItem = list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 7 && toKSTHour(h.dt_txt) <= 9)
-               || list.find(h => toKSTDate(h.dt_txt) === todayKST)
-               || list[0];
-    const eItem = list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 16 && toKSTHour(h.dt_txt) <= 18)
-               || list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 14)
-               || list[Math.min(4, list.length-1)];
-
-    document.getElementById('wt-morning-icon').textContent = getIcon(mItem.weather[0].icon);
-    document.getElementById('wt-morning-temp').textContent = Math.round(mItem.main.temp) + '°';
-    document.getElementById('wt-evening-icon').textContent = getIcon(eItem.weather[0].icon);
-    document.getElementById('wt-evening-temp').textContent = Math.round(eItem.main.temp) + '°';
-
-    // 자동 알림 메시지
-    const alerts = [];
-    const eIcon = eItem.weather[0].icon;
-    const eHour = toKSTHour(eItem.dt_txt); // KST 퇴근 시간
-    if (eIcon.startsWith('10') || eIcon.startsWith('09'))
-      alerts.push(`🌂 퇴근길(${eHour}시경) 비 예보 — 우산 챙기세요!`);
-    else if (eIcon.startsWith('11'))
-      alerts.push('⛈ 퇴근길 천둥번개 예보 — 조심하세요!');
-    else if (eIcon.startsWith('13'))
-      alerts.push('❄️ 퇴근길 눈 예보 — 미끄럼 주의!');
-    const mTemp = Math.round(mItem.main.temp);
-    const eTemp = Math.round(eItem.main.temp);
-    if (mTemp - eTemp >= 8)
-      alerts.push(`🧥 오후 기온 ${mTemp-eTemp}°C 급강하 — 겉옷 챙기세요!`);
-
-    const alertEl = document.getElementById('weather-alert');
-    const alertWrap = document.getElementById('weather-alert-wrap');
-    if (alerts.length) {
-      alertEl.textContent = alerts.join('  ');
-      alertEl.classList.add('show');
-      if (alertWrap) alertWrap.style.display = 'block';
-    } else {
-      alertEl.classList.remove('show');
-      if (alertWrap) alertWrap.style.display = 'none';
-    }
-
-    // ── 주간 예보 렌더링 ──
+    const icon=cur.weather[0].icon, desc=cur.weather[0].description, temp=Math.round(cur.main.temp), feels=Math.round(cur.main.feels_like), humid=cur.main.humidity, windMs=Math.round(cur.wind.speed);
+    const nowKST=new Date(Date.now()+9*3600*1000), todayKST=nowKST.toISOString().slice(0,10);
+    const ICONS={'01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️','03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️','09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧','11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'};
+    const BG={'01':'sunny','02':'cloudy','03':'cloudy','04':'cloudy','09':'rainy','10':'rainy','11':'thunder','13':'snowy','50':'cloudy'};
+    const getIcon=ic=>ICONS[ic]||'🌤';
+    const getBg=ic=>{ if(ic.endsWith('n')&&ic.startsWith('01')) return 'night'; return BG[ic.slice(0,2)]||'cloudy'; };
+    const bar=document.getElementById('weather-bar'); bar.className='weather-'+getBg(icon); bar.id='weather-bar';
+    document.getElementById('weather-icon-wrap').textContent=getIcon(icon);
+    document.getElementById('weather-temp').textContent=temp+'°';
+    document.getElementById('weather-feels').textContent='체감 '+feels+'°';
+    document.getElementById('weather-desc').textContent=desc+'  💧'+humid+'%  💨'+windMs+'m/s';
+    const list=fc.list;
+    const toKSTHour=(dt_txt)=>{ const utcDate=new Date(dt_txt.replace(' ','T')+'Z'); return (utcDate.getUTCHours()+9)%24; };
+    const toKSTDate=(dt_txt)=>{ const utcDate=new Date(dt_txt.replace(' ','T')+'Z'); const kst=new Date(utcDate.getTime()+9*3600*1000); return kst.toISOString().slice(0,10); };
+    const mItem=list.find(h=>toKSTDate(h.dt_txt)===todayKST&&toKSTHour(h.dt_txt)>=7&&toKSTHour(h.dt_txt)<=9)||list.find(h=>toKSTDate(h.dt_txt)===todayKST)||list[0];
+    const eItem=list.find(h=>toKSTDate(h.dt_txt)===todayKST&&toKSTHour(h.dt_txt)>=16&&toKSTHour(h.dt_txt)<=18)||list.find(h=>toKSTDate(h.dt_txt)===todayKST&&toKSTHour(h.dt_txt)>=14)||list[Math.min(4,list.length-1)];
+    document.getElementById('wt-morning-icon').textContent=getIcon(mItem.weather[0].icon);
+    document.getElementById('wt-morning-temp').textContent=Math.round(mItem.main.temp)+'°';
+    document.getElementById('wt-evening-icon').textContent=getIcon(eItem.weather[0].icon);
+    document.getElementById('wt-evening-temp').textContent=Math.round(eItem.main.temp)+'°';
+    const alerts=[];
+    const eIcon=eItem.weather[0].icon, eHour=toKSTHour(eItem.dt_txt);
+    if(eIcon.startsWith('10')||eIcon.startsWith('09')) alerts.push(`🌂 퇴근길(${eHour}시경) 비 예보 — 우산 챙기세요!`);
+    else if(eIcon.startsWith('11')) alerts.push('⛈ 퇴근길 천둥번개 예보 — 조심하세요!');
+    else if(eIcon.startsWith('13')) alerts.push('❄️ 퇴근길 눈 예보 — 미끄럼 주의!');
+    const mTemp=Math.round(mItem.main.temp), eTemp=Math.round(eItem.main.temp);
+    if(mTemp-eTemp>=8) alerts.push(`🧥 오후 기온 ${mTemp-eTemp}°C 급강하 — 겉옷 챙기세요!`);
+    const alertEl=document.getElementById('weather-alert'), alertWrap=document.getElementById('weather-alert-wrap');
+    if(alerts.length){ alertEl.textContent=alerts.join('  '); alertEl.classList.add('show'); if(alertWrap) alertWrap.style.display='block'; }
+    else{ alertEl.classList.remove('show'); if(alertWrap) alertWrap.style.display='none'; }
     renderWeeklyForecast(list);
-
-    document.getElementById('weather-loading').style.display = 'none';
-    document.getElementById('weather-inner').style.display = 'flex';
-
-  } catch(e) {
-    console.warn('날씨 로드 실패:', e);
-    document.getElementById('weather-loading').textContent = '🌤 날씨 정보 없음';
-  }
+    document.getElementById('weather-loading').style.display='none';
+    document.getElementById('weather-inner').style.display='flex';
+  } catch(e) { console.warn('날씨 로드 실패:',e); document.getElementById('weather-loading').textContent='🌤 날씨 정보 없음'; }
 }
 
-// ── 주간 예보 렌더링 ─────────────────────────────────
 function renderWeeklyForecast(list) {
-  const wrap = document.getElementById('weekly-forecast-inner');
-  if (!wrap) return;
-
-  // 날짜별로 그룹핑 (최고/최저 온도, 대표 아이콘)
-  const days = {};
-  list.forEach(h => {
-    const dk = h.dt_txt.slice(0, 10);
-    if (!days[dk]) days[dk] = { temps: [], icons: [], pop: 0 };
-    days[dk].temps.push(Math.round(h.main.temp));
-    days[dk].icons.push(h.weather[0].icon);
-    days[dk].pop = Math.max(days[dk].pop, h.pop || 0);
-  });
-
-  const ICONS = {
-    '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
-    '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
-    '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
-    '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'
-  };
-  const DOWS = ['일','월','화','수','목','금','토'];
-  const today = new Date().toISOString().slice(0,10);
-
-  // 기존 내용 초기화 (라벨 제외)
-  while (wrap.children.length > 1) wrap.removeChild(wrap.lastChild);
-
-  Object.keys(days).slice(0, 6).forEach(dk => {
-    const d = days[dk];
-    const high = Math.max(...d.temps);
-    const low  = Math.min(...d.temps);
-    // 낮 시간대 아이콘 우선
-    const dayIcon = d.icons.find(i => i.endsWith('d')) || d.icons[0];
-    const icon = ICONS[dayIcon] || '🌤';
-    const dateObj = new Date(dk + 'T00:00:00');
-    const dow = dateObj.getDay();
-    const dowLabel = DOWS[dow];
-    const dateLabel = `${dateObj.getMonth()+1}/${dateObj.getDate()}`;
-    const isToday = dk === today;
-    const rainPct = Math.round((d.pop || 0) * 100);
-
-    const div = document.createElement('div');
-    div.className = 'fc-day' + (isToday ? ' today' : '');
-
-    const dowEl = document.createElement('div');
-    dowEl.className = 'fc-dow' + (dow===0?' sun':(dow===6?' sat':''));
-    dowEl.textContent = isToday ? '오늘' : dowLabel;
-
-    const dateEl = document.createElement('div');
-    dateEl.className = 'fc-date';
-    dateEl.textContent = dateLabel;
-
-    const iconEl = document.createElement('div');
-    iconEl.className = 'fc-icon';
-    iconEl.textContent = icon;
-
-    const tempsEl = document.createElement('div');
-    tempsEl.className = 'fc-temps';
-    tempsEl.innerHTML = `<span class="fc-high">${high}°</span><span class="fc-low">${low}°</span>`;
-
-    div.appendChild(dowEl);
-    div.appendChild(dateEl);
-    div.appendChild(iconEl);
-    div.appendChild(tempsEl);
-
-    if (rainPct >= 20) {
-      const rainEl = document.createElement('div');
-      rainEl.className = 'fc-rain';
-      rainEl.textContent = `💧${rainPct}%`;
-      div.appendChild(rainEl);
-    }
-
+  const wrap=document.getElementById('weekly-forecast-inner'); if(!wrap) return;
+  const days={};
+  list.forEach(h=>{ const dk=h.dt_txt.slice(0,10); if(!days[dk]) days[dk]={temps:[],icons:[],pop:0}; days[dk].temps.push(Math.round(h.main.temp)); days[dk].icons.push(h.weather[0].icon); days[dk].pop=Math.max(days[dk].pop,h.pop||0); });
+  const ICONS={'01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️','03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️','09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧','11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'};
+  const DOWS=['일','월','화','수','목','금','토'];
+  const today=new Date().toISOString().slice(0,10);
+  while(wrap.children.length>1) wrap.removeChild(wrap.lastChild);
+  Object.keys(days).slice(0,6).forEach(dk=>{
+    const d=days[dk], high=Math.max(...d.temps), low=Math.min(...d.temps);
+    const dayIcon=d.icons.find(i=>i.endsWith('d'))||d.icons[0];
+    const icon=ICONS[dayIcon]||'🌤';
+    const dateObj=new Date(dk+'T00:00:00'), dow=dateObj.getDay(), dowLabel=DOWS[dow];
+    const dateLabel=`${dateObj.getMonth()+1}/${dateObj.getDate()}`;
+    const isToday=dk===today, rainPct=Math.round((d.pop||0)*100);
+    const div=document.createElement('div'); div.className='fc-day'+(isToday?' today':'');
+    const dowEl=document.createElement('div'); dowEl.className='fc-dow'+(dow===0?' sun':(dow===6?' sat':'')); dowEl.textContent=isToday?'오늘':dowLabel;
+    const dateEl=document.createElement('div'); dateEl.className='fc-date'; dateEl.textContent=dateLabel;
+    const iconEl=document.createElement('div'); iconEl.className='fc-icon'; iconEl.textContent=icon;
+    const tempsEl=document.createElement('div'); tempsEl.className='fc-temps'; tempsEl.innerHTML=`<span class="fc-high">${high}°</span><span class="fc-low">${low}°</span>`;
+    div.appendChild(dowEl); div.appendChild(dateEl); div.appendChild(iconEl); div.appendChild(tempsEl);
+    if(rainPct>=20){ const rainEl=document.createElement('div'); rainEl.className='fc-rain'; rainEl.textContent=`💧${rainPct}%`; div.appendChild(rainEl); }
     wrap.appendChild(div);
   });
 }
 
+// ── ✅ 검사일 조정 — 다중 검사 지원 ────────────────────
+let _inspMoveBase = null;        // 기준일(공통)
+let _inspMoveItems = [];         // 해당 날짜의 모든 검사 [{idx, base, id, ...}]
+let _inspMoveSelected = new Set(); // 선택된 항목 인덱스 (EQUIPMENT_INSPECTIONS idx)
 
-// ── 검사일 조정 기능 ────────────────────────────────────
-let _inspMoveKey = null, _inspMoveItem = null, _inspMoveBase = null;
+function openInspMovePopup(dateKey, dateItems) {
+  _inspMoveBase = dateKey;
+  _inspMoveItems = dateItems;
+  _inspMoveSelected = new Set();
 
-// 검사 아이콘 클릭 핸들러
-function openInspMovePopup(e, dateKey, itemIdx) {
-  e.stopPropagation();
-  const item = EQUIPMENT_INSPECTIONS[itemIdx];
-  if (!item || !item.adjustable) return;
-  _inspMoveKey  = dateKey;
-  _inspMoveItem = item;
-  _inspMoveBase = dateKey; // 기준일
+  // adjustable 항목은 기본 선택, non-adjustable은 선택 불가
+  dateItems.forEach(di => {
+    if (EQUIPMENT_INSPECTIONS[di.idx].adjustable) {
+      _inspMoveSelected.add(di.idx);
+    }
+  });
 
-  // 저장된 실제 검사일 있으면 불러오기
-  const storedItem = EQUIPMENT_INSPECTIONS[itemIdx];
-  const stored = (window.schedule['__insp_dates__'] || {})[dateKey + '_' + (storedItem?.id || itemIdx)];
-  const displayDate = stored || dateKey;
+  document.getElementById('insp-move-base').textContent = '기준일: ' + dateKey;
 
-  document.getElementById('insp-move-name').textContent = item.emoji + ' ' + item.name;
-  document.getElementById('insp-move-base').textContent = '기준일: ' + dateKey + ' (' + {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type] + ')';
-  document.getElementById('insp-move-date').value = displayDate;
+  // 저장된 날짜 있으면 가져오기
+  const storedDates = window.schedule['inspDates'] || {};
+  const firstAdj = dateItems.find(di => EQUIPMENT_INSPECTIONS[di.idx].adjustable);
+  const storedDate = firstAdj ? (storedDates[firstAdj.base + '_' + EQUIPMENT_INSPECTIONS[firstAdj.idx].id] || dateKey) : dateKey;
+  document.getElementById('insp-move-date').value = storedDate;
+
+  // 검사 목록 렌더링
+  renderInspList();
+
   document.getElementById('insp-move-overlay').classList.add('open');
-  _inspMoveItemIdx = itemIdx;
 }
-let _inspMoveItemIdx = null;
 window.openInspMovePopup = openInspMovePopup;
+
+function renderInspList() {
+  const listEl = document.getElementById('insp-list');
+  listEl.innerHTML = '';
+  const storedDates = window.schedule['inspDates'] || {};
+
+  _inspMoveItems.forEach(di => {
+    const item = EQUIPMENT_INSPECTIONS[di.idx];
+    const isAdj = item.adjustable;
+    const isSelected = _inspMoveSelected.has(di.idx);
+    const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
+    const storeKey = di.base + '_' + item.id;
+    const currentDate = storedDates[storeKey] || di.base;
+    const movedNote = currentDate !== di.base ? ` → ${currentDate}` : '';
+
+    const row = document.createElement('div');
+    row.className = 'insp-list-item' + (isSelected ? ' selected' : '') + (!isAdj ? ' non-adj' : '');
+
+    row.innerHTML = `
+      <span class="insp-emoji">${item.emoji}</span>
+      <div class="insp-info">
+        <div class="insp-short">${item.short}${movedNote}</div>
+        <div class="insp-type">${typeLabel} · ${item.name}${!isAdj ? ' (이동불가)' : ''}</div>
+      </div>
+      <div class="insp-check">${isSelected ? '✓' : ''}</div>
+    `;
+
+    if (isAdj) {
+      row.addEventListener('click', () => {
+        if (_inspMoveSelected.has(di.idx)) _inspMoveSelected.delete(di.idx);
+        else _inspMoveSelected.add(di.idx);
+        renderInspList();
+      });
+    }
+    listEl.appendChild(row);
+  });
+}
 
 function closeInspMove(e) {
   if (e && e.target !== document.getElementById('insp-move-overlay')) return;
@@ -1643,9 +1343,12 @@ window.closeInspMove = closeInspMove;
 
 function saveInspDate() {
   const newDate = document.getElementById('insp-move-date').value;
-  if (!newDate || !_inspMoveBase || _inspMoveItemIdx === null) return;
+  if (!newDate || !_inspMoveBase || _inspMoveSelected.size === 0) {
+    showToast('⚠️ 이동할 검사를 선택해주세요');
+    return;
+  }
 
-  // ±21일 검증 (넉넉하게)
+  // ±21일 검증
   const base = new Date(_inspMoveBase);
   const selected = new Date(newDate);
   const diffDays = Math.round((selected - base) / 86400000);
@@ -1654,43 +1357,65 @@ function saveInspDate() {
     return;
   }
 
-  // __insp_dates__ 객체를 완전히 새로 만들어서 저장 (참조 문제 방지)
-  const item = EQUIPMENT_INSPECTIONS[_inspMoveItemIdx];
-  const key = _inspMoveBase + '_' + (item?.id || _inspMoveItemIdx);
-  const oldStored = window.schedule['__insp_dates__'] || {};
-  const newStored = Object.assign({}, oldStored, { [key]: newDate });
-  window.schedule = Object.assign({}, window.schedule, { '__insp_dates__': newStored });
+  // ✅ FIX: inspDates 키 사용 (Firestore 호환)
+  const oldStored = window.schedule['inspDates'] || {};
+  const newStored = Object.assign({}, oldStored);
+
+  let movedCount = 0;
+  _inspMoveSelected.forEach(idx => {
+    const item = EQUIPMENT_INSPECTIONS[idx];
+    // 해당 아이템의 base 찾기
+    const di = _inspMoveItems.find(x => x.idx === idx);
+    if (!di) return;
+    const key = di.base + '_' + item.id;
+    newStored[key] = newDate;
+    movedCount++;
+  });
+
+  window.schedule = Object.assign({}, window.schedule, { 'inspDates': newStored });
 
   document.getElementById('insp-move-overlay').classList.remove('open');
-  renderCalendar();  // 즉시 재렌더 (새 schedule 반영)
+  renderCalendar();
   if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast('✅ ' + newDate + '로 이동됨 (기준: ' + _inspMoveBase + ')');
+  showToast(`✅ ${movedCount}건 → ${newDate}로 이동됨`);
 }
 window.saveInspDate = saveInspDate;
 
 function resetInspDate() {
-  const itemR = EQUIPMENT_INSPECTIONS[_inspMoveItemIdx];
-  const key = _inspMoveBase + '_' + (itemR?.id || _inspMoveItemIdx);
-  const oldStored = window.schedule['__insp_dates__'] || {};
+  if (!_inspMoveBase || _inspMoveSelected.size === 0) {
+    showToast('⚠️ 복원할 검사를 선택해주세요');
+    return;
+  }
+
+  const oldStored = window.schedule['inspDates'] || {};
   const newStored = Object.assign({}, oldStored);
-  delete newStored[key];
-  window.schedule = Object.assign({}, window.schedule, { '__insp_dates__': newStored });
+
+  let resetCount = 0;
+  _inspMoveSelected.forEach(idx => {
+    const item = EQUIPMENT_INSPECTIONS[idx];
+    const di = _inspMoveItems.find(x => x.idx === idx);
+    if (!di) return;
+    const key = di.base + '_' + item.id;
+    if (newStored[key]) {
+      delete newStored[key];
+      resetCount++;
+    }
+  });
+
+  window.schedule = Object.assign({}, window.schedule, { 'inspDates': newStored });
   document.getElementById('insp-move-overlay').classList.remove('open');
   renderCalendar();
   if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast('🔄 ' + _inspMoveBase + ' 기준일로 복원됨');
+  showToast(`🔄 ${resetCount}건 기준일로 복원됨`);
 }
 window.resetInspDate = resetInspDate;
 
-// getActualInspDate 제거 (직접 참조 방식으로 교체됨)
-
-// ── 전체 공지사항 ─────────────────────────────────────
+// ── ✅ 전체 공지사항 — noticeData 키 사용 ─────────────
 function loadNotice() {
-  const userText = (window.schedule['__notice__'] || {}).text || '';
+  const userText = (window.schedule['noticeData'] || {}).text || '';
   const el = document.getElementById('notice-text');
   if (!el) return;
 
-  // D-15 자동 검사 알림
   const upcoming = getUpcomingInspections(15);
   let autoAlert = '';
   if (upcoming.length > 0) {
@@ -1706,7 +1431,6 @@ function loadNotice() {
   if (finalText.trim()) {
     el.textContent = finalText;
     el.classList.remove('empty');
-    // D-15 이내면 공지 배너 강조
     if (autoAlert) {
       const bar = document.getElementById('notice-bar');
       if (bar) bar.style.borderBottomColor = '#ef4444';
@@ -1720,7 +1444,7 @@ function loadNotice() {
 }
 
 function openNoticePopup() {
-  const text = (window.schedule['__notice__'] || {}).text || '';
+  const text = (window.schedule['noticeData'] || {}).text || '';
   document.getElementById('notice-edit-textarea').value = text;
   document.getElementById('notice-popup-overlay').classList.add('open');
   setTimeout(() => document.getElementById('notice-edit-textarea').focus(), 200);
@@ -1735,7 +1459,7 @@ window.closeNoticePopup = closeNoticePopup;
 
 function saveNotice() {
   const text = document.getElementById('notice-edit-textarea').value;
-  window.schedule = { ...window.schedule, '__notice__': { text } };
+  window.schedule = { ...window.schedule, 'noticeData': { text } };
   loadNotice();
   if (window.saveToCloud) window.saveToCloud(window.schedule);
   document.getElementById('notice-popup-overlay').classList.remove('open');
@@ -1743,7 +1467,7 @@ function saveNotice() {
 }
 window.saveNotice = saveNotice;
 
-// ── 메모 ──────────────────────────────────────────────
+// ── 메모 (사용자 메모만 저장) ──────────────────────────
 window.saveMemo=function(){
   if(!selectedDateKey) return;
   const memo=document.getElementById('memo-textarea').value.trim();
@@ -1758,9 +1482,8 @@ function renderReport() {
   const yearStr=String(viewYear);
   const monthPrefix=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
   const data=DOCTOR_MAP.map(d=>({...d,weekdays:[],weekends:[],totalHours:0,usedVacation:0}));
-
   Object.keys(window.schedule).forEach(dk=>{
-    if(!dk.startsWith(yearStr)) return;
+    if(!dk.startsWith(yearStr)||dk.length!==10) return;
     const day=window.schedule[dk];
     data.forEach(doc=>{
       if((day.vacation||'').includes(doc.initial)) doc.usedVacation+=1;
@@ -1768,9 +1491,8 @@ function renderReport() {
       if((day.half_pm||'').includes(doc.initial)) doc.usedVacation+=0.5;
     });
   });
-
   Object.keys(window.schedule).forEach(dk=>{
-    if(!dk.startsWith(monthPrefix)) return;
+    if(!dk.startsWith(monthPrefix)||dk.length!==10) return;
     const day=window.schedule[dk];
     const dObj=new Date(dk); const dow=dObj.getDay();
     const isH=isHoliday(dk)||dow===0;
@@ -1790,14 +1512,12 @@ function renderReport() {
       if(isH) doc.totalHours+=12; else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=6;}
     });
   });
-
   const dutyTbody=document.getElementById('duty-tbody'); dutyTbody.innerHTML='';
   data.filter(r=>r.totalHours>0).forEach(r=>{
     const tr=document.createElement('tr');
     tr.innerHTML=`<td style="padding:12px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td style="padding:12px 8px;color:#64748b;font-size:12px">${r.weekdays.join(', ')}</td><td style="padding:12px 8px;color:#64748b;font-size:12px">${r.weekends.join(', ')}</td><td class="hours-cell" style="padding:12px 8px">${r.totalHours}h</td>`;
     dutyTbody.appendChild(tr);
   });
-
   const leaveTbody=document.getElementById('leave-tbody'); leaveTbody.innerHTML='';
   data.forEach(r=>{
     const usable=Math.min(r.totalLeave,20); const remain=usable-r.usedVacation; const payout=Math.max(0,r.totalLeave-20);

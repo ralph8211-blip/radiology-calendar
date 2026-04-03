@@ -138,6 +138,7 @@ document.head.appendChild(lnk);
   .day-num.sun { color: #f43f5e; }
   .day-num.sat { color: #2563eb; }
   .memo-icon { display: flex; align-items: center; color: var(--amber-500); }
+  .memo-icon.insp-icon { color: #ef4444; }
   .memo-icon svg { width: 10px; height: 10px; }
 
   .dots { display: flex; gap: 2px; height: 6px; margin-bottom: 3px; }
@@ -416,11 +417,7 @@ document.head.appendChild(lnk);
     font-size: 13px; color: rgba(255,255,255,0.9); font-weight: 700;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  #weather-alert {
-    font-size: 11px; color: #fde68a; font-weight: 700;
-    margin-top: 2px; display: none;
-  }
-  #weather-alert.show { display: block; }
+
   #weather-times {
     display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;
   }
@@ -437,6 +434,84 @@ document.head.appendChild(lnk);
     font-size: 12px; font-weight: 600; text-align: center;
   }
   #weather-error { display: none; }
+
+
+  /* ── 날씨 알림 강조 ── */
+  #weather-alert {
+    font-size: 12px; color: #fde68a; font-weight: 800;
+    margin-top: 3px; display: none;
+    padding: 4px 10px; border-radius: 99px;
+    background: rgba(239,68,68,0.35);
+    border: 1px solid rgba(239,68,68,0.5);
+    animation: pulse-alert 1.8s ease-in-out infinite;
+  }
+  #weather-alert.show { display: inline-block; }
+  @keyframes pulse-alert {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.75; transform: scale(1.03); }
+  }
+
+  /* ── 주간 예보 ── */
+  #weekly-forecast {
+    max-width: 480px; margin: 0 auto;
+    background: rgba(15,23,42,0.72);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  #weekly-forecast::-webkit-scrollbar { display: none; }
+  #weekly-forecast-inner {
+    display: flex; gap: 0; min-width: max-content; padding: 6px 12px;
+  }
+  .fc-day {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 6px 10px; gap: 3px; flex-shrink: 0; min-width: 52px;
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+  .fc-day:last-child { border-right: none; }
+  .fc-day.today { background: rgba(255,255,255,0.12); border-radius: 10px; }
+  .fc-dow  { font-size: 10px; font-weight: 900; color: rgba(255,255,255,0.55); text-transform: uppercase; }
+  .fc-dow.sun { color: #fca5a5; }
+  .fc-dow.sat { color: #93c5fd; }
+  .fc-date { font-size: 11px; font-weight: 900; color: rgba(255,255,255,0.8); }
+  .fc-icon { font-size: 20px; line-height: 1; }
+  .fc-temps { display: flex; gap: 4px; align-items: baseline; }
+  .fc-high  { font-size: 13px; font-weight: 900; color: #fde68a; }
+  .fc-low   { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.5); }
+  .fc-rain  { font-size: 9px; color: #93c5fd; font-weight: 700; }
+
+
+  /* ── 검사일 변경 팝업 ── */
+  #insp-move-overlay {
+    position: fixed; inset: 0; z-index: 600;
+    background: rgba(2,6,23,0.75); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  #insp-move-overlay.open { opacity: 1; pointer-events: all; }
+  #insp-move-box {
+    background: white; border-radius: 2rem; padding: 28px 24px 24px;
+    width: 90%; max-width: 360px;
+    transform: scale(0.92); transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  #insp-move-overlay.open #insp-move-box { transform: scale(1); }
+  .insp-move-label  { font-size: 10px; font-weight: 900; color: #ef4444; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .insp-move-name   { font-size: 16px; font-weight: 900; color: #0f172a; margin-bottom: 4px; }
+  .insp-move-base   { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
+  .insp-move-row    { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .insp-move-row label { font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap; }
+  #insp-move-date   {
+    flex: 1; border: 2px solid #e2e8f0; border-radius: 1rem;
+    padding: 10px 14px; font-size: 14px; font-family: inherit;
+    outline: none; transition: border-color 0.2s;
+  }
+  #insp-move-date:focus { border-color: #ef4444; }
+  .insp-move-hint   { font-size: 11px; color: #94a3b8; margin-bottom: 20px; }
+  .insp-move-btns   { display: flex; gap: 10px; }
+  .insp-move-save   { flex: 1; background: #ef4444; color: white; border: none; padding: 13px; border-radius: 1rem; font-size: 14px; font-weight: 900; cursor: pointer; }
+  .insp-move-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 13px 18px; border-radius: 1rem; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .insp-move-reset  { background: #fef3c7; color: #92400e; border: none; padding: 13px 14px; border-radius: 1rem; font-size: 11px; font-weight: 700; cursor: pointer; }
 
   #toast { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 11px 22px; border-radius: 99px; font-size: 13px; font-weight: 700; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
   #toast.show { opacity: 1; }
@@ -519,6 +594,13 @@ document.head.appendChild(lnk);
         <span class="weather-time-temp" id="wt-evening-temp">--°</span>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── 주간 날씨 예보 ── -->
+<div id="weekly-forecast">
+  <div id="weekly-forecast-inner">
+    <div style="display:flex;align-items:center;padding:0 8px 0 0;color:rgba(255,255,255,0.4);font-size:10px;font-weight:700;white-space:nowrap;">5일<br>예보</div>
   </div>
 </div>
 
@@ -621,6 +703,26 @@ document.head.appendChild(lnk);
   </div>
 </div>
 
+
+<!-- ── 검사일 변경 팝업 ── -->
+<div id="insp-move-overlay" onclick="closeInspMove(event)">
+  <div id="insp-move-box" onclick="event.stopPropagation()">
+    <div class="insp-move-label">🛡 장비검사 일정 조정</div>
+    <div class="insp-move-name" id="insp-move-name"></div>
+    <div class="insp-move-base" id="insp-move-base"></div>
+    <div class="insp-move-row">
+      <label>실제 검사일</label>
+      <input type="date" id="insp-move-date"/>
+    </div>
+    <div class="insp-move-hint">⚡ 업체 스케줄에 따라 기준일 앞뒤 7일 내 조정 가능<br>변경 시 달력에 새 날짜로 표시됩니다</div>
+    <div class="insp-move-btns">
+      <button class="insp-move-cancel" onclick="closeInspMove()">취소</button>
+      <button class="insp-move-reset"  onclick="resetInspDate()">기준일 복원</button>
+      <button class="insp-move-save"   onclick="saveInspDate()">저장</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── 대휴 사유 선택 팝업 ── -->
 <div id="alt-reason-overlay">
   <div id="alt-reason-box">
@@ -687,6 +789,120 @@ window.saveToCloud = async function(s) {
 
 <!-- ── APP LOGIC ── -->
 <script>
+
+// ── 장비 검사 일정 데이터 ──────────────────────────────
+// baseDate: 표에 나온 실제 검사 예정 기준일
+// cyclYears: 반복 주기 (년)
+// adjustable: true = 앞뒤 7일 업체 조율 가능
+const EQUIPMENT_INSPECTIONS = [
+
+  // ─── 특수의료장비 정밀검사 (3년) + 서류검사 (매년) ───
+  { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 정밀',   type: 'precision',
+    baseDate: '2026-04-02', cyclYears: 3, emoji: '🧲', adjustable: true },
+  { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 서류',   type: 'doc',
+    baseDate: '2026-04-02', cyclYears: 1, emoji: '📋', adjustable: false },
+
+  { name: 'CT (SOMATOM-Perspective)',      short: 'CT 서류',    type: 'doc',
+    baseDate: '2028-01-13', cyclYears: 1, emoji: '📋', adjustable: false },
+
+  { name: 'MAMMO (selenia F)',             short: 'MAMMO 서류', type: 'doc',
+    baseDate: '2026-03-03', cyclYears: 1, emoji: '📋', adjustable: false },
+
+  // ─── 안전검사 (3년) ───
+  { name: 'CT (SOMATOM-Perspective)',      short: 'CT 안전+정밀', type: 'safety',
+    baseDate: '2028-01-13', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: 'MAMMO (selenia F)',             short: 'MAMMO 안전',  type: 'safety',
+    baseDate: '2026-03-03', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '촬영실1 (CDX-RD85DII)',         short: '촬영실1 안전', type: 'safety',
+    baseDate: '2026-04-28', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '촬영실2 (CDX-RD85DII)',         short: '촬영실2 안전', type: 'safety',
+    baseDate: '2028-03-07', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '골밀도 (EXCELLUS=BHR-3-83)',   short: '골밀도 안전',  type: 'safety',
+    baseDate: '2025-04-09', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '초음파쇄석기 (Rifle=HF-5-125)', short: '초음파쇄석기 안전', type: 'safety',
+    baseDate: '2025-04-11', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: 'C-ARM 1 (Brivo OEC 785)',      short: 'C-ARM1 안전', type: 'safety',
+    baseDate: '2028-01-04', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: 'C-ARM 2 (Brivo OEC 785)',      short: 'C-ARM2 안전', type: 'safety',
+    baseDate: '2028-04-29', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '본관 POTABLE (MUX-10)',        short: '본관POTABLE 안전', type: 'safety',
+    baseDate: '2028-12-24', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '선별 POTABLE (SIRIUS STAR)',   short: '선별POTABLE 안전', type: 'safety',
+    baseDate: '2026-09-22', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '음압 POTABLE (JADE-40)',       short: '음압POTABLE 안전', type: 'safety',
+    baseDate: '2028-02-04', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '검진 파노라마 (Orthophos3)',   short: '파노라마 안전',   type: 'safety',
+    baseDate: '2027-02-27', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '검진 INNOVISION-DX',          short: 'INNOVISION 안전', type: 'safety',
+    baseDate: '2026-05-13', cyclYears: 3, emoji: '🛡', adjustable: true },
+
+  { name: '검진 위장촬영 (KXO-50N)',     short: '위장촬영 안전',   type: 'safety',
+    baseDate: '2027-09-26', cyclYears: 3, emoji: '🛡', adjustable: true },
+];
+
+// 기준일로부터 cyclYears 주기로 2030년까지 날짜 목록 생성
+function getInspectionDates(baseDate, cyclYears, maxYear = 2035) {
+  const dates = [];
+  const base = new Date(baseDate);
+  const baseYear = base.getFullYear();
+  for (let y = baseYear; y <= maxYear; y += cyclYears) {
+    const d = new Date(base);
+    d.setFullYear(y);
+    dates.push(d.toISOString().slice(0, 10));
+  }
+  return dates;
+}
+
+// 모든 검사 날짜 → 메모 데이터로 변환
+function buildInspectionMemos() {
+  const memos = {}; // dateKey → memo text 배열
+  EQUIPMENT_INSPECTIONS.forEach(item => {
+    const dates = getInspectionDates(item.baseDate, item.cyclYears);
+    dates.forEach(dk => {
+      if (!memos[dk]) memos[dk] = [];
+      const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type] || item.type;
+      memos[dk].push(`${item.emoji} [${typeLabel}] ${item.name}`);
+    });
+  });
+  return memos;
+}
+
+// 오늘부터 N일 이내 검사 목록 반환
+function getUpcomingInspections(days = 15) {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const limit = new Date(today); limit.setDate(today.getDate() + days);
+  const results = [];
+  EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
+    const dates = getInspectionDates(item.baseDate, item.cyclYears);
+    dates.forEach(baseDk => {
+      // 조정된 실제 날짜 반영
+      const dk = getActualInspDate(baseDk, idx);
+      const d = new Date(dk);
+      if (d >= today && d <= limit) {
+        const diff = Math.round((d - today) / 86400000);
+        const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type];
+        const adjusted = dk !== baseDk ? ` (기준: ${baseDk})` : '';
+        results.push({ dk, diff, label: `${item.emoji} ${item.short} ${typeLabel}${adjusted}`, name: item.name });
+      }
+    });
+  });
+  results.sort((a,b) => a.diff - b.diff);
+  return results;
+}
+
 // ── 로그인 ───────────────────────────────────────────
 const SECRET_PIN = "6633";
 
@@ -865,11 +1081,44 @@ function renderCalendar() {
     numSpan.className = 'day-num'+(isSun?' sun':(isSat?' sat':''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
+    // 사용자 메모
     if (dayData.memo && dayData.memo.trim()) {
       const mi = document.createElement('span');
       mi.className = 'memo-icon'; mi.title = dayData.memo;
       mi.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
       dayHeaderRow.appendChild(mi);
+    }
+    // 장비 검사 아이콘
+    // 실제 검사일 반영한 메모 빌드
+    const inspMemos = buildInspectionMemos();
+    // 조정된 날짜 반영
+    const adjMemos = {};
+    EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
+      const dates = getInspectionDates(item.baseDate, item.cyclYears);
+      dates.forEach(dk => {
+        const actual = getActualInspDate(dk, idx);
+        if (!adjMemos[actual]) adjMemos[actual] = [];
+        const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
+        adjMemos[actual].push({ text: `${item.emoji} [${typeLabel}] ${item.name}`, idx, base: dk });
+      });
+    });
+
+    if (adjMemos[dateKey]) {
+      const inspIcon = document.createElement('span');
+      inspIcon.className = 'memo-icon insp-icon';
+      inspIcon.title = adjMemos[dateKey].map(x=>x.text).join('\n') + '\n(탭하여 날짜 조정)';
+      inspIcon.style.color = '#ef4444';
+      inspIcon.style.cursor = 'pointer';
+      inspIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`;
+      // 첫 번째 adjustable 아이템으로 팝업 오픈
+      const firstAdj = adjMemos[dateKey].find(x => EQUIPMENT_INSPECTIONS[x.idx].adjustable);
+      if (firstAdj) {
+        inspIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openInspMovePopup(e, firstAdj.base, firstAdj.idx);
+        });
+      }
+      dayHeaderRow.appendChild(inspIcon);
     }
     inner.appendChild(dayHeaderRow);
 
@@ -948,7 +1197,12 @@ function openPopup(dateKey) {
   selectedDateKey=dateKey; selectedDoc=null;
   renderBanner(); renderCalendar();
   document.getElementById('popup-title').textContent=dateKey.slice(5)+' 배정';
-  document.getElementById('memo-textarea').value=(window.schedule[dateKey]||{}).memo||'';
+  // 사용자 메모 + 장비 검사 메모 합쳐서 표시
+  const _userMemo = (window.schedule[dateKey]||{}).memo||'';
+  const _inspMemos = buildInspectionMemos();
+  const _inspText = _inspMemos[dateKey] ? _inspMemos[dateKey].join('\n') : '';
+  const _combinedMemo = [_inspText, _userMemo].filter(Boolean).join('\n─────────────\n');
+  document.getElementById('memo-textarea').value = _combinedMemo;
   renderPopupDocs(); renderDutyRows();
   document.getElementById('popup-overlay').classList.add('open');
 }
@@ -1120,7 +1374,7 @@ async function loadWeather() {
     // 현재 날씨 + 5일 예보 병렬 호출
     const [curRes, fcRes] = await Promise.all([
       fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric`),
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric&cnt=10`)
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric&cnt=40`)
     ]);
     if (!curRes.ok) throw new Error('OWM ' + curRes.status);
     const [cur, fc] = await Promise.all([curRes.json(), fcRes.json()]);
@@ -1195,6 +1449,9 @@ async function loadWeather() {
     if (alerts.length) { alertEl.textContent = alerts.join('  '); alertEl.classList.add('show'); }
     else { alertEl.classList.remove('show'); }
 
+    // ── 주간 예보 렌더링 ──
+    renderWeeklyForecast(list);
+
     document.getElementById('weather-loading').style.display = 'none';
     document.getElementById('weather-inner').style.display = 'flex';
 
@@ -1204,14 +1461,186 @@ async function loadWeather() {
   }
 }
 
+// ── 주간 예보 렌더링 ─────────────────────────────────
+function renderWeeklyForecast(list) {
+  const wrap = document.getElementById('weekly-forecast-inner');
+  if (!wrap) return;
+
+  // 날짜별로 그룹핑 (최고/최저 온도, 대표 아이콘)
+  const days = {};
+  list.forEach(h => {
+    const dk = h.dt_txt.slice(0, 10);
+    if (!days[dk]) days[dk] = { temps: [], icons: [], pop: 0 };
+    days[dk].temps.push(Math.round(h.main.temp));
+    days[dk].icons.push(h.weather[0].icon);
+    days[dk].pop = Math.max(days[dk].pop, h.pop || 0);
+  });
+
+  const ICONS = {
+    '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
+    '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
+    '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
+    '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'
+  };
+  const DOWS = ['일','월','화','수','목','금','토'];
+  const today = new Date().toISOString().slice(0,10);
+
+  // 기존 내용 초기화 (라벨 제외)
+  while (wrap.children.length > 1) wrap.removeChild(wrap.lastChild);
+
+  Object.keys(days).slice(0, 6).forEach(dk => {
+    const d = days[dk];
+    const high = Math.max(...d.temps);
+    const low  = Math.min(...d.temps);
+    // 낮 시간대 아이콘 우선
+    const dayIcon = d.icons.find(i => i.endsWith('d')) || d.icons[0];
+    const icon = ICONS[dayIcon] || '🌤';
+    const dateObj = new Date(dk + 'T00:00:00');
+    const dow = dateObj.getDay();
+    const dowLabel = DOWS[dow];
+    const dateLabel = `${dateObj.getMonth()+1}/${dateObj.getDate()}`;
+    const isToday = dk === today;
+    const rainPct = Math.round((d.pop || 0) * 100);
+
+    const div = document.createElement('div');
+    div.className = 'fc-day' + (isToday ? ' today' : '');
+
+    const dowEl = document.createElement('div');
+    dowEl.className = 'fc-dow' + (dow===0?' sun':(dow===6?' sat':''));
+    dowEl.textContent = isToday ? '오늘' : dowLabel;
+
+    const dateEl = document.createElement('div');
+    dateEl.className = 'fc-date';
+    dateEl.textContent = dateLabel;
+
+    const iconEl = document.createElement('div');
+    iconEl.className = 'fc-icon';
+    iconEl.textContent = icon;
+
+    const tempsEl = document.createElement('div');
+    tempsEl.className = 'fc-temps';
+    tempsEl.innerHTML = `<span class="fc-high">${high}°</span><span class="fc-low">${low}°</span>`;
+
+    div.appendChild(dowEl);
+    div.appendChild(dateEl);
+    div.appendChild(iconEl);
+    div.appendChild(tempsEl);
+
+    if (rainPct >= 20) {
+      const rainEl = document.createElement('div');
+      rainEl.className = 'fc-rain';
+      rainEl.textContent = `💧${rainPct}%`;
+      div.appendChild(rainEl);
+    }
+
+    wrap.appendChild(div);
+  });
+}
+
+
+// ── 검사일 조정 기능 ────────────────────────────────────
+let _inspMoveKey = null, _inspMoveItem = null, _inspMoveBase = null;
+
+// 검사 아이콘 클릭 핸들러
+function openInspMovePopup(e, dateKey, itemIdx) {
+  e.stopPropagation();
+  const item = EQUIPMENT_INSPECTIONS[itemIdx];
+  if (!item || !item.adjustable) return;
+  _inspMoveKey  = dateKey;
+  _inspMoveItem = item;
+  _inspMoveBase = dateKey; // 기준일
+
+  // 저장된 실제 검사일 있으면 불러오기
+  const stored = (window.schedule['__insp_dates__'] || {})[dateKey + '_' + itemIdx];
+  const displayDate = stored || dateKey;
+
+  document.getElementById('insp-move-name').textContent = item.emoji + ' ' + item.name;
+  document.getElementById('insp-move-base').textContent = '기준일: ' + dateKey + ' (' + {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type] + ')';
+  document.getElementById('insp-move-date').value = displayDate;
+  document.getElementById('insp-move-overlay').classList.add('open');
+  _inspMoveItemIdx = itemIdx;
+}
+let _inspMoveItemIdx = null;
+window.openInspMovePopup = openInspMovePopup;
+
+function closeInspMove(e) {
+  if (e && e.target !== document.getElementById('insp-move-overlay')) return;
+  document.getElementById('insp-move-overlay').classList.remove('open');
+}
+window.closeInspMove = closeInspMove;
+
+function saveInspDate() {
+  const newDate = document.getElementById('insp-move-date').value;
+  if (!newDate || !_inspMoveBase || _inspMoveItemIdx === null) return;
+
+  // ±7일 검증
+  const base = new Date(_inspMoveBase);
+  const selected = new Date(newDate);
+  const diffDays = Math.round((selected - base) / 86400000);
+  if (Math.abs(diffDays) > 14) {
+    showToast('⚠️ 기준일 ±14일 이내로 설정해주세요');
+    return;
+  }
+
+  const key = _inspMoveBase + '_' + _inspMoveItemIdx;
+  const stored = window.schedule['__insp_dates__'] || {};
+  stored[key] = newDate;
+  window.schedule = { ...window.schedule, '__insp_dates__': stored };
+  if (window.saveToCloud) window.saveToCloud(window.schedule);
+
+  document.getElementById('insp-move-overlay').classList.remove('open');
+  renderCalendar();
+  showToast('✅ 검사일 ' + newDate + '로 저장됨');
+}
+window.saveInspDate = saveInspDate;
+
+function resetInspDate() {
+  const key = _inspMoveBase + '_' + _inspMoveItemIdx;
+  const stored = window.schedule['__insp_dates__'] || {};
+  delete stored[key];
+  window.schedule = { ...window.schedule, '__insp_dates__': stored };
+  if (window.saveToCloud) window.saveToCloud(window.schedule);
+  document.getElementById('insp-move-overlay').classList.remove('open');
+  renderCalendar();
+  showToast('🔄 기준일로 복원됨');
+}
+window.resetInspDate = resetInspDate;
+
+// 실제 표시할 날짜 계산 (저장된 조정일 반영)
+function getActualInspDate(baseDate, itemIdx) {
+  const key = baseDate + '_' + itemIdx;
+  return (window.schedule['__insp_dates__'] || {})[key] || baseDate;
+}
+
 // ── 전체 공지사항 ─────────────────────────────────────
 function loadNotice() {
-  const text = (window.schedule['__notice__'] || {}).text || '';
+  const userText = (window.schedule['__notice__'] || {}).text || '';
   const el = document.getElementById('notice-text');
   if (!el) return;
-  if (text.trim()) {
-    el.textContent = text;
+
+  // D-15 자동 검사 알림
+  const upcoming = getUpcomingInspections(15);
+  let autoAlert = '';
+  if (upcoming.length > 0) {
+    const lines = upcoming.map(u => {
+      const dStr = u.diff === 0 ? '📅 오늘!' : `📅 D-${u.diff}`;
+      return `${dStr} ${u.label} (${u.dk})`;
+    });
+    autoAlert = '⚠️ 장비검사 예정\n' + lines.join('\n');
+  }
+
+  const finalText = [autoAlert, userText].filter(Boolean).join('\n─────────────\n');
+
+  if (finalText.trim()) {
+    el.textContent = finalText;
     el.classList.remove('empty');
+    // D-15 이내면 공지 배너 강조
+    if (autoAlert) {
+      const bar = document.getElementById('notice-bar');
+      if (bar) bar.style.borderBottomColor = '#ef4444';
+      const label = document.getElementById('notice-label');
+      if (label) { label.textContent = '⚠️ 긴급'; label.style.background = '#ef4444'; }
+    }
   } else {
     el.textContent = '공지사항을 입력하세요 (✏️ 버튼)';
     el.classList.add('empty');
@@ -1320,6 +1749,7 @@ window.toggleScreening=function(show){
   document.getElementById('month-header').style.display=showScreening?'none':'flex';
   const wb=document.getElementById('weather-bar'); if(wb) wb.style.display=showScreening?'none':'block';
   const nb=document.getElementById('notice-bar'); if(nb) nb.style.display=showScreening?'none':'block';
+  const wf=document.getElementById('weekly-forecast'); if(wf) wf.style.display=showScreening?'none':'block';
   document.getElementById('screening').classList.toggle('visible',showScreening);
   document.getElementById('bottom-banner').style.display=showScreening?'none':'block';
   document.getElementById('btn-screening').classList.toggle('active',showScreening);

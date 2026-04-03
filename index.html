@@ -598,7 +598,7 @@ document.head.appendChild(lnk);
         <span id="weather-feels">체감 --°</span>
       </div>
       <div id="weather-desc">부산 날씨</div>
-      <div id="weather-alert">⚠️ 퇴근길 비 예보 — 우산 챙기세요 🌂</div>
+
     </div>
     <div id="weather-times">
       <div class="weather-time-item">
@@ -617,6 +617,10 @@ document.head.appendChild(lnk);
         🌐 상세
       </a>
     </div>
+  </div>
+  <!-- 퇴근길 알림 — weather-inner 밖에서 항상 표시 가능 -->
+  <div id="weather-alert-wrap" style="padding:0 14px 10px;display:none;">
+    <div id="weather-alert">⚠️ 퇴근길 비 예보 — 우산 챙기세요 🌂</div>
   </div>
 </div>
 
@@ -1495,8 +1499,15 @@ async function loadWeather() {
       alerts.push(`🧥 오후 기온 ${mTemp-eTemp}°C 급강하 — 겉옷 챙기세요!`);
 
     const alertEl = document.getElementById('weather-alert');
-    if (alerts.length) { alertEl.textContent = alerts.join('  '); alertEl.classList.add('show'); }
-    else { alertEl.classList.remove('show'); }
+    const alertWrap = document.getElementById('weather-alert-wrap');
+    if (alerts.length) {
+      alertEl.textContent = alerts.join('  ');
+      alertEl.classList.add('show');
+      if (alertWrap) alertWrap.style.display = 'block';
+    } else {
+      alertEl.classList.remove('show');
+      if (alertWrap) alertWrap.style.display = 'none';
+    }
 
     // ── 주간 예보 렌더링 ──
     renderWeeklyForecast(list);
@@ -1622,36 +1633,38 @@ function saveInspDate() {
   const newDate = document.getElementById('insp-move-date').value;
   if (!newDate || !_inspMoveBase || _inspMoveItemIdx === null) return;
 
-  // ±7일 검증
+  // ±21일 검증 (넉넉하게)
   const base = new Date(_inspMoveBase);
   const selected = new Date(newDate);
   const diffDays = Math.round((selected - base) / 86400000);
-  if (Math.abs(diffDays) > 14) {
-    showToast('⚠️ 기준일 ±14일 이내로 설정해주세요');
+  if (Math.abs(diffDays) > 21) {
+    showToast('⚠️ 기준일 ±21일 이내로 설정해주세요');
     return;
   }
 
+  // __insp_dates__ 객체를 완전히 새로 만들어서 저장 (참조 문제 방지)
   const key = _inspMoveBase + '_' + _inspMoveItemIdx;
-  const stored = window.schedule['__insp_dates__'] || {};
-  stored[key] = newDate;
-  window.schedule = { ...window.schedule, '__insp_dates__': stored };
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
+  const oldStored = window.schedule['__insp_dates__'] || {};
+  const newStored = Object.assign({}, oldStored, { [key]: newDate });
+  window.schedule = Object.assign({}, window.schedule, { '__insp_dates__': newStored });
 
   document.getElementById('insp-move-overlay').classList.remove('open');
-  renderCalendar();
-  showToast('✅ 검사일 ' + newDate + '로 저장됨');
+  renderCalendar();  // 즉시 재렌더 (새 schedule 반영)
+  if (window.saveToCloud) window.saveToCloud(window.schedule);
+  showToast('✅ ' + newDate + '로 이동됨 (기준: ' + _inspMoveBase + ')');
 }
 window.saveInspDate = saveInspDate;
 
 function resetInspDate() {
   const key = _inspMoveBase + '_' + _inspMoveItemIdx;
-  const stored = window.schedule['__insp_dates__'] || {};
-  delete stored[key];
-  window.schedule = { ...window.schedule, '__insp_dates__': stored };
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
+  const oldStored = window.schedule['__insp_dates__'] || {};
+  const newStored = Object.assign({}, oldStored);
+  delete newStored[key];
+  window.schedule = Object.assign({}, window.schedule, { '__insp_dates__': newStored });
   document.getElementById('insp-move-overlay').classList.remove('open');
   renderCalendar();
-  showToast('🔄 기준일로 복원됨');
+  if (window.saveToCloud) window.saveToCloud(window.schedule);
+  showToast('🔄 ' + _inspMoveBase + ' 기준일로 복원됨');
 }
 window.resetInspDate = resetInspDate;
 

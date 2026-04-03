@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8"/>
@@ -10,12 +11,14 @@
 <meta name="color-scheme" content="light only"/>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GDG8P62X2"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-0GDG8P62X2');
 </script>
+
 <title>영상의학과 캘린더</title>
 
 <script>
@@ -423,7 +426,6 @@ document.head.appendChild(lnk);
   .insp-move-btns   { display: flex; gap: 10px; }
   .insp-move-save   { flex: 1; background: #ef4444; color: white; border: none; padding: 13px; border-radius: 1rem; font-size: 14px; font-weight: 900; cursor: pointer; }
   .insp-move-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 13px 18px; border-radius: 1rem; font-size: 14px; font-weight: 700; cursor: pointer; }
-  .insp-move-reset  { background: #fef3c7; color: #92400e; border: none; padding: 13px 14px; border-radius: 1rem; font-size: 11px; font-weight: 700; cursor: pointer; }
 
   /* ✅ 검사 목록 (다중 검사 지원) */
   .insp-list { margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
@@ -434,7 +436,6 @@ document.head.appendChild(lnk);
     cursor: pointer; transition: all 0.15s;
   }
   .insp-list-item.selected { border-color: #ef4444; background: #fef2f2; }
-  .insp-list-item.non-adj { opacity: 0.5; cursor: default; }
   .insp-list-item .insp-emoji { font-size: 18px; }
   .insp-list-item .insp-info { flex: 1; min-width: 0; }
   .insp-list-item .insp-short { font-size: 13px; font-weight: 900; color: #0f172a; }
@@ -465,10 +466,12 @@ document.head.appendChild(lnk);
   .c-purple{color:var(--purple-600);} .c-emerald{color:var(--emerald-600);} .c-teal{color:var(--teal-600);}
   .c-amber{color:var(--amber-600);} .c-indigo{color:#4338ca;}
 </style>
+
 </head>
 <body>
 
 <!-- ── LOGIN ── -->
+
 <div id="login-overlay">
   <div class="login-box">
     <div class="login-logo">
@@ -487,6 +490,7 @@ document.head.appendChild(lnk);
 </div>
 
 <!-- ── APP ── -->
+
 <div id="app-container" style="display:none">
 <nav>
   <div class="logo">
@@ -596,6 +600,7 @@ document.head.appendChild(lnk);
 </div>
 
 <!-- ── POPUP ── -->
+
 <div id="popup-overlay" onclick="closePopup(event)">
   <div id="popup-sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
@@ -639,6 +644,7 @@ document.head.appendChild(lnk);
 </div>
 
 <!-- ✅ 검사일 변경 팝업 — 다중 검사 지원 -->
+
 <div id="insp-move-overlay" onclick="closeInspMove(event)">
   <div id="insp-move-box" onclick="event.stopPropagation()">
     <div class="insp-move-label">🛡 장비검사 일정 조정</div>
@@ -652,7 +658,6 @@ document.head.appendChild(lnk);
     <div class="insp-move-hint">⚡ 기준일 ±21일 이내 조정 가능 · 선택한 검사만 이동됩니다</div>
     <div class="insp-move-btns">
       <button class="insp-move-cancel" onclick="closeInspMove()">취소</button>
-      <button class="insp-move-reset"  onclick="resetInspDate()">기준일 복원</button>
       <button class="insp-move-save"   onclick="saveInspDate()">선택 항목 이동</button>
     </div>
   </div>
@@ -677,6 +682,7 @@ document.head.appendChild(lnk);
 <div id="toast"></div>
 
 <!-- ── FIREBASE ── -->
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
@@ -725,6 +731,7 @@ window.saveToCloud = async function(s) {
 </script>
 
 <!-- ── APP LOGIC ── -->
+
 <script>
 
 // ── 장비 검사 일정 데이터 ──────────────────────────────
@@ -732,11 +739,11 @@ const EQUIPMENT_INSPECTIONS = [
   { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 정밀', id: 'mri-precision',   type: 'precision',
     baseDate: '2026-04-02', cyclYears: 3, emoji: '🧲', adjustable: true },
   { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 서류', id: 'mri-doc',   type: 'doc',
-    baseDate: '2026-04-02', cyclYears: 1, emoji: '📋', adjustable: false },
+    baseDate: '2026-04-02', cyclYears: 1, emoji: '📋', adjustable: true },
   { name: 'CT (SOMATOM-Perspective)',      short: 'CT 서류', id: 'ct-doc',    type: 'doc',
-    baseDate: '2028-01-13', cyclYears: 1, emoji: '📋', adjustable: false },
+    baseDate: '2028-01-13', cyclYears: 1, emoji: '📋', adjustable: true },
   { name: 'MAMMO (selenia F)',             short: 'MAMMO 서류', id: 'mammo-doc', type: 'doc',
-    baseDate: '2026-03-03', cyclYears: 1, emoji: '📋', adjustable: false },
+    baseDate: '2026-03-03', cyclYears: 1, emoji: '📋', adjustable: true },
   { name: 'CT (SOMATOM-Perspective)',      short: 'CT 안전+정밀', id: 'ct-safety', type: 'safety',
     baseDate: '2028-01-13', cyclYears: 3, emoji: '🛡', adjustable: true },
   { name: 'MAMMO (selenia F)',             short: 'MAMMO 안전', id: 'mammo-safety',  type: 'safety',
@@ -1276,11 +1283,9 @@ function openInspMovePopup(dateKey, dateItems) {
   _inspMoveItems = dateItems;
   _inspMoveSelected = new Set();
 
-  // adjustable 항목은 기본 선택, non-adjustable은 선택 불가
+  // 모든 항목 기본 선택
   dateItems.forEach(di => {
-    if (EQUIPMENT_INSPECTIONS[di.idx].adjustable) {
-      _inspMoveSelected.add(di.idx);
-    }
+    _inspMoveSelected.add(di.idx);
   });
 
   document.getElementById('insp-move-base').textContent = '기준일: ' + dateKey;
@@ -1305,7 +1310,6 @@ function renderInspList() {
 
   _inspMoveItems.forEach(di => {
     const item = EQUIPMENT_INSPECTIONS[di.idx];
-    const isAdj = item.adjustable;
     const isSelected = _inspMoveSelected.has(di.idx);
     const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
     const storeKey = di.base + '_' + item.id;
@@ -1313,24 +1317,22 @@ function renderInspList() {
     const movedNote = currentDate !== di.base ? ` → ${currentDate}` : '';
 
     const row = document.createElement('div');
-    row.className = 'insp-list-item' + (isSelected ? ' selected' : '') + (!isAdj ? ' non-adj' : '');
+    row.className = 'insp-list-item' + (isSelected ? ' selected' : '');
 
     row.innerHTML = `
       <span class="insp-emoji">${item.emoji}</span>
       <div class="insp-info">
         <div class="insp-short">${item.short}${movedNote}</div>
-        <div class="insp-type">${typeLabel} · ${item.name}${!isAdj ? ' (이동불가)' : ''}</div>
+        <div class="insp-type">${typeLabel} · ${item.name}</div>
       </div>
       <div class="insp-check">${isSelected ? '✓' : ''}</div>
     `;
 
-    if (isAdj) {
-      row.addEventListener('click', () => {
-        if (_inspMoveSelected.has(di.idx)) _inspMoveSelected.delete(di.idx);
-        else _inspMoveSelected.add(di.idx);
-        renderInspList();
-      });
-    }
+    row.addEventListener('click', () => {
+      if (_inspMoveSelected.has(di.idx)) _inspMoveSelected.delete(di.idx);
+      else _inspMoveSelected.add(di.idx);
+      renderInspList();
+    });
     listEl.appendChild(row);
   });
 }
@@ -1380,35 +1382,6 @@ function saveInspDate() {
   showToast(`✅ ${movedCount}건 → ${newDate}로 이동됨`);
 }
 window.saveInspDate = saveInspDate;
-
-function resetInspDate() {
-  if (!_inspMoveBase || _inspMoveSelected.size === 0) {
-    showToast('⚠️ 복원할 검사를 선택해주세요');
-    return;
-  }
-
-  const oldStored = window.schedule['inspDates'] || {};
-  const newStored = Object.assign({}, oldStored);
-
-  let resetCount = 0;
-  _inspMoveSelected.forEach(idx => {
-    const item = EQUIPMENT_INSPECTIONS[idx];
-    const di = _inspMoveItems.find(x => x.idx === idx);
-    if (!di) return;
-    const key = di.base + '_' + item.id;
-    if (newStored[key]) {
-      delete newStored[key];
-      resetCount++;
-    }
-  });
-
-  window.schedule = Object.assign({}, window.schedule, { 'inspDates': newStored });
-  document.getElementById('insp-move-overlay').classList.remove('open');
-  renderCalendar();
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(`🔄 ${resetCount}건 기준일로 복원됨`);
-}
-window.resetInspDate = resetInspDate;
 
 // ── ✅ 전체 공지사항 — noticeData 키 사용 ─────────────
 function loadNotice() {
@@ -1554,5 +1527,6 @@ document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){
 
 renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
 </script>
+
 </body>
 </html>

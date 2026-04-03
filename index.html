@@ -439,16 +439,20 @@ document.head.appendChild(lnk);
   /* ── 날씨 알림 강조 ── */
   #weather-alert {
     font-size: 12px; color: #fde68a; font-weight: 800;
-    margin-top: 3px; display: none;
-    padding: 4px 10px; border-radius: 99px;
-    background: rgba(239,68,68,0.35);
-    border: 1px solid rgba(239,68,68,0.5);
+    margin-top: 5px; display: none;
+    padding: 5px 12px; border-radius: 99px;
+    background: rgba(220,38,38,0.5);
+    border: 1.5px solid rgba(252,165,165,0.6);
+    width: fit-content;
+    box-shadow: 0 0 8px rgba(239,68,68,0.4);
+  }
+  #weather-alert.show {
+    display: block !important;
     animation: pulse-alert 1.8s ease-in-out infinite;
   }
-  #weather-alert.show { display: inline-block; }
   @keyframes pulse-alert {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.75; transform: scale(1.03); }
+    0%,100% { opacity: 1; box-shadow: 0 0 8px rgba(239,68,68,0.4); }
+    50%      { opacity: 0.8; box-shadow: 0 0 16px rgba(239,68,68,0.8); }
   }
 
   /* ── 주간 예보 ── */
@@ -515,14 +519,16 @@ document.head.appendChild(lnk);
 
 
   #weather-link-btn {
-    position: absolute; top: 8px; right: 8px;
-    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
-    color: rgba(255,255,255,0.8); border-radius: 99px;
-    padding: 4px 10px; font-size: 10px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 4px;
-    transition: background 0.2s; white-space: nowrap;
+    display: flex; align-items: center; gap: 3px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    color: white; border-radius: 99px;
+    padding: 5px 10px; font-size: 10px; font-weight: 700;
+    cursor: pointer; text-decoration: none;
+    white-space: nowrap; flex-shrink: 0;
+    margin-top: 6px; align-self: flex-end;
+    transition: background 0.2s;
   }
-  #weather-link-btn:hover { background: rgba(255,255,255,0.25); color: white; }
+  #weather-link-btn:hover { background: rgba(255,255,255,0.25); }
   #weather-bar { position: relative; }
 
   #toast { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 11px 22px; border-radius: 99px; font-size: 13px; font-weight: 700; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
@@ -584,11 +590,6 @@ document.head.appendChild(lnk);
 <!-- ── 날씨 위젯 ── -->
 <div id="weather-bar">
   <div id="weather-loading">🌤 날씨 불러오는 중...</div>
-  <a id="weather-link-btn"
-     href="https://weather.naver.com/today/09260000"
-     target="_blank" rel="noopener">
-    🌐 상세예보
-  </a>
   <div id="weather-inner" style="display:none">
     <div id="weather-icon-wrap">🌤</div>
     <div id="weather-main">
@@ -610,6 +611,11 @@ document.head.appendChild(lnk);
         <span class="weather-time-icon" id="wt-evening-icon">🌤</span>
         <span class="weather-time-temp" id="wt-evening-temp">--°</span>
       </div>
+      <a id="weather-link-btn"
+         href="https://weather.naver.com/today/09260000"
+         target="_blank" rel="noopener">
+        🌐 상세
+      </a>
     </div>
   </div>
 </div>
@@ -885,14 +891,15 @@ function getInspectionDates(baseDate, cyclYears, maxYear = 2035) {
 // 모든 검사 날짜 → 메모 데이터로 변환
 function buildInspectionMemos() {
   const memos = {};
+  const inspDates = window.schedule['__insp_dates__'] || {};
   EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
     const dates = getInspectionDates(item.baseDate, item.cyclYears);
     dates.forEach(baseDk => {
-      const actual = getActualInspDate(baseDk, idx);
-      // 조정된 날짜에만 표시 (기존 날짜 제거)
+      const storeKey = baseDk + '_' + idx;
+      const actual = inspDates[storeKey] || baseDk;
       if (!memos[actual]) memos[actual] = [];
       const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type] || item.type;
-      const movedNote = actual !== baseDk ? ` (기준:${baseDk})` : '';
+      const movedNote = actual !== baseDk ? ` ↩기준:${baseDk}` : '';
       memos[actual].push(`${item.emoji} [${typeLabel}] ${item.name}${movedNote}`);
     });
   });
@@ -905,11 +912,11 @@ function getUpcomingInspections(days = 15) {
   today.setHours(0,0,0,0);
   const limit = new Date(today); limit.setDate(today.getDate() + days);
   const results = [];
+  const inspDatesU = window.schedule['__insp_dates__'] || {};
   EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
     const dates = getInspectionDates(item.baseDate, item.cyclYears);
     dates.forEach(baseDk => {
-      // 조정된 실제 날짜 반영
-      const dk = getActualInspDate(baseDk, idx);
+      const dk = inspDatesU[baseDk + '_' + idx] || baseDk;
       const d = new Date(dk);
       if (d >= today && d <= limit) {
         const diff = Math.round((d - today) / 86400000);
@@ -1111,16 +1118,17 @@ function renderCalendar() {
     // 장비 검사 아이콘
     // 조정된 날짜 반영 — 기존 날짜는 제거, 새 날짜에만 표시
     const adjMemos = {};
+    const inspDates = window.schedule['__insp_dates__'] || {};
     EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
       const dates = getInspectionDates(item.baseDate, item.cyclYears);
       dates.forEach(baseDk => {
-        const actual = getActualInspDate(baseDk, idx);
-        // actual이 baseDk와 다르면 baseDk는 표시 안 함 (이동됨)
-        const displayDk = actual; // 실제 표시할 날짜
-        if (!adjMemos[displayDk]) adjMemos[displayDk] = [];
+        const storeKey = baseDk + '_' + idx;
+        const actual = inspDates[storeKey] || baseDk;
+        // actual 날짜에만 표시 (baseDk와 달라도 baseDk엔 표시 안 함)
+        if (!adjMemos[actual]) adjMemos[actual] = [];
         const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
-        const movedNote = actual !== baseDk ? ` (기준:${baseDk})` : '';
-        adjMemos[displayDk].push({ text: `${item.emoji} [${typeLabel}] ${item.name}${movedNote}`, idx, base: baseDk });
+        const movedNote = actual !== baseDk ? ` ↩기준:${baseDk}` : '';
+        adjMemos[actual].push({ text: `${item.emoji} [${typeLabel}] ${item.name}${movedNote}`, idx, base: baseDk });
       });
     });
 

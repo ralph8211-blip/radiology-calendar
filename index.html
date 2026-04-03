@@ -74,7 +74,6 @@ document.head.appendChild(lnk);
     --amber-500: #f59e0b; --amber-600: #d97706;
     --teal-600: #0d9488; --orange-500: #f97316; --blue-600: #2563eb;
   }
-  /* ✅ 다크모드 강제 비활성화 — 갤럭시 등 안드로이드 다크테마 무시 */
   :root { color-scheme: light only; }
   @media (prefers-color-scheme: dark) {
     html { filter: none !important; }
@@ -105,7 +104,6 @@ document.head.appendChild(lnk);
   #month-title h2 { font-size: 20px; font-weight: 900; }
 
   /* ── CALENDAR ── */
-  /* ✅ 개선3: 배너 높이만큼 하단 여백 확보 */
   #calendar-section { padding-bottom: 110px; }
   #calendar-wrap { max-width: 480px; margin: 0 auto; background: white; }
   .dow-header { display: grid; grid-template-columns: repeat(7,1fr); background: var(--slate-50); border-bottom: 1px solid var(--slate-200); }
@@ -116,7 +114,6 @@ document.head.appendChild(lnk);
   .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); }
   .cal-cell-empty { min-height: 185px; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; background: var(--slate-50); opacity: 0.4; }
   .cal-cell {
-    /* ✅ 개선2: 셀 높이 키움 */
     min-height: 185px;
     padding: 6px 4px 4px;
     border-right: 1px solid #f1f5f9;
@@ -126,13 +123,10 @@ document.head.appendChild(lnk);
     display: flex; flex-direction: column; transition: background 0.15s;
   }
   .cal-cell.selected { background: #eef2ff; box-shadow: inset 0 0 0 2px var(--indigo-400); z-index: 2; }
-  /* ✅ 개선1: CT 워터마크 — 배지 전체 흐리기 제거, JS에서 개별 배지별로 처리 */
-  /* dimmed: 다른 직원 선택 시 */
   .cal-cell.dimmed { opacity: 0.12; filter: grayscale(0.8); }
   .hl-overlay { position: absolute; inset: 0; z-index: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
   .cell-inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
 
-  /* ✅ 개선2: 날짜 숫자 크게 */
   .day-header-row { display: flex; align-items: center; gap: 3px; margin-bottom: 3px; }
   .day-num { font-size: 18px; font-weight: 900; line-height: 1; }
   .day-num.sun { color: #f43f5e; }
@@ -146,11 +140,9 @@ document.head.appendChild(lnk);
 
   .badge-slots { display: flex; flex-direction: column; gap: 2px; }
   .badge-row { min-height: 16px; display: flex; flex-wrap: wrap; gap: 1px; }
-  /* CT 근무일: 본인 배지는 선명, 타인 배지는 흐리게 */
   .cal-cell.ct-day .badge.other-badge { opacity: 0.3; }
   .cal-cell.ct-day .evening-tag.other-tag { opacity: 0.3; }
   .cal-cell.ct-day .night-tag.other-tag { opacity: 0.3; }
-  /* ✅ 개선2: 배지 폰트 키움 */
   .badge { font-size: 10px; font-weight: 900; color: white; padding: 2px 5px; border-radius: 4px; line-height: 1.35; white-space: nowrap; }
   .badge.half-am { background: var(--orange-500); }
   .badge.half-pm { background: var(--blue-600); }
@@ -158,15 +150,13 @@ document.head.appendChild(lnk);
   .badge.off40-sat { background: #3730a3; }
   .badge.vacation { background: var(--purple-600); }
   .badge.alt-leave { background: white; color: var(--emerald-600); border: 1px solid var(--emerald-600); font-size: 9px; }
-  /* 대휴 사유별 뱃지 */
-  .badge.alt-rest     { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; font-size: 9px; }
-  .badge.alt-reserve  { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; font-size: 9px; }
-  .badge.alt-event    { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; font-size: 9px; }
-  .badge.alt-public   { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; font-size: 9px; }
-  .badge.alt-half-am  { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; font-size: 9px; }
-  .badge.alt-half-pm  { background: #fdf2f8; color: #7e22ce; border: 1px solid #e879f9; font-size: 9px; }
+  .badge.alt-rest    { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; font-size: 9px; }
+  .badge.alt-reserve { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; font-size: 9px; }
+  .badge.alt-event   { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; font-size: 9px; }
+  .badge.alt-public  { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; font-size: 9px; }
+  .badge.alt-half-am { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; font-size: 9px; }
+  .badge.alt-half-pm { background: #fdf2f8; color: #7e22ce; border: 1px solid #e879f9; font-size: 9px; }
 
-  /* 대휴 사유 선택 팝업 */
   #alt-reason-overlay {
     position: fixed; inset: 0; z-index: 500;
     background: rgba(2,6,23,0.7); backdrop-filter: blur(8px);
@@ -197,7 +187,6 @@ document.head.appendChild(lnk);
   .alt-reason-btn.type-half-pm { border-color: #e879f9; background: #fdf2f8; color: #7e22ce; }
   .alt-reason-cancel { width: 100%; padding: 13px; border: none; background: var(--slate-100); color: var(--slate-500); border-radius: 1.2rem; font-size: 14px; font-weight: 700; cursor: pointer; }
 
-  /* ✅ 개선2: E:/N: 태그 크게 */
   .bottom-tags { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 3px; }
   .evening-tag { font-size: 11px; font-weight: 900; color: #92400e; background: #fef3c7; padding: 2px 4px; border-radius: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .night-tag { font-size: 11px; font-weight: 900; color: #3730a3; background: #e0e7ff; padding: 2px 4px; border-radius: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -263,6 +252,7 @@ document.head.appendChild(lnk);
   .memo-section { margin-top: 24px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 2rem; padding: 16px 18px; }
   .memo-section-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
   .memo-section-label { font-size: 11px; font-weight: 900; color: var(--amber-600); text-transform: uppercase; letter-spacing: 0.08em; }
+  #insp-memo-display { font-size: 13px; color: #ef4444; font-weight: 700; margin-bottom: 8px; white-space: pre-wrap; display: none; padding: 6px; background: rgba(239,68,68,0.1); border-radius: 8px; }
   .memo-textarea { width: 100%; min-height: 80px; background: white; border: 1px solid #fde68a; border-radius: 1.2rem; padding: 12px 14px; font-size: 14px; font-family: inherit; color: var(--slate-800); resize: none; outline: none; transition: border-color 0.2s; line-height: 1.5; }
   .memo-textarea::placeholder { color: var(--slate-300); }
   .memo-textarea:focus { border-color: var(--amber-500); box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
@@ -291,8 +281,6 @@ document.head.appendChild(lnk);
   .used-cell { font-weight: 900; color: var(--rose-500); }
   .payout-note { display: block; font-size: 9px; color: var(--slate-400); font-weight: 400; margin-top: 1px; }
   .back-btn { width: 100%; margin-top: 24px; background: var(--slate-900); color: white; border: none; padding: 16px; border-radius: 2rem; font-size: 15px; font-weight: 900; cursor: pointer; }
-
-  /* toast */
 
   /* ── 전체 공지사항 배너 ── */
   #notice-bar {
@@ -377,7 +365,6 @@ document.head.appendChild(lnk);
     padding: 14px 20px; border-radius: 1.2rem; font-size: 14px; font-weight: 700; cursor: pointer;
   }
 
-
   /* ── 날씨 위젯 ── */
   #weather-bar {
     max-width: 480px; margin: 0 auto;
@@ -435,7 +422,6 @@ document.head.appendChild(lnk);
   }
   #weather-error { display: none; }
 
-
   /* ── 날씨 알림 강조 ── */
   #weather-alert {
     font-size: 12px; color: #fde68a; font-weight: 800;
@@ -484,7 +470,6 @@ document.head.appendChild(lnk);
   .fc-low   { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.5); }
   .fc-rain  { font-size: 9px; color: #93c5fd; font-weight: 700; }
 
-
   /* ── 검사일 변경 팝업 ── */
   #insp-move-overlay {
     position: fixed; inset: 0; z-index: 600;
@@ -516,7 +501,6 @@ document.head.appendChild(lnk);
   .insp-move-save   { flex: 1; background: #ef4444; color: white; border: none; padding: 13px; border-radius: 1rem; font-size: 14px; font-weight: 900; cursor: pointer; }
   .insp-move-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 13px 18px; border-radius: 1rem; font-size: 14px; font-weight: 700; cursor: pointer; }
   .insp-move-reset  { background: #fef3c7; color: #92400e; border: none; padding: 13px 14px; border-radius: 1rem; font-size: 11px; font-weight: 700; cursor: pointer; }
-
 
   #weather-link-btn {
     display: flex; align-items: center; gap: 3px;
@@ -598,7 +582,6 @@ document.head.appendChild(lnk);
         <span id="weather-feels">체감 --°</span>
       </div>
       <div id="weather-desc">부산 날씨</div>
-
     </div>
     <div id="weather-times">
       <div class="weather-time-item">
@@ -611,14 +594,12 @@ document.head.appendChild(lnk);
         <span class="weather-time-icon" id="wt-evening-icon">🌤</span>
         <span class="weather-time-temp" id="wt-evening-temp">--°</span>
       </div>
-      <a id="weather-link-btn"
-         href="https://weather.naver.com/today/09260000"
-         target="_blank" rel="noopener">
+      <a id="weather-link-btn" href="https://weather.naver.com/today/09260000" target="_blank" rel="noopener">
         🌐 상세
       </a>
     </div>
   </div>
-  <!-- 퇴근길 알림 — weather-inner 밖에서 항상 표시 가능 -->
+  <!-- 퇴근길 알림 -->
   <div id="weather-alert-wrap" style="padding:0 14px 10px;display:none;">
     <div id="weather-alert">⚠️ 퇴근길 비 예보 — 우산 챙기세요 🌂</div>
   </div>
@@ -702,11 +683,14 @@ document.head.appendChild(lnk);
       <button class="popup-arr right" onclick="popupScroll(1)">&#8250;</button>
     </div>
     <div class="duty-rows" id="duty-rows"></div>
+    
     <div class="memo-section">
       <div class="memo-section-header">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="memo-section-label">메모 / 공지사항</span>
       </div>
+      <!-- ✅ 개선: 장비 검사 텍스트를 보여주는 전용 영역 (저장 시 textarea 내용과 분리됨) -->
+      <div id="insp-memo-display"></div>
       <textarea id="memo-textarea" class="memo-textarea" placeholder="이 날짜의 공지사항이나 특이사항을 입력하세요."></textarea>
       <button class="memo-save-btn" onclick="saveMemo()">저장</button>
       <div class="memo-clear"></div>
@@ -729,7 +713,6 @@ document.head.appendChild(lnk);
     </div>
   </div>
 </div>
-
 
 <!-- ── 검사일 변경 팝업 ── -->
 <div id="insp-move-overlay" onclick="closeInspMove(event)">
@@ -758,1071 +741,4 @@ document.head.appendChild(lnk);
     <div class="alt-reason-grid">
       <button class="alt-reason-btn type-rest"    onclick="selectAltReason('rest')">🌿 대휴</button>
       <button class="alt-reason-btn type-reserve" onclick="selectAltReason('reserve')">🪖 예비군훈련</button>
-      <button class="alt-reason-btn type-event"   onclick="selectAltReason('event')">💐 경조사</button>
-      <button class="alt-reason-btn type-public"  onclick="selectAltReason('public')">🏛 공가</button>
-      <button class="alt-reason-btn type-half-am" onclick="selectAltReason('half-am')">☀️ 반일대휴(오전)</button>
-      <button class="alt-reason-btn type-half-pm" onclick="selectAltReason('half-pm')">🌙 반일대휴(오후)</button>
-    </div>
-    <button class="alt-reason-cancel" onclick="closeAltReasonPopup()">취소</button>
-  </div>
-</div>
-
-<div id="toast"></div>
-
-<!-- ── FIREBASE ── -->
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBpeLflDoGLmbvciVoYMfDJPm2lIIj9Q0I",
-  authDomain: "haedong-calendar.firebaseapp.com",
-  projectId: "haedong-calendar",
-  storageBucket: "haedong-calendar.firebasestorage.app",
-  messagingSenderId: "616171070488",
-  appId: "1:616171070488:web:740f8477651ef103d18f6d"
-};
-
-let db = null, auth = null;
-try {
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app); auth = getAuth(app);
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      window.setSyncStatus('online');
-      const ref = doc(db, 'radiology', 'schedule_v1');
-      onSnapshot(ref, (snap) => {
-        if (snap.exists()) {
-          window.schedule = snap.data();
-          renderCalendar(); renderReport(); loadNotice();
-        }
-      });
-    }
-  });
-  signInAnonymously(auth).catch(() => window.setSyncStatus('offline'));
-} catch(e) { window.setSyncStatus && window.setSyncStatus('offline'); }
-
-window.saveToCloud = async function(s) {
-  if (!db || !auth?.currentUser) return;
-  window.setSyncStatus('saving');
-  try {
-    await setDoc(doc(db, 'radiology', 'schedule_v1'), s);
-    window.setSyncStatus('saved');
-    setTimeout(() => window.setSyncStatus('online'), 2000);
-  } catch(e) { window.setSyncStatus('offline'); }
-};
-</script>
-
-<!-- ── APP LOGIC ── -->
-<script>
-
-// ── 장비 검사 일정 데이터 ──────────────────────────────
-// baseDate: 표에 나온 실제 검사 예정 기준일
-// cyclYears: 반복 주기 (년)
-// adjustable: true = 앞뒤 7일 업체 조율 가능
-const EQUIPMENT_INSPECTIONS = [
-
-  // ─── 특수의료장비 정밀검사 (3년) + 서류검사 (매년) ───
-  { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 정밀',   type: 'precision',
-    baseDate: '2026-04-02', cyclYears: 3, emoji: '🧲', adjustable: true },
-  { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 서류',   type: 'doc',
-    baseDate: '2026-04-02', cyclYears: 1, emoji: '📋', adjustable: false },
-
-  { name: 'CT (SOMATOM-Perspective)',      short: 'CT 서류',    type: 'doc',
-    baseDate: '2028-01-13', cyclYears: 1, emoji: '📋', adjustable: false },
-
-  { name: 'MAMMO (selenia F)',             short: 'MAMMO 서류', type: 'doc',
-    baseDate: '2026-03-03', cyclYears: 1, emoji: '📋', adjustable: false },
-
-  // ─── 안전검사 (3년) ───
-  { name: 'CT (SOMATOM-Perspective)',      short: 'CT 안전+정밀', type: 'safety',
-    baseDate: '2028-01-13', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: 'MAMMO (selenia F)',             short: 'MAMMO 안전',  type: 'safety',
-    baseDate: '2026-03-03', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '촬영실1 (CDX-RD85DII)',         short: '촬영실1 안전', type: 'safety',
-    baseDate: '2026-04-28', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '촬영실2 (CDX-RD85DII)',         short: '촬영실2 안전', type: 'safety',
-    baseDate: '2028-03-07', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '골밀도 (EXCELLUS=BHR-3-83)',   short: '골밀도 안전',  type: 'safety',
-    baseDate: '2025-04-09', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '초음파쇄석기 (Rifle=HF-5-125)', short: '초음파쇄석기 안전', type: 'safety',
-    baseDate: '2025-04-11', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: 'C-ARM 1 (Brivo OEC 785)',      short: 'C-ARM1 안전', type: 'safety',
-    baseDate: '2028-01-04', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: 'C-ARM 2 (Brivo OEC 785)',      short: 'C-ARM2 안전', type: 'safety',
-    baseDate: '2028-04-29', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '본관 POTABLE (MUX-10)',        short: '본관POTABLE 안전', type: 'safety',
-    baseDate: '2028-12-24', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '선별 POTABLE (SIRIUS STAR)',   short: '선별POTABLE 안전', type: 'safety',
-    baseDate: '2026-09-22', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '음압 POTABLE (JADE-40)',       short: '음압POTABLE 안전', type: 'safety',
-    baseDate: '2028-02-04', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '검진 파노라마 (Orthophos3)',   short: '파노라마 안전',   type: 'safety',
-    baseDate: '2027-02-27', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '검진 INNOVISION-DX',          short: 'INNOVISION 안전', type: 'safety',
-    baseDate: '2026-05-13', cyclYears: 3, emoji: '🛡', adjustable: true },
-
-  { name: '검진 위장촬영 (KXO-50N)',     short: '위장촬영 안전',   type: 'safety',
-    baseDate: '2027-09-26', cyclYears: 3, emoji: '🛡', adjustable: true },
-];
-
-// 기준일로부터 cyclYears 주기로 2030년까지 날짜 목록 생성
-function getInspectionDates(baseDate, cyclYears, maxYear = 2035) {
-  const dates = [];
-  const base = new Date(baseDate);
-  const baseYear = base.getFullYear();
-  for (let y = baseYear; y <= maxYear; y += cyclYears) {
-    const d = new Date(base);
-    d.setFullYear(y);
-    dates.push(d.toISOString().slice(0, 10));
-  }
-  return dates;
-}
-
-// 모든 검사 날짜 → 메모 데이터로 변환
-function buildInspectionMemos() {
-  const memos = {};
-  const inspDates = window.schedule['__insp_dates__'] || {};
-  EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
-    const dates = getInspectionDates(item.baseDate, item.cyclYears);
-    dates.forEach(baseDk => {
-      const storeKey = baseDk + '_' + idx;
-      const actual = inspDates[storeKey] || baseDk;
-      if (!memos[actual]) memos[actual] = [];
-      const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type] || item.type;
-      const movedNote = actual !== baseDk ? ` ↩기준:${baseDk}` : '';
-      memos[actual].push(`${item.emoji} [${typeLabel}] ${item.name}${movedNote}`);
-    });
-  });
-  return memos;
-}
-
-// 오늘부터 N일 이내 검사 목록 반환
-function getUpcomingInspections(days = 15) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const limit = new Date(today); limit.setDate(today.getDate() + days);
-  const results = [];
-  const inspDatesU = window.schedule['__insp_dates__'] || {};
-  EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
-    const dates = getInspectionDates(item.baseDate, item.cyclYears);
-    dates.forEach(baseDk => {
-      const dk = inspDatesU[baseDk + '_' + idx] || baseDk;
-      const d = new Date(dk);
-      if (d >= today && d <= limit) {
-        const diff = Math.round((d - today) / 86400000);
-        const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type];
-        const adjusted = dk !== baseDk ? ` (기준: ${baseDk})` : '';
-        results.push({ dk, diff, label: `${item.emoji} ${item.short} ${typeLabel}${adjusted}`, name: item.name });
-      }
-    });
-  });
-  results.sort((a,b) => a.diff - b.diff);
-  return results;
-}
-
-// ── 로그인 ───────────────────────────────────────────
-const SECRET_PIN = "6633";
-
-function checkLoginStatus() {
-  const ok = localStorage.getItem('calendar_auth') === 'true';
-  document.getElementById('login-overlay').style.display = ok ? 'none' : 'flex';
-  document.getElementById('app-container').style.display = ok ? 'block' : 'none';
-  if (!ok) { const i = document.getElementById('pin-input'); if(i){i.value=''; updateDots('');} }
-}
-function onPinInput() {
-  const v = document.getElementById('pin-input').value;
-  updateDots(v);
-  if (v.length === 4) setTimeout(handleLogin, 80);
-}
-function updateDots(v) {
-  for (let i=0;i<4;i++) { const d=document.getElementById('dot-'+i); if(d) d.classList.toggle('filled', i<v.length); }
-}
-function handleLogin() {
-  const v = document.getElementById('pin-input').value;
-  if (v === SECRET_PIN) {
-    localStorage.setItem('calendar_auth','true');
-    checkLoginStatus(); showToast('✅ 입장 완료!');
-  } else {
-    const box = document.querySelector('.login-box');
-    box.classList.remove('login-shake'); void box.offsetWidth; box.classList.add('login-shake');
-    document.getElementById('pin-input').value = ''; updateDots('');
-    showToast('비밀번호가 틀렸습니다');
-  }
-}
-function handleLogout() { localStorage.removeItem('calendar_auth'); checkLoginStatus(); showToast('로그아웃 되었습니다'); }
-window.handleLogin = handleLogin; window.handleLogout = handleLogout; window.onPinInput = onPinInput;
-
-// ── 동기 상태 ─────────────────────────────────────────
-window.setSyncStatus = function(s) {
-  const el = document.getElementById('sync-indicator');
-  if (!el) return;
-  el.className = s;
-  el.title = {saving:'저장 중...',saved:'저장됨',online:'동기화 중',offline:'오프라인'}[s]||'';
-};
-
-// ── 데이터 ───────────────────────────────────────────
-const DOCTOR_MAP = [
-  { name:'김종환', initial:'종', totalLeave:25, title:'실장' },
-  { name:'이승남', initial:'승', totalLeave:24, title:'계장' },
-  { name:'이동현', initial:'동', totalLeave:22, title:'계장' },
-  { name:'강은미', initial:'강', totalLeave:16, title:'계장' },
-  { name:'송선경', initial:'선', totalLeave:18, title:'주임' },
-  { name:'김현정', initial:'현', totalLeave:18, title:'주임' },
-  { name:'송우석', initial:'송', totalLeave:16, title:'선생님' },
-  { name:'김현석', initial:'석', totalLeave:16, title:'선생님' },
-  { name:'지은열', initial:'지', totalLeave:15, title:'선생님' },
-  { name:'송진우', initial:'진', totalLeave:15, title:'선생님' },
-  { name:'조지혜', initial:'조', totalLeave:10, title:'선생님' },
-  { name:'이용진', initial:'용', totalLeave:9,  title:'선생님' },
-  { name:'김봉선', initial:'봉', totalLeave:17, title:'선생님' }
-];
-
-const DUTY_ROWS = [
-  { id:'half_am',  label:'오전반차',    color:'c-orange', useName:false },
-  { id:'half_pm',  label:'오후반차',    color:'c-blue',   useName:false },
-  { id:'off40',    label:'40H OFF',     color:'c-rose',   useName:false },
-  { id:'vacation', label:'종일연차',    color:'c-purple', useName:false },
-  { id:'alt_leave',label:'대휴(차감X)', color:'c-emerald',useName:false },
-  { id:'ctmr',     label:'CT / MR',    color:'c-teal',   useName:false },
-  { id:'evening',  label:'이브닝',      color:'c-amber',  useName:true  },
-  { id:'night',    label:'야간당직',    color:'c-indigo', useName:true  }
-];
-
-const DOT_MARKERS = {
-  "2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,
-  "2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1
-};
-const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
-window.schedule = {};
-
-let viewYear=2026, viewMonth=3;
-let selectedDateKey=null, selectedDoc=null, showScreening=false;
-
-function isHoliday(dk) { return !!FIXED_HOLIDAYS[dk.slice(5)]; }
-function showToast(msg) {
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2000);
-}
-
-// ── 하이라이트 타입 ────────────────────────────────────
-function getHighlightType(dateKey) {
-  if (!selectedDoc) return null;
-  const day = window.schedule[dateKey]; if (!day) return null;
-  const isSat = new Date(dateKey).getDay()===6;
-  if ((day.night||'').includes(selectedDoc.name)||(day.evening||'').includes(selectedDoc.name)) return 'blue';
-  if ((day.vacation||'').includes(selectedDoc.initial)) return 'red';
-  if ((day.half_am||'').includes(selectedDoc.initial)) return 'half-am';
-  if ((day.off40||'').includes(selectedDoc.initial)||(day.half_pm||'').includes(selectedDoc.initial)) return isSat?'red':'half-pm';
-  // ✅ 대휴 버그 수정: alt_leave에 해당 직원 초성이 있으면 green으로 하이라이트
-  if (hasAltLeave(day, selectedDoc.initial)) return 'green';
-  return null;
-}
-
-// alt_leave 데이터에서 특정 초성이 있는지 검사 (사유:초성 형식 지원)
-function hasAltLeave(dayData, initial) {
-  const raw = dayData.alt_leave || '';
-  return raw.split(' ').filter(Boolean).some(item => {
-    // 형식: "rest:봉" 또는 구형 "봉"
-    const name = item.includes(':') ? item.split(':')[1] : item;
-    return name === initial;
-  });
-}
-
-// alt_leave에서 특정 직원의 사유 가져오기
-function getAltLeaveReason(dayData, initial) {
-  const raw = dayData.alt_leave || '';
-  const found = raw.split(' ').filter(Boolean).find(item => {
-    const name = item.includes(':') ? item.split(':')[1] : item;
-    return name === initial;
-  });
-  if (!found) return null;
-  return found.includes(':') ? found.split(':')[0] : 'rest';
-}
-
-// ── 캘린더 렌더 ───────────────────────────────────────
-function renderCalendar() {
-  const grid = document.getElementById('cal-grid');
-  grid.innerHTML = '';
-  const firstDay = new Date(viewYear,viewMonth,1).getDay();
-  const lastDate = new Date(viewYear,viewMonth+1,0).getDate();
-
-  for (let i=0;i<firstDay;i++) { const e=document.createElement('div'); e.className='cal-cell-empty'; grid.appendChild(e); }
-
-  for (let d=1;d<=lastDate;d++) {
-    const dateKey=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const dayData=window.schedule[dateKey]||{};
-    const dow=new Date(dateKey).getDay();
-    const isSun=dow===0, isSat=dow===6;
-
-    // ✅ 개선1: 선택된 직원이 CT 근무인지 확인
-    const isCT = selectedDoc && (dayData.ctmr||'').split(' ').filter(Boolean).includes(selectedDoc.initial);
-    const hl = getHighlightType(dateKey);
-
-    const cell = document.createElement('div');
-    // CT 근무인 날은 ct-day 클래스 추가 → 배지들 자동으로 흐려짐(CSS)
-    cell.className = 'cal-cell'
-      + (selectedDateKey===dateKey?' selected':'')
-      + (isCT?' ct-day':'');
-
-    // 하이라이트 오버레이
-    if (hl || isCT) {
-      const ov = document.createElement('div');
-      ov.className = 'hl-overlay';
-      if (hl==='blue')    ov.style.background='rgba(59,130,246,0.22)';
-      else if (hl==='green')   ov.style.background='rgba(16,185,129,0.22)';
-      else if (hl==='red')    ov.style.background='rgba(239,68,68,0.22)';
-      else if (hl==='half-am') ov.style.background='linear-gradient(to bottom,rgba(239,68,68,0.22) 50%,transparent 50%)';
-      else if (hl==='half-pm') ov.style.background='linear-gradient(to top,rgba(239,68,68,0.22) 50%,transparent 50%)';
-
-      // ✅ 개선1: CT 워터마크 — 진하고 크게, 색상도 teal 계열로 눈에 띄게
-      if (isCT) {
-        const ctLabel = document.createElement('span');
-        ctLabel.style.cssText = 'font-size:36px;font-weight:900;color:rgba(13,148,136,0.22);letter-spacing:-1px;pointer-events:none;user-select:none;';
-        ctLabel.textContent = (dayData.ctmr||'').includes('MR') ? 'CT·MR' : 'CT';
-        ov.appendChild(ctLabel);
-      }
-      cell.appendChild(ov);
-    }
-
-    // 선택된 직원 있고, 이 날 해당 없으면 흐리게
-    if (selectedDoc && !hl && !isCT) cell.classList.add('dimmed');
-
-    const inner = document.createElement('div');
-    inner.className = 'cell-inner';
-
-    // 날짜 + 메모 아이콘
-    const dayHeaderRow = document.createElement('div');
-    dayHeaderRow.className = 'day-header-row';
-    const numSpan = document.createElement('span');
-    numSpan.className = 'day-num'+(isSun?' sun':(isSat?' sat':''));
-    numSpan.textContent = d;
-    dayHeaderRow.appendChild(numSpan);
-    // 사용자 메모
-    if (dayData.memo && dayData.memo.trim()) {
-      const mi = document.createElement('span');
-      mi.className = 'memo-icon'; mi.title = dayData.memo;
-      mi.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
-      dayHeaderRow.appendChild(mi);
-    }
-    // 장비 검사 아이콘
-    // 조정된 날짜 반영 — 기존 날짜는 제거, 새 날짜에만 표시
-    const adjMemos = {};
-    const inspDates = window.schedule['__insp_dates__'] || {};
-    EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
-      const dates = getInspectionDates(item.baseDate, item.cyclYears);
-      dates.forEach(baseDk => {
-        const storeKey = baseDk + '_' + idx;
-        const actual = inspDates[storeKey] || baseDk;
-        // actual 날짜에만 표시 (baseDk와 달라도 baseDk엔 표시 안 함)
-        if (!adjMemos[actual]) adjMemos[actual] = [];
-        const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
-        const movedNote = actual !== baseDk ? ` ↩기준:${baseDk}` : '';
-        adjMemos[actual].push({ text: `${item.emoji} [${typeLabel}] ${item.name}${movedNote}`, idx, base: baseDk });
-      });
-    });
-
-    if (adjMemos[dateKey]) {
-      const inspIcon = document.createElement('span');
-      inspIcon.className = 'memo-icon insp-icon';
-      inspIcon.title = adjMemos[dateKey].map(x=>x.text).join('\n') + '\n(탭하여 날짜 조정)';
-      inspIcon.style.color = '#ef4444';
-      inspIcon.style.cursor = 'pointer';
-      inspIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`;
-      // 첫 번째 adjustable 아이템으로 팝업 오픈
-      const firstAdj = adjMemos[dateKey].find(x => EQUIPMENT_INSPECTIONS[x.idx].adjustable);
-      if (firstAdj) {
-        inspIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          openInspMovePopup(e, firstAdj.base, firstAdj.idx);
-        });
-      }
-      dayHeaderRow.appendChild(inspIcon);
-    }
-    inner.appendChild(dayHeaderRow);
-
-    // 도트
-    const dots = DOT_MARKERS[dateKey];
-    if (dots) {
-      const dr=document.createElement('div'); dr.className='dots';
-      for(let x=0;x<dots;x++){const dt=document.createElement('div');dt.className='dot';dr.appendChild(dt);}
-      inner.appendChild(dr);
-    } else { const ph=document.createElement('div'); ph.style.height='10px'; inner.appendChild(ph); }
-
-    // 배지 슬롯
-    const slots=document.createElement('div'); slots.className='badge-slots';
-    const mkRow=()=>{const r=document.createElement('div');r.className='badge-row';return r;};
-
-    // CT 근무일에 본인 초성/이름인지 판별하는 헬퍼
-    // isCT가 true일 때만 my-badge / other-badge 클래스를 붙임
-    const badgeClass = (initial) => {
-      if (!isCT) return '';
-      return (selectedDoc && selectedDoc.initial === initial) ? ' my-badge' : ' other-badge';
-    };
-    const tagClass = (name) => {
-      if (!isCT) return '';
-      return (selectedDoc && (selectedDoc.name === name || selectedDoc.initial === name)) ? ' my-tag' : ' other-tag';
-    };
-
-    const rAm=mkRow(); (dayData.half_am||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge half-am'+badgeClass(n);b.textContent='☀'+n;rAm.appendChild(b);}); slots.appendChild(rAm);
-    const rPm=mkRow(); (dayData.half_pm||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge half-pm'+badgeClass(n);b.textContent='🌙'+n;rPm.appendChild(b);}); slots.appendChild(rPm);
-    const rOff=mkRow(); (dayData.off40||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge '+(isSat?'off40-sat':'off40-weekday')+badgeClass(n);b.textContent=isSat?n:'40:'+n;rOff.appendChild(b);}); slots.appendChild(rOff);
-    const rVac=mkRow();
-    (dayData.vacation||'').split(' ').filter(Boolean).forEach(n=>{const b=document.createElement('span');b.className='badge vacation'+badgeClass(n);b.textContent='🏝'+n;rVac.appendChild(b);});
-    // ✅ 대휴: 사유별 다른 아이콘/색상 표시
-    (dayData.alt_leave||'').split(' ').filter(Boolean).forEach(item=>{
-      const reason = item.includes(':') ? item.split(':')[0] : 'rest';
-      const name   = item.includes(':') ? item.split(':')[1] : item;
-      const icons  = {rest:'🌿', reserve:'🪖', event:'💐', public:'🏛', 'half-am':'☀️', 'half-pm':'🌙'};
-      const classes= {rest:'alt-rest', reserve:'alt-reserve', event:'alt-event', public:'alt-public', 'half-am':'alt-half-am', 'half-pm':'alt-half-pm'};
-      const b=document.createElement('span');
-      b.className='badge '+(classes[reason]||'alt-rest')+badgeClass(name);
-      b.textContent=(icons[reason]||'🌿')+name;
-      rVac.appendChild(b);
-    });
-    slots.appendChild(rVac);
-    inner.appendChild(slots);
-
-    // 이브닝/야간 하단
-    const bottom=document.createElement('div'); bottom.className='bottom-tags';
-    (dayData.evening||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='evening-tag'+tagClass(n);t.textContent=n;bottom.appendChild(t);});
-    (dayData.night||'').split(' ').filter(Boolean).forEach(n=>{const t=document.createElement('div');t.className='night-tag'+tagClass(n);t.textContent=n;bottom.appendChild(t);});
-    inner.appendChild(bottom);
-
-    cell.appendChild(inner);
-    cell.addEventListener('click', ()=>openPopup(dateKey));
-    grid.appendChild(cell);
-  }
-  document.getElementById('month-text').textContent=`${viewYear}년 ${viewMonth+1}월`;
-}
-
-// ── 배너 ──────────────────────────────────────────────
-function renderBanner() {
-  const scroll=document.getElementById('banner-scroll');
-  scroll.innerHTML='';
-  DOCTOR_MAP.forEach(doc=>{
-    const btn=document.createElement('button');
-    btn.className='doc-btn'+(selectedDoc?.name===doc.name?' active':'');
-    btn.innerHTML=`<span class="t">${doc.title}</span><span class="n">${doc.initial}</span>`;
-    btn.onclick=()=>{ selectedDoc=selectedDoc?.name===doc.name?null:doc; renderBanner(); renderCalendar(); };
-    scroll.appendChild(btn);
-  });
-}
-function bannerScroll(dir){ document.getElementById('banner-scroll').scrollBy({left:dir*200,behavior:'smooth'}); }
-window.bannerScroll=bannerScroll;
-
-// ── 팝업 ──────────────────────────────────────────────
-function openPopup(dateKey) {
-  selectedDateKey=dateKey; selectedDoc=null;
-  renderBanner(); renderCalendar();
-  document.getElementById('popup-title').textContent=dateKey.slice(5)+' 배정';
-  // 사용자 메모 + 장비 검사 메모 합쳐서 표시
-  const _userMemo = (window.schedule[dateKey]||{}).memo||'';
-  const _inspMemos = buildInspectionMemos(); // 조정일 반영됨
-  const _inspText = _inspMemos[dateKey] ? _inspMemos[dateKey].join('\n') : '';
-  const _combinedMemo = [_inspText, _userMemo].filter(Boolean).join('\n─────────────\n');
-  document.getElementById('memo-textarea').value = _combinedMemo;
-  renderPopupDocs(); renderDutyRows();
-  document.getElementById('popup-overlay').classList.add('open');
-}
-
-function _doClosePopup() {
-  document.getElementById('popup-overlay').classList.remove('open');
-  selectedDateKey=null; selectedDoc=null;
-  renderBanner(); renderCalendar();
-}
-window.closePopup=(e)=>{ if(e.target===document.getElementById('popup-overlay'))_doClosePopup(); };
-window.closePopupDirect=_doClosePopup;
-
-function renderPopupDocs() {
-  const scroll=document.getElementById('popup-doc-scroll');
-  scroll.innerHTML='';
-  DOCTOR_MAP.forEach(doc=>{
-    const btn=document.createElement('button');
-    btn.className='pdoc-btn'+(selectedDoc?.name===doc.name?' active':'');
-    btn.innerHTML=`<span class="t">${doc.title}</span><span class="n">${doc.initial}</span>`;
-    btn.onclick=()=>{ selectedDoc=selectedDoc?.name===doc.name?null:doc; renderPopupDocs(); renderDutyRows(); renderBanner(); renderCalendar(); };
-    scroll.appendChild(btn);
-  });
-}
-function popupScroll(dir){ document.getElementById('popup-doc-scroll').scrollBy({left:dir*200,behavior:'smooth'}); }
-window.popupScroll=popupScroll;
-
-function renderDutyRows() {
-  const container=document.getElementById('duty-rows');
-  container.innerHTML='';
-  DUTY_ROWS.forEach(row=>{
-    const dayData=window.schedule[selectedDateKey]||{};
-    const val=dayData[row.id]||'';
-    const target=row.useName?selectedDoc?.name:selectedDoc?.initial;
-    const isActive=!!(selectedDoc&&target&&val.split(' ').filter(Boolean).includes(target));
-
-    const div=document.createElement('div');
-    div.className='duty-row'+(isActive?' active-row':'')+((!selectedDoc)?' no-doc':'');
-
-    // 박스 전체 클릭으로 배정/제거
-    // alt_leave는 사유 선택 팝업 경유
-    div.addEventListener('click',()=>{
-      if(!selectedDoc) return;
-      if(row.id==='alt_leave') openAltReasonPopup(selectedDateKey, selectedDoc);
-      else toggleAssignment(selectedDateKey,row.id,selectedDoc,row.useName);
-    });
-
-    const top=document.createElement('div'); top.className='duty-row-top';
-    const lbl=document.createElement('span'); lbl.className='duty-row-label '+row.color; lbl.textContent=row.label;
-    top.appendChild(lbl);
-
-    if (selectedDoc) {
-      const btn=document.createElement('button');
-      btn.className='assign-btn '+(isActive?'remove':'add');
-      btn.textContent=isActive?'제거':'배정';
-      btn.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        if(row.id==='alt_leave') openAltReasonPopup(selectedDateKey, selectedDoc);
-        else toggleAssignment(selectedDateKey,row.id,selectedDoc,row.useName);
-      });
-      top.appendChild(btn);
-    } else {
-      const hint=document.createElement('span'); hint.className='no-doc-hint'; hint.textContent='위에서 직원 선택';
-      top.appendChild(hint);
-    }
-    div.appendChild(top);
-
-    const list=document.createElement('div'); list.className='assigned-list';
-    const items=val.split(' ').filter(Boolean);
-    if (items.length) {
-      items.forEach(item=>{
-        const chip=document.createElement('button');
-        chip.className='assigned-chip '+row.color;
-        let displayText = item;
-        if (row.id==='alt_leave' && item.includes(':')) {
-          const [rsn,nm] = item.split(':');
-          const icons={rest:'🌿',reserve:'🪖',event:'💐',public:'🏛','half-am':'☀️','half-pm':'🌙'};
-          displayText = (icons[rsn]||'🌿')+nm;
-        }
-        chip.innerHTML=`${displayText} <span class="del-icon">✕</span>`;
-        chip.addEventListener('click',(e)=>{ e.stopPropagation(); removeAssignment(selectedDateKey,row.id,item); });
-        list.appendChild(chip);
-      });
-    } else {
-      const none=document.createElement('span'); none.className='no-assign'; none.textContent='배정 없음';
-      list.appendChild(none);
-    }
-    div.appendChild(list);
-    container.appendChild(div);
-  });
-}
-
-// ── 배정 로직 ─────────────────────────────────────────
-function toggleAssignment(dk,rowId,doc,useName) {
-  const dayData=window.schedule[dk]||{};
-  const target=useName?doc.name:doc.initial;
-  let items=(dayData[rowId]||'').split(' ').filter(Boolean);
-  const was=items.includes(target);
-  if(was) items=items.filter(x=>x!==target); else items.push(target);
-  window.schedule={...window.schedule,[dk]:{...dayData,[rowId]:items.join(' ')}};
-  renderDutyRows(); renderCalendar();
-  if(window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(was?`${doc.name} 제거됨`:`${doc.name} 배정 완료 ✓`);
-}
-// ── 대휴 사유 팝업 ────────────────────────────────────
-let _altPopupDk = null, _altPopupDoc = null;
-
-function openAltReasonPopup(dk, doc) {
-  _altPopupDk = dk; _altPopupDoc = doc;
-  // 이미 배정된 사유가 있으면 → 제거 처리
-  const dayData = window.schedule[dk] || {};
-  if (hasAltLeave(dayData, doc.initial)) {
-    // 이미 있으면 제거 (toggle)
-    const raw = dayData.alt_leave || '';
-    const items = raw.split(' ').filter(x => {
-      const nm = x.includes(':') ? x.split(':')[1] : x;
-      return nm !== doc.initial;
-    });
-    window.schedule = {...window.schedule, [dk]: {...dayData, alt_leave: items.join(' ')}};
-    renderDutyRows(); renderCalendar();
-    if (window.saveToCloud) window.saveToCloud(window.schedule);
-    showToast(`${doc.name} 대휴 제거됨`);
-    return;
-  }
-  // 없으면 사유 선택 팝업 오픈
-  document.getElementById('alt-reason-name').textContent = doc.name + ' 선생님 — 사유 선택';
-  document.getElementById('alt-reason-overlay').classList.add('open');
-}
-
-function closeAltReasonPopup() {
-  document.getElementById('alt-reason-overlay').classList.remove('open');
-  _altPopupDk = null; _altPopupDoc = null;
-}
-window.closeAltReasonPopup = closeAltReasonPopup;
-
-function selectAltReason(reason) {
-  if (!_altPopupDk || !_altPopupDoc) return;
-  const dk = _altPopupDk, doc = _altPopupDoc;
-  closeAltReasonPopup();
-  const dayData = window.schedule[dk] || {};
-  const existing = (dayData.alt_leave || '').split(' ').filter(Boolean);
-  existing.push(reason + ':' + doc.initial);
-  window.schedule = {...window.schedule, [dk]: {...dayData, alt_leave: existing.join(' ')}};
-  renderDutyRows(); renderCalendar();
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  const labels = {rest:'대휴', reserve:'예비군훈련', event:'경조사', public:'공가', 'half-am':'반일대휴(오전)', 'half-pm':'반일대휴(오후)'};
-  showToast(`${doc.name} ${labels[reason]||'대휴'} 등록 ✓`);
-}
-window.selectAltReason = selectAltReason;
-window.openAltReasonPopup = openAltReasonPopup;
-
-function removeAssignment(dk,rowId,targetStr) {
-  const dayData=window.schedule[dk]||{};
-  const items=(dayData[rowId]||'').split(' ').filter(x=>x&&x!==targetStr);
-  window.schedule={...window.schedule,[dk]:{...dayData,[rowId]:items.join(' ')}};
-  renderDutyRows(); renderCalendar();
-  if(window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(`${targetStr} 제거됨`);
-}
-
-// ── 날씨 기능 (Open-Meteo — 키 없음, CORS 없음) ────────
-
-
-async function loadWeather() {
-  const OWM_KEY = '22e3baf840c5fa55ad030accdb580d84';
-  // 부산 영도구 좌표 기반 호출 (도시명보다 정확)
-  const LAT = 35.09, LON = 129.07;
-
-  try {
-    // 현재 날씨 + 5일 예보 병렬 호출
-    const [curRes, fcRes] = await Promise.all([
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric`),
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric&cnt=40`)
-    ]);
-    if (!curRes.ok) throw new Error('OWM ' + curRes.status);
-    const [cur, fc] = await Promise.all([curRes.json(), fcRes.json()]);
-
-    const icon   = cur.weather[0].icon;
-    const desc   = cur.weather[0].description;
-    const temp   = Math.round(cur.main.temp);
-    const feels  = Math.round(cur.main.feels_like);
-    const humid  = cur.main.humidity;
-    const windMs = Math.round(cur.wind.speed);
-
-    // KST 오늘 날짜 (UTC+9)
-    const nowKST = new Date(Date.now() + 9*3600*1000);
-    const todayKST = nowKST.toISOString().slice(0,10);
-
-    // 아이콘 매핑
-    const ICONS = {
-      '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
-      '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
-      '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
-      '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'
-    };
-    const BG = {
-      '01':'sunny','02':'cloudy','03':'cloudy','04':'cloudy',
-      '09':'rainy','10':'rainy','11':'thunder','13':'snowy','50':'cloudy'
-    };
-    const getIcon = ic => ICONS[ic] || '🌤';
-    const getBg   = ic => {
-      if (ic.endsWith('n') && ic.startsWith('01')) return 'night';
-      return BG[ic.slice(0,2)] || 'cloudy';
-    };
-
-    // 배경 클래스
-    const bar = document.getElementById('weather-bar');
-    bar.className = 'weather-' + getBg(icon);
-    bar.id = 'weather-bar';
-
-    // 현재 날씨 표시
-    document.getElementById('weather-icon-wrap').textContent = getIcon(icon);
-    document.getElementById('weather-temp').textContent = temp + '°';
-    document.getElementById('weather-feels').textContent = '체감 ' + feels + '°';
-    document.getElementById('weather-desc').textContent =
-      desc + '  💧' + humid + '%  💨' + windMs + 'm/s';
-
-    // 출근(8시) / 퇴근(17시) 예보
-    // KST 기준 오늘 날짜로 출근/퇴근 예보 찾기
-    // OWM dt_txt는 UTC 기준 → KST = UTC+9
-    // 출근(08:00 KST) = UTC 23:00 전날 또는 UTC 00:00 당일
-    // 퇴근(17:00 KST) = UTC 08:00 당일
-    const list = fc.list;
-
-    // dt_txt를 KST로 변환하는 헬퍼
-    const toKSTHour = (dt_txt) => {
-      const utcDate = new Date(dt_txt.replace(' ', 'T') + 'Z');
-      return (utcDate.getUTCHours() + 9) % 24;
-    };
-    const toKSTDate = (dt_txt) => {
-      const utcDate = new Date(dt_txt.replace(' ', 'T') + 'Z');
-      const kst = new Date(utcDate.getTime() + 9*3600*1000);
-      return kst.toISOString().slice(0,10);
-    };
-
-    // 오늘 KST 날짜 기준으로 출근/퇴근 찾기
-    const mItem = list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 7 && toKSTHour(h.dt_txt) <= 9)
-               || list.find(h => toKSTDate(h.dt_txt) === todayKST)
-               || list[0];
-    const eItem = list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 16 && toKSTHour(h.dt_txt) <= 18)
-               || list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 14)
-               || list[Math.min(4, list.length-1)];
-
-    document.getElementById('wt-morning-icon').textContent = getIcon(mItem.weather[0].icon);
-    document.getElementById('wt-morning-temp').textContent = Math.round(mItem.main.temp) + '°';
-    document.getElementById('wt-evening-icon').textContent = getIcon(eItem.weather[0].icon);
-    document.getElementById('wt-evening-temp').textContent = Math.round(eItem.main.temp) + '°';
-
-    // 자동 알림 메시지
-    const alerts = [];
-    const eIcon = eItem.weather[0].icon;
-    const eHour = toKSTHour(eItem.dt_txt); // KST 퇴근 시간
-    if (eIcon.startsWith('10') || eIcon.startsWith('09'))
-      alerts.push(`🌂 퇴근길(${eHour}시경) 비 예보 — 우산 챙기세요!`);
-    else if (eIcon.startsWith('11'))
-      alerts.push('⛈ 퇴근길 천둥번개 예보 — 조심하세요!');
-    else if (eIcon.startsWith('13'))
-      alerts.push('❄️ 퇴근길 눈 예보 — 미끄럼 주의!');
-    const mTemp = Math.round(mItem.main.temp);
-    const eTemp = Math.round(eItem.main.temp);
-    if (mTemp - eTemp >= 8)
-      alerts.push(`🧥 오후 기온 ${mTemp-eTemp}°C 급강하 — 겉옷 챙기세요!`);
-
-    const alertEl = document.getElementById('weather-alert');
-    const alertWrap = document.getElementById('weather-alert-wrap');
-    if (alerts.length) {
-      alertEl.textContent = alerts.join('  ');
-      alertEl.classList.add('show');
-      if (alertWrap) alertWrap.style.display = 'block';
-    } else {
-      alertEl.classList.remove('show');
-      if (alertWrap) alertWrap.style.display = 'none';
-    }
-
-    // ── 주간 예보 렌더링 ──
-    renderWeeklyForecast(list);
-
-    document.getElementById('weather-loading').style.display = 'none';
-    document.getElementById('weather-inner').style.display = 'flex';
-
-  } catch(e) {
-    console.warn('날씨 로드 실패:', e);
-    document.getElementById('weather-loading').textContent = '🌤 날씨 정보 없음';
-  }
-}
-
-// ── 주간 예보 렌더링 ─────────────────────────────────
-function renderWeeklyForecast(list) {
-  const wrap = document.getElementById('weekly-forecast-inner');
-  if (!wrap) return;
-
-  // 날짜별로 그룹핑 (최고/최저 온도, 대표 아이콘)
-  const days = {};
-  list.forEach(h => {
-    const dk = h.dt_txt.slice(0, 10);
-    if (!days[dk]) days[dk] = { temps: [], icons: [], pop: 0 };
-    days[dk].temps.push(Math.round(h.main.temp));
-    days[dk].icons.push(h.weather[0].icon);
-    days[dk].pop = Math.max(days[dk].pop, h.pop || 0);
-  });
-
-  const ICONS = {
-    '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
-    '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
-    '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
-    '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'
-  };
-  const DOWS = ['일','월','화','수','목','금','토'];
-  const today = new Date().toISOString().slice(0,10);
-
-  // 기존 내용 초기화 (라벨 제외)
-  while (wrap.children.length > 1) wrap.removeChild(wrap.lastChild);
-
-  Object.keys(days).slice(0, 6).forEach(dk => {
-    const d = days[dk];
-    const high = Math.max(...d.temps);
-    const low  = Math.min(...d.temps);
-    // 낮 시간대 아이콘 우선
-    const dayIcon = d.icons.find(i => i.endsWith('d')) || d.icons[0];
-    const icon = ICONS[dayIcon] || '🌤';
-    const dateObj = new Date(dk + 'T00:00:00');
-    const dow = dateObj.getDay();
-    const dowLabel = DOWS[dow];
-    const dateLabel = `${dateObj.getMonth()+1}/${dateObj.getDate()}`;
-    const isToday = dk === today;
-    const rainPct = Math.round((d.pop || 0) * 100);
-
-    const div = document.createElement('div');
-    div.className = 'fc-day' + (isToday ? ' today' : '');
-
-    const dowEl = document.createElement('div');
-    dowEl.className = 'fc-dow' + (dow===0?' sun':(dow===6?' sat':''));
-    dowEl.textContent = isToday ? '오늘' : dowLabel;
-
-    const dateEl = document.createElement('div');
-    dateEl.className = 'fc-date';
-    dateEl.textContent = dateLabel;
-
-    const iconEl = document.createElement('div');
-    iconEl.className = 'fc-icon';
-    iconEl.textContent = icon;
-
-    const tempsEl = document.createElement('div');
-    tempsEl.className = 'fc-temps';
-    tempsEl.innerHTML = `<span class="fc-high">${high}°</span><span class="fc-low">${low}°</span>`;
-
-    div.appendChild(dowEl);
-    div.appendChild(dateEl);
-    div.appendChild(iconEl);
-    div.appendChild(tempsEl);
-
-    if (rainPct >= 20) {
-      const rainEl = document.createElement('div');
-      rainEl.className = 'fc-rain';
-      rainEl.textContent = `💧${rainPct}%`;
-      div.appendChild(rainEl);
-    }
-
-    wrap.appendChild(div);
-  });
-}
-
-
-// ── 검사일 조정 기능 ────────────────────────────────────
-let _inspMoveKey = null, _inspMoveItem = null, _inspMoveBase = null;
-
-// 검사 아이콘 클릭 핸들러
-function openInspMovePopup(e, dateKey, itemIdx) {
-  e.stopPropagation();
-  const item = EQUIPMENT_INSPECTIONS[itemIdx];
-  if (!item || !item.adjustable) return;
-  _inspMoveKey  = dateKey;
-  _inspMoveItem = item;
-  _inspMoveBase = dateKey; // 기준일
-
-  // 저장된 실제 검사일 있으면 불러오기
-  const stored = (window.schedule['__insp_dates__'] || {})[dateKey + '_' + itemIdx];
-  const displayDate = stored || dateKey;
-
-  document.getElementById('insp-move-name').textContent = item.emoji + ' ' + item.name;
-  document.getElementById('insp-move-base').textContent = '기준일: ' + dateKey + ' (' + {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type] + ')';
-  document.getElementById('insp-move-date').value = displayDate;
-  document.getElementById('insp-move-overlay').classList.add('open');
-  _inspMoveItemIdx = itemIdx;
-}
-let _inspMoveItemIdx = null;
-window.openInspMovePopup = openInspMovePopup;
-
-function closeInspMove(e) {
-  if (e && e.target !== document.getElementById('insp-move-overlay')) return;
-  document.getElementById('insp-move-overlay').classList.remove('open');
-}
-window.closeInspMove = closeInspMove;
-
-function saveInspDate() {
-  const newDate = document.getElementById('insp-move-date').value;
-  if (!newDate || !_inspMoveBase || _inspMoveItemIdx === null) return;
-
-  // ±21일 검증 (넉넉하게)
-  const base = new Date(_inspMoveBase);
-  const selected = new Date(newDate);
-  const diffDays = Math.round((selected - base) / 86400000);
-  if (Math.abs(diffDays) > 21) {
-    showToast('⚠️ 기준일 ±21일 이내로 설정해주세요');
-    return;
-  }
-
-  // __insp_dates__ 객체를 완전히 새로 만들어서 저장 (참조 문제 방지)
-  const key = _inspMoveBase + '_' + _inspMoveItemIdx;
-  const oldStored = window.schedule['__insp_dates__'] || {};
-  const newStored = Object.assign({}, oldStored, { [key]: newDate });
-  window.schedule = Object.assign({}, window.schedule, { '__insp_dates__': newStored });
-
-  document.getElementById('insp-move-overlay').classList.remove('open');
-  renderCalendar();  // 즉시 재렌더 (새 schedule 반영)
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast('✅ ' + newDate + '로 이동됨 (기준: ' + _inspMoveBase + ')');
-}
-window.saveInspDate = saveInspDate;
-
-function resetInspDate() {
-  const key = _inspMoveBase + '_' + _inspMoveItemIdx;
-  const oldStored = window.schedule['__insp_dates__'] || {};
-  const newStored = Object.assign({}, oldStored);
-  delete newStored[key];
-  window.schedule = Object.assign({}, window.schedule, { '__insp_dates__': newStored });
-  document.getElementById('insp-move-overlay').classList.remove('open');
-  renderCalendar();
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast('🔄 ' + _inspMoveBase + ' 기준일로 복원됨');
-}
-window.resetInspDate = resetInspDate;
-
-// 실제 표시할 날짜 계산 (저장된 조정일 반영)
-function getActualInspDate(baseDate, itemIdx) {
-  const key = baseDate + '_' + itemIdx;
-  return (window.schedule['__insp_dates__'] || {})[key] || baseDate;
-}
-
-// ── 전체 공지사항 ─────────────────────────────────────
-function loadNotice() {
-  const userText = (window.schedule['__notice__'] || {}).text || '';
-  const el = document.getElementById('notice-text');
-  if (!el) return;
-
-  // D-15 자동 검사 알림
-  const upcoming = getUpcomingInspections(15);
-  let autoAlert = '';
-  if (upcoming.length > 0) {
-    const lines = upcoming.map(u => {
-      const dStr = u.diff === 0 ? '📅 오늘!' : `📅 D-${u.diff}`;
-      return `${dStr} ${u.label} (${u.dk})`;
-    });
-    autoAlert = '⚠️ 장비검사 예정\n' + lines.join('\n');
-  }
-
-  const finalText = [autoAlert, userText].filter(Boolean).join('\n─────────────\n');
-
-  if (finalText.trim()) {
-    el.textContent = finalText;
-    el.classList.remove('empty');
-    // D-15 이내면 공지 배너 강조
-    if (autoAlert) {
-      const bar = document.getElementById('notice-bar');
-      if (bar) bar.style.borderBottomColor = '#ef4444';
-      const label = document.getElementById('notice-label');
-      if (label) { label.textContent = '⚠️ 긴급'; label.style.background = '#ef4444'; }
-    }
-  } else {
-    el.textContent = '공지사항을 입력하세요 (✏️ 버튼)';
-    el.classList.add('empty');
-  }
-}
-
-function openNoticePopup() {
-  const text = (window.schedule['__notice__'] || {}).text || '';
-  document.getElementById('notice-edit-textarea').value = text;
-  document.getElementById('notice-popup-overlay').classList.add('open');
-  setTimeout(() => document.getElementById('notice-edit-textarea').focus(), 200);
-}
-window.openNoticePopup = openNoticePopup;
-
-function closeNoticePopup(e) {
-  if (e && e.target !== document.getElementById('notice-popup-overlay')) return;
-  document.getElementById('notice-popup-overlay').classList.remove('open');
-}
-window.closeNoticePopup = closeNoticePopup;
-
-function saveNotice() {
-  const text = document.getElementById('notice-edit-textarea').value;
-  window.schedule = { ...window.schedule, '__notice__': { text } };
-  loadNotice();
-  if (window.saveToCloud) window.saveToCloud(window.schedule);
-  document.getElementById('notice-popup-overlay').classList.remove('open');
-  showToast(text.trim() ? '공지 저장 완료 📢' : '공지가 삭제되었습니다');
-}
-window.saveNotice = saveNotice;
-
-// ── 메모 ──────────────────────────────────────────────
-window.saveMemo=function(){
-  if(!selectedDateKey) return;
-  const memo=document.getElementById('memo-textarea').value.trim();
-  window.schedule={...window.schedule,[selectedDateKey]:{...(window.schedule[selectedDateKey]||{}),memo}};
-  renderCalendar();
-  if(window.saveToCloud) window.saveToCloud(window.schedule);
-  showToast(memo?'메모 저장 완료 💬':'메모 삭제됨');
-};
-
-// ── 정산 ──────────────────────────────────────────────
-function renderReport() {
-  const yearStr=String(viewYear);
-  const monthPrefix=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
-  const data=DOCTOR_MAP.map(d=>({...d,weekdays:[],weekends:[],totalHours:0,usedVacation:0}));
-
-  Object.keys(window.schedule).forEach(dk=>{
-    if(!dk.startsWith(yearStr)) return;
-    const day=window.schedule[dk];
-    data.forEach(doc=>{
-      if((day.vacation||'').includes(doc.initial)) doc.usedVacation+=1;
-      if((day.half_am||'').includes(doc.initial)) doc.usedVacation+=0.5;
-      if((day.half_pm||'').includes(doc.initial)) doc.usedVacation+=0.5;
-    });
-  });
-
-  Object.keys(window.schedule).forEach(dk=>{
-    if(!dk.startsWith(monthPrefix)) return;
-    const day=window.schedule[dk];
-    const dObj=new Date(dk); const dow=dObj.getDay();
-    const isH=isHoliday(dk)||dow===0;
-    const tmrw=new Date(dObj); tmrw.setDate(tmrw.getDate()+1);
-    const tmrwH=isHoliday(tmrw.toISOString().split('T')[0])||tmrw.getDay()===0;
-    (day.night||'').split(' ').filter(Boolean).forEach(ini=>{
-      const doc=data.find(x=>x.initial===ini||x.name===ini); if(!doc) return;
-      if(isH){doc.weekends.push(dObj.getDate());doc.totalHours+=14.5;}
-      else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=16.5;}
-      else if(tmrwH){doc.weekdays.push(dObj.getDate());doc.totalHours+=(dow===1?10.5:12);}
-      else if(dow===5){doc.weekdays.push(dObj.getDate());doc.totalHours+=8;}
-      else if(dow===1){doc.weekdays.push(dObj.getDate());doc.totalHours+=3;}
-      else{doc.weekdays.push(dObj.getDate());doc.totalHours+=4.5;}
-    });
-    (day.evening||'').split(' ').filter(Boolean).forEach(ini=>{
-      const doc=data.find(x=>x.initial===ini||x.name===ini); if(!doc) return;
-      if(isH) doc.totalHours+=12; else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=6;}
-    });
-  });
-
-  const dutyTbody=document.getElementById('duty-tbody'); dutyTbody.innerHTML='';
-  data.filter(r=>r.totalHours>0).forEach(r=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td style="padding:12px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td style="padding:12px 8px;color:#64748b;font-size:12px">${r.weekdays.join(', ')}</td><td style="padding:12px 8px;color:#64748b;font-size:12px">${r.weekends.join(', ')}</td><td class="hours-cell" style="padding:12px 8px">${r.totalHours}h</td>`;
-    dutyTbody.appendChild(tr);
-  });
-
-  const leaveTbody=document.getElementById('leave-tbody'); leaveTbody.innerHTML='';
-  data.forEach(r=>{
-    const usable=Math.min(r.totalLeave,20); const remain=usable-r.usedVacation; const payout=Math.max(0,r.totalLeave-20);
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td style="padding:12px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td class="used-cell" style="padding:12px 8px">${r.usedVacation}일</td><td class="remain-cell" style="padding:12px 8px">${remain}일${payout>0?`<span class="payout-note">수당 +${payout}일</span>`:''}</td>`;
-    leaveTbody.appendChild(tr);
-  });
-}
-
-function switchTab(tab) {
-  document.getElementById('tab-content-duty').style.display=tab==='duty'?'block':'none';
-  document.getElementById('tab-content-leave').style.display=tab==='leave'?'block':'none';
-  document.getElementById('tab-duty').classList.toggle('active-tab',tab==='duty');
-  document.getElementById('tab-leave').classList.toggle('active-tab',tab==='leave');
-}
-window.switchTab=switchTab;
-
-window.toggleScreening=function(show){
-  showScreening=show??!showScreening;
-  document.getElementById('calendar-section').style.display=showScreening?'none':'block';
-  document.getElementById('month-header').style.display=showScreening?'none':'flex';
-  const wb=document.getElementById('weather-bar'); if(wb) wb.style.display=showScreening?'none':'block';
-  const nb=document.getElementById('notice-bar'); if(nb) nb.style.display=showScreening?'none':'block';
-  const wf=document.getElementById('weekly-forecast'); if(wf) wf.style.display=showScreening?'none':'block';
-  document.getElementById('screening').classList.toggle('visible',showScreening);
-  document.getElementById('bottom-banner').style.display=showScreening?'none':'block';
-  document.getElementById('btn-screening').classList.toggle('active',showScreening);
-  if(showScreening) renderReport();
-};
-
-document.getElementById('btn-screening').onclick=()=>toggleScreening();
-document.getElementById('btn-prev').onclick=()=>{ viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCalendar(); };
-document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar(); };
-
-renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
-</script>
-</body>
-</html>
+      <button class="alt-reason-btn type-event"   onclick="selectAltReason('event')">💐 경조

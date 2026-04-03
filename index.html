@@ -513,6 +513,18 @@ document.head.appendChild(lnk);
   .insp-move-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 13px 18px; border-radius: 1rem; font-size: 14px; font-weight: 700; cursor: pointer; }
   .insp-move-reset  { background: #fef3c7; color: #92400e; border: none; padding: 13px 14px; border-radius: 1rem; font-size: 11px; font-weight: 700; cursor: pointer; }
 
+
+  #weather-link-btn {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.8); border-radius: 99px;
+    padding: 4px 10px; font-size: 10px; font-weight: 700;
+    cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 4px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  #weather-link-btn:hover { background: rgba(255,255,255,0.25); color: white; }
+  #weather-bar { position: relative; }
+
   #toast { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 11px 22px; border-radius: 99px; font-size: 13px; font-weight: 700; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
   #toast.show { opacity: 1; }
 
@@ -572,6 +584,11 @@ document.head.appendChild(lnk);
 <!-- ── 날씨 위젯 ── -->
 <div id="weather-bar">
   <div id="weather-loading">🌤 날씨 불러오는 중...</div>
+  <a id="weather-link-btn"
+     href="https://weather.naver.com/today/09260000"
+     target="_blank" rel="noopener">
+    🌐 상세예보
+  </a>
   <div id="weather-inner" style="display:none">
     <div id="weather-icon-wrap">🌤</div>
     <div id="weather-main">
@@ -867,13 +884,16 @@ function getInspectionDates(baseDate, cyclYears, maxYear = 2035) {
 
 // 모든 검사 날짜 → 메모 데이터로 변환
 function buildInspectionMemos() {
-  const memos = {}; // dateKey → memo text 배열
-  EQUIPMENT_INSPECTIONS.forEach(item => {
+  const memos = {};
+  EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
     const dates = getInspectionDates(item.baseDate, item.cyclYears);
-    dates.forEach(dk => {
-      if (!memos[dk]) memos[dk] = [];
+    dates.forEach(baseDk => {
+      const actual = getActualInspDate(baseDk, idx);
+      // 조정된 날짜에만 표시 (기존 날짜 제거)
+      if (!memos[actual]) memos[actual] = [];
       const typeLabel = { precision:'정밀검사', safety:'안전검사', doc:'서류검사' }[item.type] || item.type;
-      memos[dk].push(`${item.emoji} [${typeLabel}] ${item.name}`);
+      const movedNote = actual !== baseDk ? ` (기준:${baseDk})` : '';
+      memos[actual].push(`${item.emoji} [${typeLabel}] ${item.name}${movedNote}`);
     });
   });
   return memos;
@@ -1089,17 +1109,18 @@ function renderCalendar() {
       dayHeaderRow.appendChild(mi);
     }
     // 장비 검사 아이콘
-    // 실제 검사일 반영한 메모 빌드
-    const inspMemos = buildInspectionMemos();
-    // 조정된 날짜 반영
+    // 조정된 날짜 반영 — 기존 날짜는 제거, 새 날짜에만 표시
     const adjMemos = {};
     EQUIPMENT_INSPECTIONS.forEach((item, idx) => {
       const dates = getInspectionDates(item.baseDate, item.cyclYears);
-      dates.forEach(dk => {
-        const actual = getActualInspDate(dk, idx);
-        if (!adjMemos[actual]) adjMemos[actual] = [];
+      dates.forEach(baseDk => {
+        const actual = getActualInspDate(baseDk, idx);
+        // actual이 baseDk와 다르면 baseDk는 표시 안 함 (이동됨)
+        const displayDk = actual; // 실제 표시할 날짜
+        if (!adjMemos[displayDk]) adjMemos[displayDk] = [];
         const typeLabel = {precision:'정밀검사',safety:'안전검사',doc:'서류검사'}[item.type];
-        adjMemos[actual].push({ text: `${item.emoji} [${typeLabel}] ${item.name}`, idx, base: dk });
+        const movedNote = actual !== baseDk ? ` (기준:${baseDk})` : '';
+        adjMemos[displayDk].push({ text: `${item.emoji} [${typeLabel}] ${item.name}${movedNote}`, idx, base: baseDk });
       });
     });
 
@@ -1199,7 +1220,7 @@ function openPopup(dateKey) {
   document.getElementById('popup-title').textContent=dateKey.slice(5)+' 배정';
   // 사용자 메모 + 장비 검사 메모 합쳐서 표시
   const _userMemo = (window.schedule[dateKey]||{}).memo||'';
-  const _inspMemos = buildInspectionMemos();
+  const _inspMemos = buildInspectionMemos(); // 조정일 반영됨
   const _inspText = _inspMemos[dateKey] ? _inspMemos[dateKey].join('\n') : '';
   const _combinedMemo = [_inspText, _userMemo].filter(Boolean).join('\n─────────────\n');
   document.getElementById('memo-textarea').value = _combinedMemo;
@@ -1386,6 +1407,10 @@ async function loadWeather() {
     const humid  = cur.main.humidity;
     const windMs = Math.round(cur.wind.speed);
 
+    // KST 오늘 날짜 (UTC+9)
+    const nowKST = new Date(Date.now() + 9*3600*1000);
+    const todayKST = nowKST.toISOString().slice(0,10);
+
     // 아이콘 매핑
     const ICONS = {
       '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
@@ -1416,14 +1441,30 @@ async function loadWeather() {
       desc + '  💧' + humid + '%  💨' + windMs + 'm/s';
 
     // 출근(8시) / 퇴근(17시) 예보
-    const todayStr = new Date().toISOString().slice(0, 10);
+    // KST 기준 오늘 날짜로 출근/퇴근 예보 찾기
+    // OWM dt_txt는 UTC 기준 → KST = UTC+9
+    // 출근(08:00 KST) = UTC 23:00 전날 또는 UTC 00:00 당일
+    // 퇴근(17:00 KST) = UTC 08:00 당일
     const list = fc.list;
-    const mItem = list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('06:00'))
-               || list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('09:00'))
+
+    // dt_txt를 KST로 변환하는 헬퍼
+    const toKSTHour = (dt_txt) => {
+      const utcDate = new Date(dt_txt.replace(' ', 'T') + 'Z');
+      return (utcDate.getUTCHours() + 9) % 24;
+    };
+    const toKSTDate = (dt_txt) => {
+      const utcDate = new Date(dt_txt.replace(' ', 'T') + 'Z');
+      const kst = new Date(utcDate.getTime() + 9*3600*1000);
+      return kst.toISOString().slice(0,10);
+    };
+
+    // 오늘 KST 날짜 기준으로 출근/퇴근 찾기
+    const mItem = list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 7 && toKSTHour(h.dt_txt) <= 9)
+               || list.find(h => toKSTDate(h.dt_txt) === todayKST)
                || list[0];
-    const eItem = list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('15:00'))
-               || list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('18:00'))
-               || list[Math.min(3, list.length-1)];
+    const eItem = list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 16 && toKSTHour(h.dt_txt) <= 18)
+               || list.find(h => toKSTDate(h.dt_txt) === todayKST && toKSTHour(h.dt_txt) >= 14)
+               || list[Math.min(4, list.length-1)];
 
     document.getElementById('wt-morning-icon').textContent = getIcon(mItem.weather[0].icon);
     document.getElementById('wt-morning-temp').textContent = Math.round(mItem.main.temp) + '°';
@@ -1433,7 +1474,7 @@ async function loadWeather() {
     // 자동 알림 메시지
     const alerts = [];
     const eIcon = eItem.weather[0].icon;
-    const eHour = new Date(eItem.dt * 1000).getHours();
+    const eHour = toKSTHour(eItem.dt_txt); // KST 퇴근 시간
     if (eIcon.startsWith('10') || eIcon.startsWith('09'))
       alerts.push(`🌂 퇴근길(${eHour}시경) 비 예보 — 우산 챙기세요!`);
     else if (eIcon.startsWith('11'))

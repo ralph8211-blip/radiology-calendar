@@ -376,6 +376,68 @@ document.head.appendChild(lnk);
     padding: 14px 20px; border-radius: 1.2rem; font-size: 14px; font-weight: 700; cursor: pointer;
   }
 
+
+  /* ── 날씨 위젯 ── */
+  #weather-bar {
+    max-width: 480px; margin: 0 auto;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  #weather-bar.weather-sunny    { background: linear-gradient(135deg, #f6d365, #fda085); }
+  #weather-bar.weather-cloudy   { background: linear-gradient(135deg, #4b6cb7, #7b8fa1); }
+  #weather-bar.weather-rainy    { background: linear-gradient(135deg, #373b44, #4286f4); }
+  #weather-bar.weather-snowy    { background: linear-gradient(135deg, #a8c0ff, #3f2b96); }
+  #weather-bar.weather-night    { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); }
+  #weather-bar.weather-thunder  { background: linear-gradient(135deg, #232526, #414345); }
+
+  #weather-inner {
+    display: flex; align-items: center; padding: 10px 16px; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  #weather-icon-wrap {
+    font-size: 32px; line-height: 1; flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+  #weather-main {
+    flex: 1; min-width: 0;
+  }
+  #weather-temp-row {
+    display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;
+  }
+  #weather-temp {
+    font-size: 26px; font-weight: 900; color: white;
+    line-height: 1; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  #weather-feels {
+    font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 600;
+  }
+  #weather-desc {
+    font-size: 13px; color: rgba(255,255,255,0.9); font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  #weather-alert {
+    font-size: 11px; color: #fde68a; font-weight: 700;
+    margin-top: 2px; display: none;
+  }
+  #weather-alert.show { display: block; }
+  #weather-times {
+    display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;
+  }
+  .weather-time-item {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 4px 10px;
+  }
+  .weather-time-label { font-size: 10px; color: rgba(255,255,255,0.65); font-weight: 700; }
+  .weather-time-icon  { font-size: 14px; }
+  .weather-time-temp  { font-size: 12px; font-weight: 900; color: white; }
+  #weather-loading {
+    padding: 14px 16px; color: rgba(255,255,255,0.5);
+    font-size: 12px; font-weight: 600; text-align: center;
+  }
+  #weather-error { display: none; }
+
   #toast { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); background: var(--slate-900); color: white; padding: 11px 22px; border-radius: 99px; font-size: 13px; font-weight: 700; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
   #toast.show { opacity: 1; }
 
@@ -430,6 +492,34 @@ document.head.appendChild(lnk);
   <button id="btn-prev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
   <div id="month-title"><div class="label">ROSTER</div><h2 id="month-text"></h2></div>
   <button id="btn-next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+</div>
+
+<!-- ── 날씨 위젯 ── -->
+<div id="weather-bar">
+  <div id="weather-loading">🌤 날씨 불러오는 중...</div>
+  <div id="weather-inner" style="display:none">
+    <div id="weather-icon-wrap">🌤</div>
+    <div id="weather-main">
+      <div id="weather-temp-row">
+        <span id="weather-temp">--°</span>
+        <span id="weather-feels">체감 --°</span>
+      </div>
+      <div id="weather-desc">부산 날씨</div>
+      <div id="weather-alert">⚠️ 퇴근길 비 예보 — 우산 챙기세요 🌂</div>
+    </div>
+    <div id="weather-times">
+      <div class="weather-time-item">
+        <span class="weather-time-label">출근</span>
+        <span class="weather-time-icon" id="wt-morning-icon">🌤</span>
+        <span class="weather-time-temp" id="wt-morning-temp">--°</span>
+      </div>
+      <div class="weather-time-item">
+        <span class="weather-time-label">퇴근</span>
+        <span class="weather-time-icon" id="wt-evening-icon">🌤</span>
+        <span class="weather-time-temp" id="wt-evening-temp">--°</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ── 전체 공지사항 배너 ── -->
@@ -1018,6 +1108,113 @@ function removeAssignment(dk,rowId,targetStr) {
   showToast(`${targetStr} 제거됨`);
 }
 
+// ── 날씨 기능 (Open-Meteo — 키 없음, CORS 없음) ────────
+// 부산 영도구 좌표
+const WX_LAT = 35.09;
+const WX_LON = 129.07;
+
+function isRainyCode(code) {
+  return [51,53,55,61,63,65,80,81,82,95,96,99].includes(code);
+}
+  if (mTemp !== null && eTemp !== null && mTemp - eTemp >= 8) {
+    alerts.push('🧥 오후 기온 ' + Math.round(mTemp-eTemp) + '°C 급강하 — 겉옷 챙기세요!');
+  }
+  return alerts.join('  ');
+}
+
+async function loadWeather() {
+  const OWM_KEY = '22e3baf840c5fa55ad030accdb580d84';
+  // 부산 영도구 좌표 기반 호출 (도시명보다 정확)
+  const LAT = 35.09, LON = 129.07;
+
+  try {
+    // 현재 날씨 + 5일 예보 병렬 호출
+    const [curRes, fcRes] = await Promise.all([
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric`),
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${LAT}&lon=${LON}&appid=${OWM_KEY}&lang=kr&units=metric&cnt=10`)
+    ]);
+    if (!curRes.ok) throw new Error('OWM ' + curRes.status);
+    const [cur, fc] = await Promise.all([curRes.json(), fcRes.json()]);
+
+    const icon   = cur.weather[0].icon;
+    const desc   = cur.weather[0].description;
+    const temp   = Math.round(cur.main.temp);
+    const feels  = Math.round(cur.main.feels_like);
+    const humid  = cur.main.humidity;
+    const windMs = Math.round(cur.wind.speed);
+
+    // 아이콘 매핑
+    const ICONS = {
+      '01d':'☀️','01n':'🌙','02d':'⛅','02n':'☁️',
+      '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
+      '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
+      '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫'
+    };
+    const BG = {
+      '01':'sunny','02':'cloudy','03':'cloudy','04':'cloudy',
+      '09':'rainy','10':'rainy','11':'thunder','13':'snowy','50':'cloudy'
+    };
+    const getIcon = ic => ICONS[ic] || '🌤';
+    const getBg   = ic => {
+      if (ic.endsWith('n') && ic.startsWith('01')) return 'night';
+      return BG[ic.slice(0,2)] || 'cloudy';
+    };
+
+    // 배경 클래스
+    const bar = document.getElementById('weather-bar');
+    bar.className = 'weather-' + getBg(icon);
+    bar.id = 'weather-bar';
+
+    // 현재 날씨 표시
+    document.getElementById('weather-icon-wrap').textContent = getIcon(icon);
+    document.getElementById('weather-temp').textContent = temp + '°';
+    document.getElementById('weather-feels').textContent = '체감 ' + feels + '°';
+    document.getElementById('weather-desc').textContent =
+      desc + '  💧' + humid + '%  💨' + windMs + 'm/s';
+
+    // 출근(8시) / 퇴근(17시) 예보
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const list = fc.list;
+    const mItem = list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('06:00'))
+               || list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('09:00'))
+               || list[0];
+    const eItem = list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('15:00'))
+               || list.find(h => h.dt_txt.startsWith(todayStr) && h.dt_txt.includes('18:00'))
+               || list[Math.min(3, list.length-1)];
+
+    document.getElementById('wt-morning-icon').textContent = getIcon(mItem.weather[0].icon);
+    document.getElementById('wt-morning-temp').textContent = Math.round(mItem.main.temp) + '°';
+    document.getElementById('wt-evening-icon').textContent = getIcon(eItem.weather[0].icon);
+    document.getElementById('wt-evening-temp').textContent = Math.round(eItem.main.temp) + '°';
+
+    // 자동 알림 메시지
+    const alerts = [];
+    const eIcon = eItem.weather[0].icon;
+    const eHour = new Date(eItem.dt * 1000).getHours();
+    if (eIcon.startsWith('10') || eIcon.startsWith('09'))
+      alerts.push(`🌂 퇴근길(${eHour}시경) 비 예보 — 우산 챙기세요!`);
+    else if (eIcon.startsWith('11'))
+      alerts.push('⛈ 퇴근길 천둥번개 예보 — 조심하세요!');
+    else if (eIcon.startsWith('13'))
+      alerts.push('❄️ 퇴근길 눈 예보 — 미끄럼 주의!');
+    const mTemp = Math.round(mItem.main.temp);
+    const eTemp = Math.round(eItem.main.temp);
+    if (mTemp - eTemp >= 8)
+      alerts.push(`🧥 오후 기온 ${mTemp-eTemp}°C 급강하 — 겉옷 챙기세요!`);
+
+    const alertEl = document.getElementById('weather-alert');
+    if (alerts.length) { alertEl.textContent = alerts.join('  '); alertEl.classList.add('show'); }
+    else { alertEl.classList.remove('show'); }
+
+    document.getElementById('weather-loading').style.display = 'none';
+    document.getElementById('weather-inner').style.display = 'flex';
+
+  } catch(e) {
+    console.warn('날씨 로드 실패:', e);
+    document.getElementById('weather-loading').textContent = '🌤 날씨 정보 없음';
+  }
+}
+
 // ── 전체 공지사항 ─────────────────────────────────────
 function loadNotice() {
   const text = (window.schedule['__notice__'] || {}).text || '';
@@ -1132,6 +1329,8 @@ window.toggleScreening=function(show){
   showScreening=show??!showScreening;
   document.getElementById('calendar-section').style.display=showScreening?'none':'block';
   document.getElementById('month-header').style.display=showScreening?'none':'flex';
+  const wb=document.getElementById('weather-bar'); if(wb) wb.style.display=showScreening?'none':'block';
+  const nb=document.getElementById('notice-bar'); if(nb) nb.style.display=showScreening?'none':'block';
   document.getElementById('screening').classList.toggle('visible',showScreening);
   document.getElementById('bottom-banner').style.display=showScreening?'none':'block';
   document.getElementById('btn-screening').classList.toggle('active',showScreening);
@@ -1142,7 +1341,7 @@ document.getElementById('btn-screening').onclick=()=>toggleScreening();
 document.getElementById('btn-prev').onclick=()=>{ viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCalendar(); };
 document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar(); };
 
-renderCalendar(); renderBanner(); loadNotice(); checkLoginStatus();
+renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
 </script>
 </body>
 </html>

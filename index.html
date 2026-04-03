@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="UTF-8"/>
@@ -11,14 +10,12 @@
 <meta name="color-scheme" content="light only"/>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GDG8P62X2"></script>
-
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-0GDG8P62X2');
 </script>
-
 <title>영상의학과 캘린더</title>
 
 <script>
@@ -465,13 +462,27 @@ document.head.appendChild(lnk);
   .c-orange{color:var(--orange-500);} .c-blue{color:var(--blue-600);} .c-rose{color:#be123c;}
   .c-purple{color:var(--purple-600);} .c-emerald{color:var(--emerald-600);} .c-teal{color:var(--teal-600);}
   .c-amber{color:var(--amber-600);} .c-indigo{color:#4338ca;}
-</style>
 
+  /* 공휴일 이름 */
+  .holiday-name { font-size: 7px; font-weight: 800; color: #dc2626; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 1px; }
+  .holiday-name.info-only { color: var(--slate-500); }
+  /* 교육 일정 */
+  .edu-indicator { display: inline-flex; align-items: center; gap: 1px; font-size: 7px; font-weight: 800; color: #7c3aed; background: #ede9fe; padding: 1px 4px; border-radius: 3px; white-space: nowrap; overflow: hidden; }
+  /* 교육 상세 (팝업 내) */
+  .edu-section { margin-top: 20px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 2rem; padding: 16px 18px; }
+  .edu-section-header { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+  .edu-section-label { font-size: 11px; font-weight: 900; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.08em; }
+  .edu-card { background: white; border: 1px solid #e9e5f5; border-radius: 1.2rem; padding: 12px 14px; margin-bottom: 8px; }
+  .edu-card:last-child { margin-bottom: 0; }
+  .edu-org { font-size: 10px; font-weight: 700; color: #7c3aed; margin-bottom: 3px; }
+  .edu-name { font-size: 14px; font-weight: 900; color: #1e293b; margin-bottom: 6px; }
+  .edu-detail { font-size: 11px; color: #64748b; line-height: 1.6; }
+  .edu-detail b { color: #334155; font-weight: 700; }
+</style>
 </head>
 <body>
 
 <!-- ── LOGIN ── -->
-
 <div id="login-overlay">
   <div class="login-box">
     <div class="login-logo">
@@ -490,7 +501,6 @@ document.head.appendChild(lnk);
 </div>
 
 <!-- ── APP ── -->
-
 <div id="app-container" style="display:none">
 <nav>
   <div class="logo">
@@ -600,7 +610,6 @@ document.head.appendChild(lnk);
 </div>
 
 <!-- ── POPUP ── -->
-
 <div id="popup-overlay" onclick="closePopup(event)">
   <div id="popup-sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
@@ -616,6 +625,14 @@ document.head.appendChild(lnk);
       <button class="popup-arr right" onclick="popupScroll(1)">&#8250;</button>
     </div>
     <div class="duty-rows" id="duty-rows"></div>
+    <!-- ✅ 교육 일정 상세 -->
+    <div class="edu-section" id="edu-section" style="display:none">
+      <div class="edu-section-header">
+        <span style="font-size:15px">📚</span>
+        <span class="edu-section-label">보수교육 / 학술대회</span>
+      </div>
+      <div id="edu-cards"></div>
+    </div>
     <div class="memo-section">
       <div class="memo-section-header">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber-500)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -644,7 +661,6 @@ document.head.appendChild(lnk);
 </div>
 
 <!-- ✅ 검사일 변경 팝업 — 다중 검사 지원 -->
-
 <div id="insp-move-overlay" onclick="closeInspMove(event)">
   <div id="insp-move-box" onclick="event.stopPropagation()">
     <div class="insp-move-label">🛡 장비검사 일정 조정</div>
@@ -682,7 +698,6 @@ document.head.appendChild(lnk);
 <div id="toast"></div>
 
 <!-- ── FIREBASE ── -->
-
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
@@ -731,7 +746,6 @@ window.saveToCloud = async function(s) {
 </script>
 
 <!-- ── APP LOGIC ── -->
-
 <script>
 
 // ── 장비 검사 일정 데이터 ──────────────────────────────
@@ -880,13 +894,89 @@ const DUTY_ROWS = [
 ];
 
 const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1};
-const FIXED_HOLIDAYS = {"03-01":"삼일절","05-05":"어린이날","06-06":"현충일","08-15":"광복절"};
+
+// ── 2026년 대한민국 공휴일 ──
+// red: true = 법정공휴일(빨간날), false = 임시공휴일/기념일(검은색, 정보만)
+const HOLIDAYS_2026 = {
+  '01-01':{name:'신정',red:true},
+  '02-16':{name:'설날 연휴',red:true},
+  '02-17':{name:'설날',red:true},
+  '02-18':{name:'설날 연휴',red:true},
+  '03-01':{name:'삼일절',red:true},
+  '03-02':{name:'삼일절 대체공휴일',red:true},
+  '05-05':{name:'어린이날',red:true},
+  '05-24':{name:'부처님오신날',red:true},
+  '05-25':{name:'부처님오신날 대체공휴일',red:true},
+  '06-03':{name:'지방선거일',red:false},
+  '06-06':{name:'현충일',red:true},
+  '08-15':{name:'광복절',red:true},
+  '08-17':{name:'광복절 대체공휴일',red:true},
+  '09-24':{name:'추석 연휴',red:true},
+  '09-25':{name:'추석',red:true},
+  '09-26':{name:'추석 연휴',red:true},
+  '10-03':{name:'개천절',red:true},
+  '10-05':{name:'개천절 대체공휴일',red:true},
+  '10-09':{name:'한글날',red:true},
+  '12-25':{name:'크리스마스',red:true}
+};
+
+function getHolidayInfo(dk) {
+  return HOLIDAYS_2026[dk.slice(5)] || null;
+}
+
+// ── 보수교육 / 학술대회 일정 ──
+const EDU_EVENTS = [
+  {d:'2026-03-07',org:'대한영상의학기술학회',name:'제23차 학술대회',time:'11:00~18:00',place:'신촌세브란스(Hybrid)',fee:'완납 30,000 / 미납 60,000'},
+  {d:'2026-03-07',org:'대한의료영상정보관리학회',name:'제1차 보수교육',time:'',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-03-07',org:'대한인터벤션영상기술학회',name:'제1차 보수교육',time:'13:00~17:00',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-04-25',org:'대한CT영상기술학회',name:'춘계학술대회',time:'13:00~17:00',place:'경주 화백컨벤션센터',fee:'완납 60,000 / 미납 90,000'},
+  {d:'2026-04-25',org:'대한의료영상정보관리학회',name:'춘계학술대회',time:'',place:'강동경희대병원',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-04-25',org:'대한영상의학기술학회',name:'제1차 보수교육',time:'14:00~18:00',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-04-25',org:'유방영상기술학회',name:'제1차 보수교육',time:'',place:'중앙대학교병원(Hybrid)',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-04-25',org:'대한방사선치료학회',name:'춘계학술대회',time:'13:00~17:00',place:'강릉아산병원(Hybrid)',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-05-15',org:'대한CT영상기술학회',name:'제3차 보수교육(대구지부)',time:'18:30~20:30',place:'대구가톨릭대학교병원',fee:'완납 12,000 / 미납 27,000'},
+  {d:'2026-05-15',org:'대한인터벤션영상기술학회',name:'제2차 보수교육(춘계연수강좌)',time:'13:00~17:00',place:'부산항국제전시컨벤션센터',fee:'완납 40,000 / 미납 70,000'},
+  {d:'2026-05-16',org:'대한의료영상정보관리학회',name:'제2차 보수교육',time:'',place:'동강대학교',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-05-16',org:'대한자기공명기술학회',name:'제36차 춘계학술대회',time:'14:00~18:00',place:'군산새만금컨벤션센터',fee:'완납 60,000 / 미납 90,000'},
+  {d:'2026-05-16',org:'대한인터벤션영상기술학회',name:'춘계학술대회',time:'08:00~12:00',place:'부산항국제전시컨벤션센터',fee:'완납 40,000 / 미납 70,000'},
+  {d:'2026-05-17',org:'대한자기공명기술학회',name:'제1차 보수교육(MR안전관리)',time:'09:00~13:00',place:'군산새만금컨벤션센터',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-05-23',org:'부산광역시회',name:'제16회 학술대회',time:'09:00~18:00',place:'동아대학교 부민캠퍼스 다우홀',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-06-13',org:'대한영상의학기술학회',name:'제2차 보수교육',time:'14:00~18:00',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-06-27',org:'대한CT영상기술학회',name:'제4차 보수교육(선량/영상관리)',time:'13:00~17:00',place:'고려대학교 안암병원',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-06-27',org:'대한방사선과학회',name:'2026 KSRSC 학술대회',time:'10:00~18:00',place:'신구대학교',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-07-04',org:'대한의료영상정보관리학회',name:'제3차 보수교육',time:'',place:'동남보건대',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-07-04',org:'대한디지털의료영상학회',name:'제2차 보수교육',time:'',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-08-08',org:'대한자기공명기술학회',name:'제2차 보수교육(MR물리입문)',time:'14:00~18:00',place:'건국대학교병원',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-08-09',org:'대한자기공명기술학회',name:'제3차 보수교육(MR임상입문)',time:'10:00~14:00',place:'건국대학교병원',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-08-23',org:'대한영상의학기술학회',name:'AI학술대회',time:'11:00~18:00',place:'건국대학교병원',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-08-28',org:'대한CT영상기술학회',name:'제5차 보수교육(부산지부)',time:'18:30~20:30',place:'부산 좋은강안병원',fee:'완납 12,000 / 미납 27,000'},
+  {d:'2026-09-03',org:'대한CT영상기술학회',name:'제6차 보수교육(전북지부)',time:'18:30~20:30',place:'원광대학교병원',fee:'완납 12,000 / 미납 27,000'},
+  {d:'2026-09-05',org:'대한의료영상정보관리학회',name:'제4차 보수교육',time:'',place:'신구대학교',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-09-05',org:'대한디지털의료영상학회',name:'제3차 보수교육',time:'',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-10-17',org:'대한CT영상기술학회',name:'제7차 보수교육(조영제안전관리)',time:'13:00~17:00',place:'가톨릭대 서울성모병원',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-10-17',org:'대한의료영상정보관리학회',name:'제5차 보수교육',time:'',place:'신구대학교',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-10-17',org:'대한방사선치료학회',name:'추계학술대회',time:'13:00~17:00',place:'건국대학교병원(Hybrid)',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-10-24',org:'부산광역시회',name:'2차 보수교육',time:'14:00~18:00',place:'벡스코',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-11-13',org:'대한디지털의료영상학회',name:'제4차 보수교육',time:'',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-11-14',org:'대한영상의학기술학회',name:'제3차 보수교육',time:'14:00~18:00',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-11-21',org:'대한방사선치료학회',name:'1차 보수교육(충청전라지회)',time:'14:00~16:00',place:'전북대학교병원',fee:'완납 12,000 / 미납 27,000'},
+  {d:'2026-11-28',org:'대한의료영상정보관리학회',name:'제6차 보수교육',time:'',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-11-28',org:'유방영상기술학회',name:'제2차 보수교육',time:'',place:'ZOOM 온라인',fee:'완납 24,000 / 미납 54,000'},
+  {d:'2026-11-28',org:'대한방사선치료학회',name:'2차 보수교육(부산울산경남)',time:'14:00~16:00',place:'고신대학교복음병원',fee:'완납 12,000 / 미납 27,000'},
+];
+
+function getEduEvents(dateKey) {
+  return EDU_EVENTS.filter(e => e.d === dateKey);
+}
 window.schedule = {};
 
 let viewYear=2026, viewMonth=3;
 let selectedDateKey=null, selectedDoc=null, showScreening=false;
 
-function isHoliday(dk) { return !!FIXED_HOLIDAYS[dk.slice(5)]; }
+function isHoliday(dk) {
+  const h = HOLIDAYS_2026[dk.slice(5)];
+  return h ? h.red : false;
+}
 function showToast(msg) { const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2000); }
 
 function getHighlightType(dateKey) {
@@ -979,7 +1069,10 @@ function renderCalendar() {
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';
     const numSpan = document.createElement('span');
-    numSpan.className = 'day-num'+(isSun?' sun':(isSat?' sat':''));
+    // ✅ 공휴일(red)이면 빨간색 표시
+    const holidayInfo = getHolidayInfo(dateKey);
+    const isRedH = holidayInfo && holidayInfo.red;
+    numSpan.className = 'day-num' + ((isSun || isRedH) ? ' sun' : (isSat ? ' sat' : ''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
 
@@ -990,23 +1083,33 @@ function renderCalendar() {
       dayHeaderRow.appendChild(mi);
     }
 
-    // ✅ 장비 검사 아이콘 — 다중 검사 팝업 지원
     if (_adjMemos[dateKey]) {
       const inspIcon = document.createElement('span');
       inspIcon.className = 'memo-icon insp-icon';
       inspIcon.title = _adjMemos[dateKey].map(x=>x.text).join('\n');
-      inspIcon.style.color = '#ef4444';
-      inspIcon.style.cursor = 'pointer';
+      inspIcon.style.color = '#ef4444'; inspIcon.style.cursor = 'pointer';
       inspIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`;
-      // ✅ 해당 날짜의 모든 검사 항목을 팝업으로 전달
       const dateItems = _adjMemos[dateKey];
-      inspIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openInspMovePopup(dateKey, dateItems);
-      });
+      inspIcon.addEventListener('click', (e) => { e.stopPropagation(); openInspMovePopup(dateKey, dateItems); });
       dayHeaderRow.appendChild(inspIcon);
     }
     inner.appendChild(dayHeaderRow);
+
+    // ✅ 공휴일 이름 표시
+    if (holidayInfo) {
+      const hDiv = document.createElement('div');
+      hDiv.className = 'holiday-name' + (holidayInfo.red ? '' : ' info-only');
+      hDiv.textContent = holidayInfo.name;
+      inner.appendChild(hDiv);
+    }
+    // ✅ 교육 일정 표시
+    const eduList = getEduEvents(dateKey);
+    if (eduList.length > 0) {
+      const eTag = document.createElement('div');
+      eTag.className = 'edu-indicator';
+      eTag.textContent = '📚' + (eduList.length > 1 ? eduList.length + '건' : eduList[0].org.replace(/대한|학회/g,'').slice(0,5));
+      inner.appendChild(eTag);
+    }
 
     const dots = DOT_MARKERS[dateKey];
     if (dots) { const dr=document.createElement('div'); dr.className='dots'; for(let x=0;x<dots;x++){const dt=document.createElement('div');dt.className='dot';dr.appendChild(dt);} inner.appendChild(dr); }
@@ -1077,6 +1180,22 @@ function openPopup(dateKey) {
     else { inspBox.style.display = 'none'; }
   }
   renderPopupDocs(); renderDutyRows();
+  // ✅ 교육 일정 렌더링
+  const _eduEvents = getEduEvents(dateKey);
+  const eduSection = document.getElementById('edu-section');
+  const eduCards = document.getElementById('edu-cards');
+  if (_eduEvents.length > 0) {
+    eduCards.innerHTML = '';
+    _eduEvents.forEach(ev => {
+      const card = document.createElement('div');
+      card.className = 'edu-card';
+      card.innerHTML = `<div class="edu-org">${ev.org}</div><div class="edu-name">${ev.name}</div><div class="edu-detail">${ev.time ? '<b>시간</b> '+ev.time+'<br>' : ''}<b>장소</b> ${ev.place}<br><b>교육비</b> ${ev.fee}</div>`;
+      eduCards.appendChild(card);
+    });
+    eduSection.style.display = 'block';
+  } else {
+    eduSection.style.display = 'none';
+  }
   document.getElementById('popup-overlay').classList.add('open');
 }
 
@@ -1527,6 +1646,5 @@ document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){
 
 renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
 </script>
-
 </body>
 </html>

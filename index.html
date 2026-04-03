@@ -1109,18 +1109,7 @@ function removeAssignment(dk,rowId,targetStr) {
 }
 
 // ── 날씨 기능 (Open-Meteo — 키 없음, CORS 없음) ────────
-// 부산 영도구 좌표
-const WX_LAT = 35.09;
-const WX_LON = 129.07;
 
-function isRainyCode(code) {
-  return [51,53,55,61,63,65,80,81,82,95,96,99].includes(code);
-}
-  if (mTemp !== null && eTemp !== null && mTemp - eTemp >= 8) {
-    alerts.push('🧥 오후 기온 ' + Math.round(mTemp-eTemp) + '°C 급강하 — 겉옷 챙기세요!');
-  }
-  return alerts.join('  ');
-}
 
 async function loadWeather() {
   const OWM_KEY = '22e3baf840c5fa55ad030accdb580d84';

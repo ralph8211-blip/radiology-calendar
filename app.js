@@ -611,7 +611,7 @@ function renderCalendar() {
     const dayHeaderRow = document.createElement('div');
     dayHeaderRow.className = 'day-header-row';
     const numSpan = document.createElement('span');
-    numSpan.className = 'day-num' + (isSun?' sun':(isSat?' sat':''));
+    numSpan.className = 'day-num' + ((isSun || isHoliday(dateKey))?' sun':(isSat?' sat':''));
     numSpan.textContent = d;
     dayHeaderRow.appendChild(numSpan);
     if (dayData.memo && dayData.memo.trim()) {

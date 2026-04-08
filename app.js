@@ -11,7 +11,7 @@ const EQUIPMENT_INSPECTIONS = [
   { name: 'CT (SOMATOM-Perspective)',      short: 'CT 안전+정밀', id: 'ct-safety', type: 'safety',
     baseDate: '2028-01-13', cyclYears: 3, emoji: '🛡', adjustable: true },
   { name: 'MAMMO (selenia F)',             short: 'MAMMO 안전', id: 'mammo-safety',  type: 'safety',
-    baseDate: '2026-03-03', cyclYears: 3, emoji: '🛡', adjustable: true },h
+    baseDate: '2026-03-03', cyclYears: 3, emoji: '🛡', adjustable: true },
   { name: '촬영실1 (CDX-RD85DII)',         short: '촬영실1 안전', id: 'cr1-safety', type: 'safety',
     baseDate: '2026-04-28', cyclYears: 3, emoji: '🛡', adjustable: true },
   { name: '촬영실2 (CDX-RD85DII)',         short: '촬영실2 안전', id: 'cr2-safety', type: 'safety',

@@ -34,7 +34,26 @@ document.head.appendChild(lnk);
 </head>
 <body>
 
-<div id="app-container">
+<!-- ── LOGIN ── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="login-title">영상의학과 캘린더</span>
+    </div>
+    <p class="login-sub">해동병원 영상의학과 전용<br>비밀번호를 입력하세요</p>
+    <div class="pin-dots">
+      <div class="pin-dot" id="dot-0"></div><div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div><div class="pin-dot" id="dot-3"></div>
+    </div>
+    <input type="password" id="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*"
+      placeholder="비밀번호 4자리" oninput="onPinInput()" onkeydown="if(event.key==='Enter')handleLogin()"/>
+    <button class="login-btn" onclick="handleLogin()">입장하기</button>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app-container" style="display:none">
 <nav>
   <div class="logo">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>

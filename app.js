@@ -91,6 +91,24 @@ function getUpcomingInspections(days = 15) {
   return results;
 }
 
+// ── 로그인 ───────────────────────────────────────────
+const SECRET_PIN = "6633";
+function checkLoginStatus() {
+  const ok = localStorage.getItem('calendar_auth') === 'true';
+  document.getElementById('login-overlay').style.display = ok ? 'none' : 'flex';
+  document.getElementById('app-container').style.display = ok ? 'block' : 'none';
+  if (!ok) { const i = document.getElementById('pin-input'); if(i){i.value=''; updateDots('');} }
+}
+function onPinInput() { const v = document.getElementById('pin-input').value; updateDots(v); if (v.length === 4) setTimeout(handleLogin, 80); }
+function updateDots(v) { for (let i=0;i<4;i++) { const d=document.getElementById('dot-'+i); if(d) d.classList.toggle('filled', i<v.length); } }
+function handleLogin() {
+  const v = document.getElementById('pin-input').value;
+  if (v === SECRET_PIN) { localStorage.setItem('calendar_auth','true'); checkLoginStatus(); showToast('✅ 입장 완료!'); }
+  else { const box=document.querySelector('.login-box'); box.classList.remove('login-shake'); void box.offsetWidth; box.classList.add('login-shake'); document.getElementById('pin-input').value=''; updateDots(''); showToast('비밀번호가 틀렸습니다'); }
+}
+function handleLogout() { localStorage.removeItem('calendar_auth'); checkLoginStatus(); showToast('로그아웃 되었습니다'); }
+window.handleLogin=handleLogin; window.handleLogout=handleLogout; window.onPinInput=onPinInput;
+
 window.setSyncStatus = function(s) {
   const el = document.getElementById('sync-indicator'); if (!el) return;
   el.className = s;

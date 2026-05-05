@@ -221,7 +221,9 @@ function getEduEvents(dateKey) {
 }
 window.schedule = {};
 
-let viewYear=2026, viewMonth=3;
+const _today = new Date();
+let viewYear=_today.getFullYear(), viewMonth=_today.getMonth();
+
 let selectedDateKey=null, selectedDoc=null, showScreening=false;
 
 function isHoliday(dk) {

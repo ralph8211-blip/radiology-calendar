@@ -903,4 +903,46 @@ document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){
 
 renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
 
-window.applyJuneSchedule = async function() { alert('SEED'); };
+window.applyJuneSchedule = async function() {
+  const juneData = {
+    '2026-06-01': { 'ctmr': '승', 'night': '송진우' },
+    '2026-06-02': { 'ctmr': '송', 'night': '이승남' },
+    '2026-06-03': { 'ctmr': '승', 'evening': '지은열', 'night': '이동현' },
+    '2026-06-04': { 'ctmr': '종', 'night': '송우석' },
+    '2026-06-05': { 'ctmr': '동', 'night': '김현석' },
+    '2026-06-06': { 'ctmr': '동', 'evening': '송진우', 'night': '송우석' },
+    '2026-06-07': { 'ctmr': '종', 'evening': '이동현', 'night': '이승남' },
+    '2026-06-08': { 'ctmr': '송', 'night': '이동현' },
+    '2026-06-09': { 'ctmr': '승', 'night': '김현석' },
+    '2026-06-10': { 'ctmr': '종', 'night': '이승남' },
+    '2026-06-11': { 'ctmr': '동', 'night': '송진우' },
+    '2026-06-12': { 'ctmr': '송', 'night': '지은열' },
+    '2026-06-13': { 'ctmr': '종', 'evening': '송진우', 'night': '김현석', 'off40': '종 송 현 용' },
+    '2026-06-14': { 'ctmr': '종', 'evening': '이승남', 'night': '송우석' },
+    '2026-06-15': { 'ctmr': '동', 'night': '이승남' },
+    '2026-06-16': { 'ctmr': '종', 'night': '지은열' },
+    '2026-06-17': { 'ctmr': '송', 'night': '송진우' },
+    '2026-06-18': { 'ctmr': '동', 'night': '김현석' },
+    '2026-06-19': { 'ctmr': '승', 'night': '이동현' },
+    '2026-06-20': { 'ctmr': '승', 'evening': '김종환', 'night': '지은열', 'off40': '승 석 진 용' },
+    '2026-06-21': { 'ctmr': '종', 'evening': '김현석', 'night': '송진우' },
+    '2026-06-22': { 'ctmr': '종', 'night': '김현석' },
+    '2026-06-23': { 'ctmr': '동', 'night': '이승남' },
+    '2026-06-24': { 'ctmr': '종', 'night': '이동현' },
+    '2026-06-25': { 'ctmr': '승', 'night': '송우석' },
+    '2026-06-26': { 'ctmr': '송', 'night': '송진우' },
+    '2026-06-27': { 'ctmr': '송', 'evening': '이승남', 'night': '김종환', 'off40': '송 봉 현 조' },
+    '2026-06-28': { 'ctmr': '종', 'evening': '지은열', 'night': '이동현' },
+    '2026-06-29': { 'ctmr': '종', 'night': '지은열' },
+    '2026-06-30': { 'ctmr': '승', 'night': '송우석' }
+  };
+  if (!confirm('6월 당직표를 적용하시겠습니까?')) return;
+  const newSchedule = { ...window.schedule, ...juneData };
+  try {
+    await window.saveToCloud(newSchedule);
+    alert('✅ 성공적으로 적용되었습니다!');
+    location.reload();
+  } catch (e) {
+    alert('❌ 오류 발생: ' + e.message);
+  }
+};

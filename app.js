@@ -1,4 +1,4 @@
-// ── 장비 검사 일정 데이터 ──────────────────────────────
+﻿// ── 장비 검사 일정 데이터 ──────────────────────────────
 const EQUIPMENT_INSPECTIONS = [
   { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 정밀', id: 'mri-precision',   type: 'precision',
     baseDate: '2026-04-02', cyclYears: 3, emoji: '🧲', adjustable: true },
@@ -143,7 +143,7 @@ const DUTY_ROWS = [
   { id:'night',    label:'야간당직',    color:'c-indigo', useName:true  }
 ];
 
-const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1,"2026-05-02":1,"2026-05-09":2,"2026-05-16":2,"2026-05-23":1,"2026-05-30":1};
+const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1,"2026-05-02":1,"2026-05-09":2,"2026-05-16":2,"2026-05-23":1,"2026-05-30":1,"2026-06-06":1,"2026-06-13":1,"2026-06-20":2,"2026-06-27":1};
 
 // ── 2026년 대한민국 공휴일 ──
 // red: true = 법정공휴일(빨간날), false = 임시공휴일/기념일(검은색, 정보만)
@@ -845,6 +845,10 @@ function renderReport() {
     const tmrwH=isHoliday(tmrw.toISOString().split('T')[0])||tmrw.getDay()===0;
     (day.night||'').split(' ').filter(Boolean).forEach(ini=>{
       const doc=data.find(x=>x.initial===ini||x.name===ini); if(!doc) return;
+      // -- June Overrides --
+      if(dk==='2026-06-02'){doc.weekdays.push(dObj.getDate());doc.totalHours+=8;return;}
+      if(dk==='2026-06-03'){doc.weekdays.push(dObj.getDate());doc.totalHours+=9;return;}
+      // ------------------
       if(isH){doc.weekends.push(dObj.getDate());doc.totalHours+=14.5;}
       else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=16.5;}
       else if(tmrwH){doc.weekdays.push(dObj.getDate());doc.totalHours+=(dow===1?10.5:12);}
@@ -854,7 +858,7 @@ function renderReport() {
     });
     (day.evening||'').split(' ').filter(Boolean).forEach(ini=>{
       const doc=data.find(x=>x.initial===ini||x.name===ini); if(!doc) return;
-      if(isH) doc.totalHours+=12; else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=6;}
+      if(dk==='2026-06-03'){doc.weekends.push(dObj.getDate());doc.totalHours+=6;} else if(isH) doc.totalHours+=12; else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=6;}
     });
   });
   const dutyTbody=document.getElementById('duty-tbody'); dutyTbody.innerHTML='';
@@ -898,3 +902,5 @@ document.getElementById('btn-prev').onclick=()=>{ viewMonth--; if(viewMonth<0){v
 document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar(); };
 
 renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
+
+window.applyJuneSchedule = async function() { alert('SEED'); };

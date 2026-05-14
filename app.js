@@ -1,4 +1,4 @@
-﻿// ── 장비 검사 일정 데이터 ──────────────────────────────
+// ── 장비 검사 일정 데이터 ──────────────────────────────
 const EQUIPMENT_INSPECTIONS = [
   { name: 'MRI 3.0 (GE-SIGNA Pioneer)',   short: 'MRI 정밀', id: 'mri-precision',   type: 'precision',
     baseDate: '2026-04-02', cyclYears: 3, emoji: '🧲', adjustable: true },
@@ -848,8 +848,9 @@ function renderReport() {
       // -- June Overrides --
       if(dk==='2026-06-02'){doc.weekdays.push(dObj.getDate());doc.totalHours+=8;return;}
       if(dk==='2026-06-03'){doc.weekdays.push(dObj.getDate());doc.totalHours+=9;return;}
+
       // ------------------
-      if(isH){doc.weekends.push(dObj.getDate());doc.totalHours+=14.5;}
+      if(isH){doc.weekends.push(dObj.getDate());doc.totalHours+=(tmrwH||dow===6?22.5:(dow===5?18.5:(dow===0?14.5:15)));}
       else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=16.5;}
       else if(tmrwH){doc.weekdays.push(dObj.getDate());doc.totalHours+=(dow===1?10.5:12);}
       else if(dow===5){doc.weekdays.push(dObj.getDate());doc.totalHours+=8;}

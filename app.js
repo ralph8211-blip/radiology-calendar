@@ -143,7 +143,7 @@ const DUTY_ROWS = [
   { id:'night',    label:'야간당직',    color:'c-indigo', useName:true  }
 ];
 
-const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1,"2026-05-02":1,"2026-05-09":2,"2026-05-16":2,"2026-05-23":1,"2026-05-30":1,"2026-06-06":1,"2026-06-13":1,"2026-06-20":2,"2026-06-27":1};
+const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1,"2026-05-02":1,"2026-05-09":2,"2026-05-16":2,"2026-05-23":1,"2026-05-30":1,"2026-06-06":1,"2026-06-13":1,"2026-06-20":2,"2026-06-27":1,"2026-07-04":1,"2026-07-11":2,"2026-07-18":2,"2026-07-25":1,"2026-08-01":1};
 
 // ── 2026년 대한민국 공휴일 ──
 // red: true = 법정공휴일(빨간날), false = 임시공휴일/기념일(검은색, 정보만)
@@ -938,10 +938,146 @@ window.applyJuneSchedule = async function() {
     '2026-06-30': { 'ctmr': '승', 'night': '송우석' }
   };
   if (!confirm('6월 당직표를 적용하시겠습니까?')) return;
+
+      // ------------------
+      if(isH){doc.weekends.push(dObj.getDate());doc.totalHours+=(tmrwH||dow===6?22.5:(dow===5?18.5:(dow===0?14.5:15)));}
+      else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=16.5;}
+      else if(tmrwH){doc.weekdays.push(dObj.getDate());doc.totalHours+=(dow===1?10.5:12);}
+      else if(dow===5){doc.weekdays.push(dObj.getDate());doc.totalHours+=8;}
+      else if(dow===1){doc.weekdays.push(dObj.getDate());doc.totalHours+=3;}
+      else{doc.weekdays.push(dObj.getDate());doc.totalHours+=4.5;}
+    });
+    (day.evening||'').split(' ').filter(Boolean).forEach(ini=>{
+      const doc=data.find(x=>x.initial===ini||x.name===ini); if(!doc) return;
+      if(dk==='2026-06-03'){doc.weekends.push(dObj.getDate());doc.totalHours+=6;} else if(isH) doc.totalHours+=12; else if(dow===6){doc.weekends.push(dObj.getDate());doc.totalHours+=6;}
+    });
+  });
+  const dutyTbody=document.getElementById('duty-tbody'); dutyTbody.innerHTML='';
+  data.filter(r=>r.totalHours>0).forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td style="padding:12px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td style="padding:12px 8px;color:#64748b;font-size:12px">${r.weekdays.join(', ')}</td><td style="padding:12px 8px;color:#64748b;font-size:12px">${r.weekends.join(', ')}</td><td class="hours-cell" style="padding:12px 8px">${r.totalHours}h</td>`;
+    dutyTbody.appendChild(tr);
+  });
+  const leaveTbody=document.getElementById('leave-tbody'); leaveTbody.innerHTML='';
+  data.forEach(r=>{
+    const usable=Math.min(r.totalLeave,20); const remain=usable-r.usedVacation; const payout=Math.max(0,r.totalLeave-20);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td style="padding:12px 8px;font-weight:700;text-align:left">${r.name}<span class="title-badge">${r.title}</span></td><td class="used-cell" style="padding:12px 8px">${r.usedVacation}일</td><td class="remain-cell" style="padding:12px 8px">${remain}일${payout>0?`<span class="payout-note">수당 +${payout}일</span>`:''}</td>`;
+    leaveTbody.appendChild(tr);
+  });
+}
+
+function switchTab(tab) {
+  document.getElementById('tab-content-duty').style.display=tab==='duty'?'block':'none';
+  document.getElementById('tab-content-leave').style.display=tab==='leave'?'block':'none';
+  document.getElementById('tab-duty').classList.toggle('active-tab',tab==='duty');
+  document.getElementById('tab-leave').classList.toggle('active-tab',tab==='leave');
+}
+window.switchTab=switchTab;
+
+window.toggleScreening=function(show){
+  showScreening=show??!showScreening;
+  document.getElementById('calendar-section').style.display=showScreening?'none':'block';
+  document.getElementById('month-header').style.display=showScreening?'none':'flex';
+  const wb=document.getElementById('weather-bar'); if(wb) wb.style.display=showScreening?'none':'block';
+  const nb=document.getElementById('notice-bar'); if(nb) nb.style.display=showScreening?'none':'block';
+  const wf=document.getElementById('weekly-forecast'); if(wf) wf.style.display=showScreening?'none':'block';
+  document.getElementById('screening').classList.toggle('visible',showScreening);
+  document.getElementById('bottom-banner').style.display=showScreening?'none':'block';
+  document.getElementById('btn-screening').classList.toggle('active',showScreening);
+  if(showScreening) renderReport();
+};
+
+document.getElementById('btn-screening').onclick=()=>toggleScreening();
+document.getElementById('btn-prev').onclick=()=>{ viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCalendar(); };
+document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar(); };
+
+renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
+
+window.applyJuneSchedule = async function() {
+  const juneData = {
+    '2026-06-01': { 'ctmr': '승', 'night': '송진우' },
+    '2026-06-02': { 'ctmr': '송', 'night': '이승남' },
+    '2026-06-03': { 'ctmr': '승', 'evening': '지은열', 'night': '이동현' },
+    '2026-06-04': { 'ctmr': '종', 'night': '송우석' },
+    '2026-06-05': { 'ctmr': '동', 'night': '김현석' },
+    '2026-06-06': { 'ctmr': '동', 'evening': '송진우', 'night': '송우석' },
+    '2026-06-07': { 'ctmr': '종', 'evening': '이동현', 'night': '이승남' },
+    '2026-06-08': { 'ctmr': '송', 'night': '이동현' },
+    '2026-06-09': { 'ctmr': '승', 'night': '김현석' },
+    '2026-06-10': { 'ctmr': '종', 'night': '이승남' },
+    '2026-06-11': { 'ctmr': '동', 'night': '송진우' },
+    '2026-06-12': { 'ctmr': '송', 'night': '지은열' },
+    '2026-06-13': { 'ctmr': '종', 'evening': '송진우', 'night': '김현석', 'off40': '종 송 현 용' },
+    '2026-06-14': { 'ctmr': '종', 'evening': '이승남', 'night': '송우석' },
+    '2026-06-15': { 'ctmr': '동', 'night': '이승남' },
+    '2026-06-16': { 'ctmr': '종', 'night': '지은열' },
+    '2026-06-17': { 'ctmr': '송', 'night': '송진우' },
+    '2026-06-18': { 'ctmr': '동', 'night': '김현석' },
+    '2026-06-19': { 'ctmr': '승', 'night': '이동현' },
+    '2026-06-20': { 'ctmr': '승', 'evening': '김종환', 'night': '지은열', 'off40': '승 석 진 용' },
+    '2026-06-21': { 'ctmr': '종', 'evening': '김현석', 'night': '송진우' },
+    '2026-06-22': { 'ctmr': '종', 'night': '김현석' },
+    '2026-06-23': { 'ctmr': '동', 'night': '이승남' },
+    '2026-06-24': { 'ctmr': '종', 'night': '이동현' },
+    '2026-06-25': { 'ctmr': '승', 'night': '송우석' },
+    '2026-06-26': { 'ctmr': '송', 'night': '송진우' },
+    '2026-06-27': { 'ctmr': '송', 'evening': '이승남', 'night': '김종환', 'off40': '송 봉 현 조' },
+    '2026-06-28': { 'ctmr': '종', 'evening': '지은열', 'night': '이동현' },
+    '2026-06-29': { 'ctmr': '종', 'night': '지은열' },
+    '2026-06-30': { 'ctmr': '승', 'night': '송우석' }
+  };
+  if (!confirm('6월 당직표를 적용하시겠습니까?')) return;
   const newSchedule = { ...window.schedule, ...juneData };
   try {
     await window.saveToCloud(newSchedule);
     alert('✅ 성공적으로 적용되었습니다!');
+    location.reload();
+  } catch (e) {
+    alert('❌ 오류 발생: ' + e.message);
+  }
+};
+
+// ── July 2026 Seed Data Utility ───────────────────
+window.applyJulySchedule = async function() {
+  const julyData = {
+    "2026-07-01": { "ctmr": "동", "night": "이승남" },
+    "2026-07-02": { "ctmr": "송", "night": "이동현" },
+    "2026-07-03": { "ctmr": "승", "night": "지은열" },
+    "2026-07-04": { "ctmr": "동", "evening": "김종환", "night": "이승남", "off40": "동 석 진 용" },
+    "2026-07-05": { "ctmr": "종", "evening": "송우석", "night": "김현석" },
+    "2026-07-06": { "ctmr": "종", "night": "송우석" },
+    "2026-07-07": { "ctmr": "종", "night": "이동현" },
+    "2026-07-08": { "ctmr": "송", "night": "이승남" },
+    "2026-07-09": { "ctmr": "동", "night": "송진우" },
+    "2026-07-10": { "ctmr": "승", "night": "송우석" },
+    "2026-07-11": { "ctmr": "종", "evening": "김현석", "night": "지은열", "off40": "종 승 조 봉" },
+    "2026-07-12": { "ctmr": "종", "evening": "이승남", "night": "이동현" },
+    "2026-07-13": { "ctmr": "송", "night": "이승남" },
+    "2026-07-14": { "ctmr": "동", "night": "김현석" },
+    "2026-07-15": { "ctmr": "종", "night": "지은열" },
+    "2026-07-16": { "ctmr": "승", "night": "송우석" },
+    "2026-07-17": { "ctmr": "송", "evening": "이동현", "night": "송진우" },
+    "2026-07-18": { "ctmr": "송", "evening": "이승남", "night": "김종환", "off40": "동 송 선 지" },
+    "2026-07-19": { "ctmr": "종", "evening": "김현석", "night": "지은열" },
+    "2026-07-20": { "ctmr": "동", "night": "김현석" },
+    "2026-07-21": { "ctmr": "승", "night": "송진우" },
+    "2026-07-22": { "ctmr": "동", "night": "송우석" },
+    "2026-07-23": { "ctmr": "종", "night": "이동현" },
+    "2026-07-24": { "ctmr": "송", "night": "김현석" },
+    "2026-07-25": { "ctmr": "승", "evening": "지은열", "night": "송진우", "off40": "종 승 현 용" },
+    "2026-07-26": { "ctmr": "종", "evening": "이동현", "night": "송우석" },
+    "2026-07-27": { "ctmr": "승", "night": "이동현" },
+    "2026-07-28": { "ctmr": "종", "night": "이승남" },
+    "2026-07-29": { "ctmr": "송", "night": "지은열" },
+    "2026-07-30": { "ctmr": "승", "night": "김현석" },
+    "2026-07-31": { "ctmr": "동", "night": "송진우" }
+  };
+  if (!confirm('7월 당직표를 적용하시겠습니까?')) return;
+  const newSchedule = { ...window.schedule, ...julyData };
+  try {
+    await window.saveToCloud(newSchedule);
+    alert('✅ 7월 당직표가 성공적으로 적용되었습니다!');
     location.reload();
   } catch (e) {
     alert('❌ 오류 발생: ' + e.message);

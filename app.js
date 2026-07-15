@@ -91,24 +91,6 @@ function getUpcomingInspections(days = 15) {
   return results;
 }
 
-// ── 로그인 ───────────────────────────────────────────
-const SECRET_PIN = "6633";
-function checkLoginStatus() {
-  const ok = localStorage.getItem('calendar_auth') === 'true';
-  document.getElementById('login-overlay').style.display = ok ? 'none' : 'flex';
-  document.getElementById('app-container').style.display = ok ? 'block' : 'none';
-  if (!ok) { const i = document.getElementById('pin-input'); if(i){i.value=''; updateDots('');} }
-}
-function onPinInput() { const v = document.getElementById('pin-input').value; updateDots(v); if (v.length === 4) setTimeout(handleLogin, 80); }
-function updateDots(v) { for (let i=0;i<4;i++) { const d=document.getElementById('dot-'+i); if(d) d.classList.toggle('filled', i<v.length); } }
-function handleLogin() {
-  const v = document.getElementById('pin-input').value;
-  if (v === SECRET_PIN) { localStorage.setItem('calendar_auth','true'); checkLoginStatus(); showToast('✅ 입장 완료!'); }
-  else { const box=document.querySelector('.login-box'); box.classList.remove('login-shake'); void box.offsetWidth; box.classList.add('login-shake'); document.getElementById('pin-input').value=''; updateDots(''); showToast('비밀번호가 틀렸습니다'); }
-}
-function handleLogout() { localStorage.removeItem('calendar_auth'); checkLoginStatus(); showToast('로그아웃 되었습니다'); }
-window.handleLogin=handleLogin; window.handleLogout=handleLogout; window.onPinInput=onPinInput;
-
 window.setSyncStatus = function(s) {
   const el = document.getElementById('sync-indicator'); if (!el) return;
   el.className = s;
@@ -143,7 +125,7 @@ const DUTY_ROWS = [
   { id:'night',    label:'야간당직',    color:'c-indigo', useName:true  }
 ];
 
-const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1,"2026-05-02":1,"2026-05-09":2,"2026-05-16":2,"2026-05-23":1,"2026-05-30":1,"2026-06-06":1,"2026-06-13":1,"2026-06-20":2,"2026-06-27":1,"2026-07-04":1,"2026-07-11":2,"2026-07-18":2,"2026-07-25":1,"2026-08-01":1};
+const DOT_MARKERS = {"2026-03-07":1,"2026-03-14":2,"2026-03-21":2,"2026-03-28":1,"2026-04-04":1,"2026-04-11":2,"2026-04-18":2,"2026-04-25":1,"2026-05-02":1,"2026-05-09":2,"2026-05-16":2,"2026-05-23":1,"2026-05-30":1,"2026-06-06":1,"2026-06-13":1,"2026-06-20":2,"2026-06-27":1,"2026-07-04":1,"2026-07-11":2,"2026-07-18":2,"2026-07-25":1,"2026-08-01":1,"2026-08-08":1,"2026-08-15":1,"2026-08-22":2,"2026-08-29":2,"2026-09-05":1};
 
 // ── 2026년 대한민국 공휴일 ──
 // red: true = 법정공휴일(빨간날), false = 임시공휴일/기념일(검은색, 정보만)
@@ -902,7 +884,7 @@ document.getElementById('btn-screening').onclick=()=>toggleScreening();
 document.getElementById('btn-prev').onclick=()=>{ viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCalendar(); };
 document.getElementById('btn-next').onclick=()=>{ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar(); };
 
-renderCalendar(); renderBanner(); loadNotice(); loadWeather(); checkLoginStatus();
+renderCalendar(); renderBanner(); loadNotice(); loadWeather();
 
 window.applyJuneSchedule = async function() {
   const juneData = {
@@ -988,6 +970,52 @@ window.applyJulySchedule = async function() {
   try {
     await window.saveToCloud(newSchedule);
     alert('✅ 7월 당직표가 성공적으로 적용되었습니다!');
+    location.reload();
+  } catch (e) {
+    alert('❌ 오류 발생: ' + e.message);
+  }
+};
+
+// ── August 2026 Seed Data ────────────────────────────
+window.applyAugustSchedule = async function() {
+  const augustData = {
+    '2026-08-01': { 'ctmr': '동', 'evening': '송우석', 'night': '이승남', 'off40': '동 선 봉 석' },
+    '2026-08-02': { 'ctmr': '종', 'evening': '이동현', 'night': '지은열' },
+    '2026-08-03': { 'ctmr': '송', 'night': '이동현' },
+    '2026-08-04': { 'ctmr': '종', 'night': '이승남' },
+    '2026-08-05': { 'ctmr': '송', 'night': '지은열' },
+    '2026-08-06': { 'ctmr': '승', 'night': '송우석' },
+    '2026-08-07': { 'ctmr': '동', 'night': '김현석' },
+    '2026-08-08': { 'ctmr': '송', 'evening': '이용진', 'night': '김종환', 'off40': '동 송 진 조' },
+    '2026-08-09': { 'ctmr': '종', 'evening': '송우석', 'night': '송진우' },
+    '2026-08-10': { 'ctmr': '종', 'night': '송우석' },
+    '2026-08-11': { 'ctmr': '동', 'night': '이승남' },
+    '2026-08-12': { 'ctmr': '종', 'night': '송우석' },
+    '2026-08-13': { 'ctmr': '승', 'night': '송진우' },
+    '2026-08-14': { 'ctmr': '송', 'night': '이동현' },
+    '2026-08-15': { 'ctmr': '종', 'evening': '조지혜', 'night': '이승남' },
+    '2026-08-16': { 'ctmr': '종', 'evening': '김현석', 'night': '지은열' },
+    '2026-08-17': { 'ctmr': '동', 'night': '김현석' },
+    '2026-08-18': { 'ctmr': '종', 'night': '이동현' },
+    '2026-08-19': { 'ctmr': '승', 'night': '지은열' },
+    '2026-08-20': { 'ctmr': '동', 'night': '이승남' },
+    '2026-08-21': { 'ctmr': '송', 'night': '김현석' },
+    '2026-08-22': { 'ctmr': '종', 'evening': '이용진', 'night': '송우석', 'off40': '종 승 봉 지' },
+    '2026-08-23': { 'ctmr': '종', 'evening': '송진우', 'night': '이동현' },
+    '2026-08-24': { 'ctmr': '승', 'night': '송진우' },
+    '2026-08-25': { 'ctmr': '송', 'night': '김현석' },
+    '2026-08-26': { 'ctmr': '종', 'night': '송우석' },
+    '2026-08-27': { 'ctmr': '동', 'night': '송진우' },
+    '2026-08-28': { 'ctmr': '승', 'night': '이동현' },
+    '2026-08-29': { 'ctmr': '승', 'evening': '김종환', 'night': '김현석', 'off40': '승 송 선 진' },
+    '2026-08-30': { 'ctmr': '종', 'evening': '지은열', 'night': '송진우' },
+    '2026-08-31': { 'ctmr': '종', 'night': '지은열' }
+  };
+  if (!confirm('8월 당직표를 적용하시겠습니까?')) return;
+  const newSchedule = { ...window.schedule, ...augustData };
+  try {
+    await window.saveToCloud(newSchedule);
+    alert('✅ 8월 당직표가 성공적으로 적용되었습니다!');
     location.reload();
   } catch (e) {
     alert('❌ 오류 발생: ' + e.message);
